@@ -3,7 +3,7 @@ home: true
 layout: BlogHome
 icon: home
 title: 下里巴人
-heroImage: https://hywing.github.io/img/logo.jpg
+heroImage: https://hywing.github.io/img/heaven.jpg
 heroText: hywing's blog
 heroFullScreen: true
 tagline: The doers are the major thinkers.

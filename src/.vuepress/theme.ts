@@ -13,7 +13,7 @@ export default hopeTheme({
 
   iconAssets: "fontawesome-with-brands",
 
-  logo: "https://hywing.github.io/img/logo.jpg",
+  logo: "https://hywing.github.io/img/heaven.jpg",
 
   repo: "vuepress-theme-hope/vuepress-theme-hope",
 
@@ -36,7 +36,7 @@ export default hopeTheme({
     medias: {
       BiliBili: "https://space.bilibili.com/234017879",
       Email: "hywing.sir@qq.com",
-      GitHub: "https://example.com",
+      GitHub: "https://github.com/hywing",
       Linkedin: "https://www.linkedin.com/in/hywing/",
       Wechat: "https://hywing.github.io/img/wechat.jpg",
     },
