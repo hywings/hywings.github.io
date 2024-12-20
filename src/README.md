@@ -38,7 +38,7 @@ projects:
     desc: 自定义详细介绍
     link: https://你的自定义链接
 
-footer: 自定义你的页脚文字
+footer: 君子性非异也，善假于物也
 ---
 
 这是一个博客主页的案例。
