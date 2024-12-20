@@ -2,8 +2,8 @@
 home: true
 layout: BlogHome
 icon: home
-title: 博客主页
-heroImage: https://theme-hope-assets.vuejs.press/logo.svg
+title: 下里巴人
+heroImage: https://hywing.github.io/img/logo.jpg
 heroText: hywing's blog
 heroFullScreen: true
 tagline: The doers are the major thinkers.
