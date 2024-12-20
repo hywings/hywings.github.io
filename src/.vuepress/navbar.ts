@@ -44,8 +44,18 @@ export default navbar([
     ],
   },
   {
+    text: "Category",
+    icon: "book",
+    link: "https://blog.hywing.cn/category/",
+  },
+  {
+    text: "Tag",
+    icon: "book",
+    link: "https://blog.hywing.cn/tag/",
+  },
+  {
     text: "About",
     icon: "book",
-    link: "https://theme-hope.vuejs.press/zh/",
+    link: "https://blog.hywing.cn/intro.html",
   },
 ]);
