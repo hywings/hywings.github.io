@@ -50,12 +50,12 @@ export default navbar([
   },
   {
     text: "Tag",
-    icon: "book",
+    icon: "creative",
     link: "https://blog.hywing.cn/tag/",
   },
   {
     text: "About",
-    icon: "book",
+    icon: "type",
     link: "https://blog.hywing.cn/intro.html",
   },
 ]);
