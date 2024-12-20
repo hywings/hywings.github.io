@@ -5,6 +5,7 @@ icon: home
 title: 下里巴人
 heroImage: https://hywing.github.io/img/heaven.jpg
 heroText: hywing's blog
+bgImage: https://hywing.github.io/img/archives.jpg
 heroFullScreen: true
 tagline: The doers are the major thinkers.
 projects:
