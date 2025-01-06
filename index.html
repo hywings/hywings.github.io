@@ -114,7 +114,7 @@
       var todayMinute = today.getMinutes();
       var todaySecond = today.getSeconds();
 
-      var t1 = Date.UTC(2025, 1, 5, 0, 0, 0); // UTC时间，月份从0开始
+      var t1 = Date.UTC(2025, 0, 5, 0, 0, 0); // UTC时间，月份从0开始
       var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
       var diff = t2 - t1;
 
@@ -134,7 +134,13 @@
 </center>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+<widget class="widget-wrapper markdown"><div class="widget-header dis-select"><span class="name">🎉欢迎</span></div><div class="widget-body fs14"><p>本站托管于github, 加载缓慢请耐心等待，欢迎大家畅所欲言。</p>
+<hr style="border: 1px solid black; background-color: black;">
+<span id="jinrishici-sentence"></span>
+<script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+</div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
