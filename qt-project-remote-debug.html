@@ -20,24 +20,25 @@
   <title>Qt工程远程调试 - hywing's blog</title>
 
   
-    <meta name="description" content="远程部署及调试">
+    <meta name="description" content="远程调试程序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Qt工程远程调试">
 <meta property="og:url" content="https://blog.hywing.cn/qt-project-remote-debug.html">
 <meta property="og:site_name" content="hywing&#39;s blog">
-<meta property="og:description" content="远程部署及调试">
+<meta property="og:description" content="远程调试程序">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.hywing.cn/img/linux-device.png">
 <meta property="article:published_time" content="2025-01-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-01-13T07:58:04.364Z">
+<meta property="article:modified_time" content="2025-01-13T08:29:56.989Z">
 <meta property="article:author" content="hywing">
+<meta property="article:tag" content="Qt">
 <meta property="article:tag" content="调试">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://blog.hywing.cn/img/linux-device.png">
   
   
   
-  <meta name="keywords" content="调试">
+  <meta name="keywords" content="Qt,调试">
 
   <!-- feed -->
   
@@ -68,7 +69,7 @@
 <div class="widgets">
 
 
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/qmainwindow-subwindow-fullscreen.html"><span class="title">QMainWindow子窗口独立全屏</span></a><a class="item title" href="/qt-project-remote-debug.html"><span class="title">Qt工程远程调试</span></a><a class="item title" href="/auto-parts-stage.html"><span class="title">汽车零部件研发的各个阶段</span></a><a class="item title" href="/incremental-stock-market.html"><span class="title">增量和存量市场</span></a><a class="item title" href="/project-overview-specification.html"><span class="title">项目概要设计说明书</span></a><a class="item title" href="/ubuntu22.04-install-ros2.html"><span class="title">Ubuntu22.04搭建ROS2运行环境</span></a><a class="item title" href="/csv-file-lose-precision.html"><span class="title">解决csv文件导出时间戳精度丢失的问题</span></a><a class="item title" href="/gdb8.3-porting.html"><span class="title">gdb8.3交叉编译</span></a><a class="item title" href="/windows-program-chinese-path-problem.html"><span class="title">Windows程序读取不了中文路径问题</span></a><a class="item title" href="/embedded-code-optimization.html"><span class="title">嵌入式代码优化技巧</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/qt-project-remote-debug.html"><span class="title">Qt工程远程调试</span></a><a class="item title" href="/qmainwindow-subwindow-fullscreen.html"><span class="title">QMainWindow子窗口独立全屏</span></a><a class="item title" href="/auto-parts-stage.html"><span class="title">汽车零部件研发的各个阶段</span></a><a class="item title" href="/incremental-stock-market.html"><span class="title">增量和存量市场</span></a><a class="item title" href="/project-overview-specification.html"><span class="title">项目概要设计说明书</span></a><a class="item title" href="/ubuntu22.04-install-ros2.html"><span class="title">Ubuntu22.04搭建ROS2运行环境</span></a><a class="item title" href="/csv-file-lose-precision.html"><span class="title">解决csv文件导出时间戳精度丢失的问题</span></a><a class="item title" href="/gdb8.3-porting.html"><span class="title">gdb8.3交叉编译</span></a><a class="item title" href="/windows-program-chinese-path-problem.html"><span class="title">Windows程序读取不了中文路径问题</span></a><a class="item title" href="/embedded-code-optimization.html"><span class="title">嵌入式代码优化技巧</span></a></div></widget>
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" title="Github" href="/" rel="noopener noreferrer"><i class="fa-solid fa-github fa-brands fa-bounce"></i></a><a class="social" href="/" rel="noopener noreferrer"><i class="fa fa-wrench faa-wrench animated faa-fast"></i></a><a class="social" href="/" rel="noopener noreferrer"><i class="fas fa-spinner fa-pulse"></i></a><a class="social" href="/about/#comments" rel="noopener noreferrer"><i class="fas fa-cog fa-spin"></i></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
 </div></aside><div class="l_main" id="main">
@@ -81,7 +82,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-15T16:00:00.000Z">2025-01-16</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-01-13T07:58:04.364Z">2025-01-13</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-15T16:00:00.000Z">2025-01-16</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-01-13T08:29:56.989Z">2025-01-13</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -100,17 +101,16 @@
 <p>在QtCreator添加Remote Device，保证ssh连接上</p>
 <p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/linux-device.png"></p>
 <h2 id="cmake"><a href="#cmake" class="headerlink" title="cmake"></a>cmake</h2><p>QtCreatorDeployment.txt写法参考</p>
-<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">远程绝对路径</span><br><span class="line">宿主文件路径:远程相对路径</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">远程绝对路径</span><br><span class="line">宿主文件路径:远程相对路径</span><br></pre></td></tr></table></figure>
 
 <p>实践：添加开发板所需要的文件到&#x2F;mnt目录</p>
-<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/mnt/</span><br><span class="line">/home/uisrc/project/lidarConfig_A_MEMS.json:data</span><br><span class="line">/home/uisrc/project/LDR0011A0_APP/demoApp:bin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/mnt/</span><br><span class="line">/home/uisrc/project/lidarConfig_A_MEMS.json:data</span><br><span class="line">/home/uisrc/project/LDR0011A0_APP/demoApp:bin</span><br></pre></td></tr></table></figure>
 
 <h2 id="qmake"><a href="#qmake" class="headerlink" title="qmake"></a>qmake</h2><p>qmake pro文件写法：local.path表示本地路径，target.path表示远程路径，通过addFiles的属性赋值添加要部署的目录或文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">local.path = $$OUT_PWD</span><br><span class="line">local.path ~= s/builds.*/</span><br><span class="line">target.path = /root</span><br><span class="line">addFiles.path = $$target.path</span><br><span class="line">addFiles.files += file1</span><br><span class="line">addFiles.files += file2</span><br></pre></td></tr></table></figure>
 
 <p>实践：部署app放到&#x2F;root目录下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">local.path = $$OUT_PWD</span><br><span class="line">local.path ~= s/builds.*/</span><br><span class="line">target.path = /root</span><br><span class="line">INSTALLS += target</span><br></pre></td></tr></table></figure>
-
 
 <div class="article-footer fs14">
     <section id="license">
@@ -123,7 +123,7 @@
       <div class="header"><span>分享文章</span></div>
       <div class="body">
         <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.hywing.cn/qt-project-remote-debug.html" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/qt-project-remote-debug.html&title=Qt工程远程调试 - hywing's blog&summary=远程部署及调试"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=Qt工程远程调试 - hywing's blog&amp;body=https://blog.hywing.cn/qt-project-remote-debug.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/qt-project-remote-debug.html&title=Qt工程远程调试 - hywing's blog&summary=远程调试程序"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=Qt工程远程调试 - hywing's blog&amp;body=https://blog.hywing.cn/qt-project-remote-debug.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
           <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.hywing.cn/qt-project-remote-debug.html"/>
