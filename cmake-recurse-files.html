@@ -28,7 +28,7 @@
 <meta property="og:description" content="cmake奇技淫巧">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-02-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-02-10T03:04:07.674Z">
+<meta property="article:modified_time" content="2025-02-10T03:13:08.682Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="cmake">
 <meta name="twitter:card" content="summary">
@@ -79,7 +79,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-02-10T16:00:00.000Z">2025-02-11</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-10T03:04:07.674Z">2025-02-10</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-02-10T16:00:00.000Z">2025-02-11</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-10T03:13:08.682Z">2025-02-10</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -91,7 +91,7 @@
     
   </div>
   </div><article class="md-text content"><h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>编写跨平台的工程时，因为项目比较大，文件很多，开发人员很多，不想一一列举<code>add_executable</code>里边的文件</p>
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>用<code>FILE</code>宏获取某个指定目录下的同一类型的所有文件，用<code>DIAGNOSTIC</code>和<code>SERIALIZE</code>两个变量来分别存储所有符合条件的文件名</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>用<code>FILE</code>宏获取某个指定目录下的同一类型的所有文件，用<code>DIAGNOSTIC</code>和<code>SERIALIZE</code>两个变量来分别存储所有符合条件的文件名，<code>include_directories</code>也可以自动包含目录下的所有头文件</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FILE</span>(GLOB_RECURSE DIAGNOSTIC <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/diagnostic/*.c)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/diagnostic)</span><br><span class="line"></span><br><span class="line"><span class="keyword">FILE</span>(GLOB_RECURSE SERIALIZE <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/serialize/*.c)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/serialize)</span><br></pre></td></tr></table></figure>
 
 <p>再在<code>add_executable</code>里边添加<code>DIAGNOSTIC</code>和<code>SERIALIZE</code>两个变量，这样新增文件只要执行一下cmake就可以了</p>
