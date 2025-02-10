@@ -17,26 +17,32 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>一个简单的Windows服务器实现 - hywing's blog</title>
+  <title>与NXP的一点缘分 - hywing's blog</title>
 
   
-    <meta name="description" content="winsock2接口创建server范例">
+    <meta name="description" content="NXP开发板体验">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一个简单的Windows服务器实现">
-<meta property="og:url" content="https://blog.hywing.cn/winsock2-server.html">
+<meta property="og:title" content="与NXP的一点缘分">
+<meta property="og:url" content="https://blog.hywing.cn/nxp-stuff.html">
 <meta property="og:site_name" content="hywing&#39;s blog">
-<meta property="og:description" content="winsock2接口创建server范例">
+<meta property="og:description" content="NXP开发板体验">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-02-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-02-10T01:43:53.232Z">
+<meta property="og:image" content="https://blog.hywing.cn/img/mcxn947.jpg">
+<meta property="og:image" content="https://blog.hywing.cn/img/mcxa153.jpg">
+<meta property="og:image" content="https://blog.hywing.cn/img/mcxw71.jpg">
+<meta property="og:image" content="https://blog.hywing.cn/img/%E6%9C%BA%E6%A2%B0%E9%94%AE%E7%9B%98.jpg">
+<meta property="og:image" content="https://blog.hywing.cn/img/%E9%BC%A0%E6%A0%87%E5%9E%AB.jpg">
+<meta property="og:image" content="https://blog.hywing.cn/img/%E5%85%85%E7%94%B5%E5%AE%9D.jpg">
+<meta property="article:published_time" content="2025-02-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-02-10T01:43:53.233Z">
 <meta property="article:author" content="hywing">
-<meta property="article:tag" content="服务器">
-<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="NXP">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.hywing.cn/img/mcxn947.jpg">
   
   
   
-  <meta name="keywords" content="服务器,Windows">
+  <meta name="keywords" content="NXP">
 
   <!-- feed -->
   
@@ -76,45 +82,32 @@
 
 
 
-<div class="article banner top">
+<div class="article banner top"><img class="bg lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/mcu-logo.png">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">程序设计</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-02-06T16:00:00.000Z">2025-02-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-10T01:43:53.232Z">2025-02-10</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-02-09T16:00:00.000Z">2025-02-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-10T01:43:53.233Z">2025-02-10</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>一个简单的Windows服务器实现</span></h1>
+        <h1 class="text title"><span>与NXP的一点缘分</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><p>初始化</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">WSADATA wsaData;</span><br><span class="line">SOCKET serverSocket, clientSocket;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">serverAddr</span> =</span> &#123; <span class="number">0x00</span> &#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">clientAddr</span> =</span> &#123; <span class="number">0x00</span> &#125;;</span><br><span class="line"><span class="type">int</span> clientAddrLen = <span class="keyword">sizeof</span>(clientAddr);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (WSAStartup(MAKEWORD(<span class="number">2</span>, <span class="number">2</span>), &amp;wsaData) != <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;WSAStartup failed.\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>创建socket</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((serverSocket = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>)) == INVALID_SOCKET) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Socket failed.\n&quot;</span>);</span><br><span class="line">    WSACleanup();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>IP及端口号配置</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">serverAddr.sin_family = AF_INET;</span><br><span class="line">serverAddr.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">serverAddr.sin_port = htons(<span class="number">9988</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (bind(serverSocket, (<span class="keyword">struct</span> sockaddr*)&amp;serverAddr, <span class="keyword">sizeof</span>(serverAddr)) == SOCKET_ERROR) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Bind failed.\n&quot;</span>)</span><br><span class="line">    closesocket(serverSocket);</span><br><span class="line">    WSACleanup();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>监听客户端连接</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (listen(serverSocket, <span class="number">5</span>) == SOCKET_ERROR) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Listen failed.\n&quot;</span>);</span><br><span class="line">    closesocket(serverSocket);</span><br><span class="line">    WSACleanup();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>接受客户端连接</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((clientSocket = accept(serverSocket, (<span class="keyword">struct</span> sockaddr*)&amp;clientAddr, &amp;clientAddrLen)) == INVALID_SOCKET) &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Accept failed.\n&quot;</span>);</span><br><span class="line">    closesocket(serverSocket);</span><br><span class="line">    WSACleanup();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>接收</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> bytesReceived = recv(clientSocket, (<span class="type">char</span>*)(_sRxBuffer + _sRxLenght), BUFFER_SIZE, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-
-<p>发送</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> txPacketlenght = send(socket, (<span class="type">const</span> <span class="type">char</span>*)_sTxBuffer, txPacketlenght, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-
-<p>回收socket资源</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">closesocket(clientSocket);</span><br><span class="line">closesocket(serverSocket);</span><br><span class="line">WSACleanup();</span><br></pre></td></tr></table></figure>
-
+  </div><article class="md-text content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>去年接触（白嫖）<code>NXP</code>的MCU方案比较多，特别是<code>FRDM</code>这个开发板系列（以前在周立功也接触过LPC系列），给<code>RT-Thread</code>贡献了多个PR</p>
+<h2 id="开发板"><a href="#开发板" class="headerlink" title="开发板"></a>开发板</h2><h3 id="MCXN947"><a href="#MCXN947" class="headerlink" title="MCXN947"></a>MCXN947</h3><p>这个板子的资源比较丰富，集成了神经处理单元</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/mcxn947.jpg"></p>
+<h3 id="MCXA153"><a href="#MCXA153" class="headerlink" title="MCXA153"></a>MCXA153</h3><p>资源比947稍微少一些</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/mcxa153.jpg"></p>
+<h3 id="MCXW71"><a href="#MCXW71" class="headerlink" title="MCXW71"></a>MCXW71</h3><p>专为无线连接设计的板子</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/mcxw71.jpg"></p>
+<h2 id="礼品"><a href="#礼品" class="headerlink" title="礼品"></a>礼品</h2><p>参与NXP相关的活动，收到的一些礼物</p>
+<h3 id="机械键盘"><a href="#机械键盘" class="headerlink" title="机械键盘"></a>机械键盘</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/%E6%9C%BA%E6%A2%B0%E9%94%AE%E7%9B%98.jpg"></p>
+<h3 id="发光鼠标垫"><a href="#发光鼠标垫" class="headerlink" title="发光鼠标垫"></a>发光鼠标垫</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/%E9%BC%A0%E6%A0%87%E5%9E%AB.jpg"></p>
+<h3 id="充电宝"><a href="#充电宝" class="headerlink" title="充电宝"></a>充电宝</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/%E5%85%85%E7%94%B5%E5%AE%9D.jpg"></p>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -126,18 +119,18 @@
     <section id="share">
       <div class="header"><span>分享文章</span></div>
       <div class="body">
-        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.hywing.cn/winsock2-server.html" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/winsock2-server.html&title=一个简单的Windows服务器实现 - hywing's blog&summary=winsock2接口创建server范例"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=一个简单的Windows服务器实现 - hywing's blog&amp;body=https://blog.hywing.cn/winsock2-server.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.hywing.cn/nxp-stuff.html" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/nxp-stuff.html&title=与NXP的一点缘分 - hywing's blog&summary=NXP开发板体验"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=与NXP的一点缘分 - hywing's blog&amp;body=https://blog.hywing.cn/nxp-stuff.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
-          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.hywing.cn/winsock2-server.html"/>
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.hywing.cn/nxp-stuff.html"/>
         </div>
         
       </div>
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/qt-string-to-hex.html">网络数据Hex格式转换</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/windows-common-shortcuts.html">Windows常用快捷键集合</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/qt-string-to-hex.html">网络数据Hex格式转换</a></div></section></div>
 
 
 
@@ -203,7 +196,14 @@
 </center>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%9D%BF"><span class="toc-text">开发板</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MCXN947"><span class="toc-text">MCXN947</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MCXA153"><span class="toc-text">MCXA153</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MCXW71"><span class="toc-text">MCXW71</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BC%E5%93%81"><span class="toc-text">礼品</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%BA%E6%A2%B0%E9%94%AE%E7%9B%98"><span class="toc-text">机械键盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%85%89%E9%BC%A0%E6%A0%87%E5%9E%AB"><span class="toc-text">发光鼠标垫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%85%E7%94%B5%E5%AE%9D"><span class="toc-text">充电宝</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
