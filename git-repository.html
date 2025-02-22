@@ -27,12 +27,15 @@
 <meta property="og:site_name" content="hywing&#39;s blog">
 <meta property="og:description" content="代码仓库转移">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.hywing.cn/img/%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/%E6%8F%90%E4%BA%A4.png">
 <meta property="article:published_time" content="2025-02-21T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-02-22T06:50:01.353Z">
+<meta property="article:modified_time" content="2025-02-22T06:59:11.743Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="git">
 <meta property="article:tag" content="upstream">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.hywing.cn/img/%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93.png">
   
   
   
@@ -80,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-02-21T16:00:00.000Z">2025-02-22</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-22T06:50:01.353Z">2025-02-22</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-02-21T16:00:00.000Z">2025-02-22</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-02-22T06:59:11.743Z">2025-02-22</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -92,12 +95,18 @@
     
   </div>
   </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开发过程，如果想把代码从某一个仓库转移到另外一个仓库，比如，你现在在gitee上面有一个zhd-desktop的仓库，后面你不想要了，你想把它放到GitHub上面，怎么办才能保留原来的提交信息和分支呢？</p>
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>在原来的仓库里边添加远端仓库链接</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p><strong>命令行</strong></p>
+<p>在原来的仓库里边添加远端仓库链接</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream https://github.com/hywing/zhd-desktop.git</span><br></pre></td></tr></table></figure>
 
 <p>往upstream推送develop分支</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push upstream develop -f</span><br></pre></td></tr></table></figure>
 
+<p><strong>tortoiseGit</strong></p>
+<p>先添加远程仓库</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93.png"></p>
+<p>选择远程仓库后push</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/%E6%8F%90%E4%BA%A4.png"></p>
 
 <div class="article-footer fs14">
     <section id="license">
