@@ -27,21 +27,21 @@
 <meta property="og:site_name" content="hywing&#39;s blog">
 <meta property="og:description" content="自定义QPushButton和QToolButton">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.hywing.cn/img/tooltip.PNG">
-<meta property="og:image" content="https://blog.hywing.cn/img/text.PNG">
-<meta property="og:image" content="https://blog.hywing.cn/img/focus.PNG">
-<meta property="og:image" content="https://blog.hywing.cn/img/pos.png">
-<meta property="og:image" content="https://blog.hywing.cn/img/button.gif">
-<meta property="og:image" content="https://blog.hywing.cn/img/toolbutton.png">
-<meta property="og:image" content="https://blog.hywing.cn/img/toolbutton-focus.png">
-<meta property="og:image" content="https://blog.hywing.cn/img/toolbutton.gif">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/tooltip.PNG">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/text.PNG">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/focus.PNG">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/pos.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/button.gif">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/toolbutton.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/toolbutton-focus.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/toolbutton.gif">
 <meta property="article:published_time" content="2025-01-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-09T12:53:52.238Z">
+<meta property="article:modified_time" content="2025-03-09T13:05:04.626Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="Qt">
 <meta property="article:tag" content="button">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.hywing.cn/img/tooltip.PNG">
+<meta name="twitter:image" content="https://blog.hywing.cn/img/blog/tooltip.PNG">
   
   
   
@@ -89,7 +89,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">程序设计</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-26T16:00:00.000Z">2025-01-27</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-09T12:53:52.238Z">2025-03-09</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-26T16:00:00.000Z">2025-01-27</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-09T13:05:04.626Z">2025-03-09</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -132,18 +132,18 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">QPushButton &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">18px</span>; <span class="comment">/* 设置字体大小 */</span></span><br><span class="line">    <span class="attribute">color</span>: white; <span class="comment">/* 设置字体颜色 */</span></span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">10</span>,<span class="number">88</span>,<span class="number">163</span>); <span class="comment">/* 设置背景颜色 */</span></span><br><span class="line">    <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="built_in">rgb</span>(<span class="number">114</span>,<span class="number">188</span>,<span class="number">51</span>); <span class="comment">/* 设置边框 */</span></span><br><span class="line">    <span class="attribute">text-align</span>: left; <span class="comment">/* 文字左对齐 */</span></span><br><span class="line">    <span class="attribute">padding-left</span>: <span class="number">10px</span>; <span class="comment">/* 左侧内边距 */</span></span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">QPushButton:pressed &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">41</span>,<span class="number">51</span>,<span class="number">57</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">rgb</span>(<span class="number">114</span>,<span class="number">188</span>,<span class="number">51</span>); <span class="comment">/* 设置字体颜色 */</span></span><br><span class="line">    <span class="attribute">border-width</span>: <span class="number">4px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>添加hover tooltip</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/tooltip.PNG"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/tooltip.PNG"></p>
 <p>修改text</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/text.PNG"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/text.PNG"></p>
 <p>焦点策略，一般默认<code>StrongFocus</code></p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/focus.PNG"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/focus.PNG"></p>
 <p>坐标和大小</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/pos.png"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/pos.png"></p>
 <h3 id="自绘"><a href="#自绘" class="headerlink" title="自绘"></a>自绘</h3><p>重写paintEvent虚函数，这个一般用的不多</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CPushButton::<span class="built_in">paintEvent</span>(QPaintEvent *event)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* 这里增加自绘的代码：文字、图片等等 */</span></span><br><span class="line">    <span class="function">QPainter <span class="title">p</span><span class="params">(<span class="keyword">this</span>)</span></span>;</span><br><span class="line">    p.<span class="built_in">drawText</span>(<span class="number">10</span>, <span class="number">10</span>, <span class="string">&quot;Clicked me&quot;</span>);</span><br><span class="line">    p.<span class="built_in">drawPixmap</span>(<span class="number">20</span>, <span class="number">10</span>, <span class="built_in">QIcon</span>(<span class="string">&quot;:/res/button.png&quot;</span>));</span><br><span class="line">    QPushButton::<span class="built_in">paintEvent</span>(event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>附上QSS+属性美化后的button效果（自己写的，你嫌丑我还嫌丑哩）</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/button.gif"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/button.gif"></p>
 <h2 id="QToolButton"><a href="#QToolButton" class="headerlink" title="QToolButton"></a>QToolButton</h2><p>有时候需要定制图片跟文字同时显示的按钮（在触摸屏用的比较多），QToolButton是一个不错的选择</p>
 <h3 id="QSS-1"><a href="#QSS-1" class="headerlink" title="QSS"></a>QSS</h3><p>添加底图</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qproperty-<span class="attribute">icon</span>: <span class="built_in">url</span>(<span class="string">:/resource/home.png</span>) center;</span><br></pre></td></tr></table></figure>
@@ -155,12 +155,12 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QToolButton::focus</span><br><span class="line">&#123;</span><br><span class="line">	<span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">:/resource/menu-active.png</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="属性-1"><a href="#属性-1" class="headerlink" title="属性"></a>属性</h3><p>改变图片和文字的相对位置</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/toolbutton.png"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/toolbutton.png"></p>
 <p>在平板上面操作的话焦点策略改为<code>ClickFocus</code></p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/toolbutton-focus.png"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/toolbutton-focus.png"></p>
 <h3 id="自绘-1"><a href="#自绘-1" class="headerlink" title="自绘"></a>自绘</h3><p>QToolButton如无意外，不需要自绘</p>
 <h3 id="效果-1"><a href="#效果-1" class="headerlink" title="效果"></a>效果</h3><p>显示效果</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/toolbutton.gif"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/toolbutton.gif"></p>
 
 <div class="article-footer fs14">
     <section id="license">

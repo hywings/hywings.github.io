@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="hywing&#39;s blog">
 <meta property="og:description" content="编译问题解决">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.hywing.cn/img/rt_vsnprintf.png">
-<meta property="og:image" content="https://blog.hywing.cn/img/rt_vsscanf.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/rt_vsnprintf.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/rt_vsscanf.png">
 <meta property="article:published_time" content="2025-03-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-09T12:53:52.286Z">
+<meta property="article:modified_time" content="2025-03-09T13:05:04.668Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="RT-Thread">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.hywing.cn/img/rt_vsnprintf.png">
+<meta name="twitter:image" content="https://blog.hywing.cn/img/blog/rt_vsnprintf.png">
   
   
   
@@ -82,7 +82,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-02T16:00:00.000Z">2025-03-03</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-09T12:53:52.286Z">2025-03-09</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-02T16:00:00.000Z">2025-03-03</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-09T13:05:04.668Z">2025-03-09</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -97,12 +97,12 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\build\keil\Obj\rt-thread.axf: Error: L6218E: Undefined symbol rt_vsnprintf (referred from kstdio.o).</span><br></pre></td></tr></table></figure>
 
 <p>打开menuconfig ：<code>RT-Thread Kernel → klibc options → rt_vsnprintf options</code>，开启以下选项</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/rt_vsnprintf.png"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/rt_vsnprintf.png"></p>
 <h2 id="问题二"><a href="#问题二" class="headerlink" title="问题二"></a>问题二</h2><p>rt_vsscanf库编译问题</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\build\keil\Obj\rt-thread.axf: Error: L6218E: Undefined symbol rt_vsscanf (referred from kstdio.o).</span><br></pre></td></tr></table></figure>
 
 <p>打开menuconfig ：<code>RT-Thread Kernel → klibc options → rt_vsscanf options</code>，开启以下选项</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/rt_vsscanf.png"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/rt_vsscanf.png"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这两个问题是因为RT-Thread改了rt_vsnprintf和rt_vsscanf两个库的链接方式：做成了开关的配置形式</p>
 
 <div class="article-footer fs14">

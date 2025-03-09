@@ -27,15 +27,15 @@
 <meta property="og:site_name" content="hywing&#39;s blog">
 <meta property="og:description" content="串口通信注意事项">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.hywing.cn/img/serial-protocol.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/serial-protocol.png">
 <meta property="article:published_time" content="2025-01-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-09T12:53:52.236Z">
+<meta property="article:modified_time" content="2025-03-09T13:05:04.625Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="Qt">
 <meta property="article:tag" content="serial">
 <meta property="article:tag" content="串口">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.hywing.cn/img/serial-protocol.png">
+<meta name="twitter:image" content="https://blog.hywing.cn/img/blog/serial-protocol.png">
   
   
   
@@ -83,7 +83,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">程序设计</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-25T16:00:00.000Z">2025-01-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-09T12:53:52.236Z">2025-03-09</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-25T16:00:00.000Z">2025-01-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-09T13:05:04.625Z">2025-03-09</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -95,7 +95,7 @@
     
   </div>
   </div><article class="md-text content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>绑定QSerialPort对象的readyRead信号时，从串口接收缓冲区读取的数据大概率不是一次就能接收完成的，有可能分成n次接收；这是一种什么情况呢，它有可能多次readyRead：1次，2次，3次，4次……这样子！如果不对数据的边界进行有效识别，就很难分别出哪些是我们要的数据</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/serial-protocol.png"></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/serial-protocol.png"></p>
 <h2 id="定长协议"><a href="#定长协议" class="headerlink" title="定长协议"></a>定长协议</h2><p>比如接收够15个字节才算接收完成，可以用<a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qserialport.html#bytesAvailable">QSerialPort::bytesAvailable</a>这个接口进行组包，理论上给出头部标记就能识别有效的一帧数据：$ 10 0123456789 CS </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#define MAX_SIZE 15</span><br><span class="line"></span><br><span class="line">QByteArray buffer;</span><br><span class="line">int size = 0;</span><br><span class="line">auto callback = [&amp;]() &#123;</span><br><span class="line">    auto &amp;&amp;data = this-&gt;readData();</span><br><span class="line">    if(data.startsWith(&quot;$&quot;)) &#123;</span><br><span class="line">        size = m_serial-&gt;bytesAvailable();</span><br><span class="line">        buffer.clear();</span><br><span class="line">        buffer += data;</span><br><span class="line">        if(size == MAX_SIZE) &#123;</span><br><span class="line">            size = 0;</span><br><span class="line">            emit this-&gt;sendOneFrame(buffer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        size += m_serial-&gt;bytesAvailable();</span><br><span class="line">        buffer += data;</span><br><span class="line">        if(size == MAX_SIZE) &#123;</span><br><span class="line">            size = 0;</span><br><span class="line">            emit this-&gt;sendOneFrame(buffer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">connect(m_serial, &amp;QSerialPort::readyRead, this, callback);</span><br></pre></td></tr></table></figure>
 
