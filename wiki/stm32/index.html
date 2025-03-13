@@ -17,22 +17,32 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>stm32：stm32g030介绍 - hywing's blog</title>
+  <title>stm32：stm32g030c8t6介绍 - hywing's blog</title>
 
   
-    <meta name="description" content="介绍STM32G030x6&#x2F;x8 系列主流微控制器基于高性能的 Arm® Cortex®-M0+ 32 位 RISC 内核，最高工作频率可达 64 MHz。它们集成了丰富的功能，适用于消费、工业和家电领域的广泛应用，并为物联网（IoT）解决方案做好了准备。这些器件包含一个内存保护单元（MPU）、高速嵌入式存储器（高达 64 K 字节的闪存程序存储器和 8 K 字节的 SRAM）、DMA">
+    <meta name="description" content="介绍STM32G030x6&#x2F;x8 系列主流微控制器基于高性能的 Arm® Cortex®-M0+ 32 位 RISC 内核，最高工作频率可达 64 MHz；stm32g030c8t6这款芯片集成了丰富的片上资源，适用于消费、工业和家电领域的广泛应用  MCU：主频最高可达64MHz  SRAM：8K  FLASH：64K  GPIO：44路多用途IO  TIMER：1路高级定时器、2路通用定时器、">
 <meta property="og:type" content="website">
-<meta property="og:title" content="stm32g030介绍">
+<meta property="og:title" content="stm32g030c8t6介绍">
 <meta property="og:url" content="https://blog.hywing.cn/wiki/stm32/index.html">
 <meta property="og:site_name" content="hywing&#39;s blog">
-<meta property="og:description" content="介绍STM32G030x6&#x2F;x8 系列主流微控制器基于高性能的 Arm® Cortex®-M0+ 32 位 RISC 内核，最高工作频率可达 64 MHz。它们集成了丰富的功能，适用于消费、工业和家电领域的广泛应用，并为物联网（IoT）解决方案做好了准备。这些器件包含一个内存保护单元（MPU）、高速嵌入式存储器（高达 64 K 字节的闪存程序存储器和 8 K 字节的 SRAM）、DMA">
+<meta property="og:description" content="介绍STM32G030x6&#x2F;x8 系列主流微控制器基于高性能的 Arm® Cortex®-M0+ 32 位 RISC 内核，最高工作频率可达 64 MHz；stm32g030c8t6这款芯片集成了丰富的片上资源，适用于消费、工业和家电领域的广泛应用  MCU：主频最高可达64MHz  SRAM：8K  FLASH：64K  GPIO：44路多用途IO  TIMER：1路高级定时器、2路通用定时器、">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32g030-lqfp48.png">
-<meta property="article:published_time" content="2025-03-13T03:37:28.772Z">
-<meta property="article:modified_time" content="2025-03-13T03:37:28.772Z">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/lqfp48.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/keil.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/cubemx.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/debug.jpg">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/new.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/selector.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/config.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/clock.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/project.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/compile.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/wiki/stm32/price.png">
+<meta property="article:published_time" content="2025-03-13T06:49:46.816Z">
+<meta property="article:modified_time" content="2025-03-13T06:49:46.816Z">
 <meta property="article:author" content="hywing">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.hywing.cn/img/wiki/stm32g030-lqfp48.png">
+<meta name="twitter:image" content="https://blog.hywing.cn/img/wiki/stm32/lqfp48.png">
   
   
   
@@ -68,9 +78,9 @@
 </div>
 <div class="widgets">
 
-<widget class="widget-wrapper post-list"><div class="widget-body fs14"><a class="link active" href="/wiki/stm32/index.html#start"><span class="toc-text">stm32g030介绍</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/stm32/2.GPIO%E4%BD%BF%E7%94%A8.html"><span class="toc-text">GPIO使用</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/stm32/3.USART%E4%BD%BF%E7%94%A8.html"><span class="toc-text">USART使用</span></a><a class="link" href="/wiki/stm32/1.stm32g030%E4%BB%8B%E7%BB%8D.html"><span class="toc-text">stm32g030介绍哈哈</span></a><a class="link" href="/wiki/stm32/10.PWM%E9%A9%B1%E5%8A%A8.html"><span class="toc-text">PWM驱动</span></a><a class="link" href="/wiki/stm32/4.ADC%E4%BD%BF%E7%94%A8.html"><span class="toc-text">ADC使用</span></a><a class="link" href="/wiki/stm32/5.KEY%E9%A9%B1%E5%8A%A8.html"><span class="toc-text">KEY驱动</span></a><a class="link" href="/wiki/stm32/6.RTC%E4%BD%BF%E7%94%A8.html"><span class="toc-text">RTC使用</span></a><a class="link" href="/wiki/stm32/7.LCD%E9%A9%B1%E5%8A%A8.html"><span class="toc-text">LCD驱动</span></a><a class="link" href="/wiki/stm32/9.Sensor%E9%A9%B1%E5%8A%A8.html"><span class="toc-text">Sensor驱动</span></a><a class="link" href="/wiki/stm32/8.Bootloader%E5%AE%9E%E7%8E%B0.html"><span class="toc-text">Bootloader实现</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-body fs14"><a class="link active" href="/wiki/stm32/index.html#start"><span class="toc-text">stm32g030c8t6介绍</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="link" href="/wiki/stm32/2.GPIO%E4%BD%BF%E7%94%A8.html"><span class="toc-text">GPIO使用</span></a></div><div class="widget-header dis-select"><span class="name">...</span></div><div class="widget-body fs14"><a class="link" href="/wiki/stm32/10.PWM%E9%A9%B1%E5%8A%A8.html"><span class="toc-text">PWM驱动</span></a><a class="link" href="/wiki/stm32/1.stm32g030%E4%BB%8B%E7%BB%8D.html"><span class="toc-text">stm32g030介绍哈哈</span></a><a class="link" href="/wiki/stm32/3.USART%E4%BD%BF%E7%94%A8.html"><span class="toc-text">USART使用</span></a><a class="link" href="/wiki/stm32/4.ADC%E4%BD%BF%E7%94%A8.html"><span class="toc-text">ADC使用</span></a><a class="link" href="/wiki/stm32/6.RTC%E4%BD%BF%E7%94%A8.html"><span class="toc-text">RTC使用</span></a><a class="link" href="/wiki/stm32/5.KEY%E9%A9%B1%E5%8A%A8.html"><span class="toc-text">KEY驱动</span></a><a class="link" href="/wiki/stm32/7.LCD%E9%A9%B1%E5%8A%A8.html"><span class="toc-text">LCD驱动</span></a><a class="link" href="/wiki/stm32/8.Bootloader%E5%AE%9E%E7%8E%B0.html"><span class="toc-text">Bootloader实现</span></a><a class="link" href="/wiki/stm32/9.Sensor%E9%A9%B1%E5%8A%A8.html"><span class="toc-text">Sensor驱动</span></a></div></widget>
 
-<widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：MCU</span></div><div class="widget-body"><a class="item wiki" href="/wiki/mcs51/index.html"><span class="title">mcs51 - 微机原理的第一门课：学习MCS51单片机</span><span class="excerpt">了解51单片机的世界</span></a></div></widget><widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：开源项目</span></div><div class="widget-body"><a class="item wiki" href="/wiki/kernel/index.html"><span class="title">kernel - 嵌入式Linux必修课：内核的奥秘</span><span class="excerpt">学习Linux kernel</span></a><a class="item wiki" href="/wiki/mcs51/index.html"><span class="title">mcs51 - 微机原理的第一门课：学习MCS51单片机</span><span class="excerpt">了解51单片机的世界</span></a><a class="item wiki" href="/wiki/ros2/index.html"><span class="title">ROS2 - 自动化的终极形态：机器人操作系统</span><span class="excerpt">ros2入门及进阶教程</span></a><a class="item wiki" href="/wiki/uboot/1.%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.html"><span class="title">uboot - 嵌入式Linux必修课：引导的秘密</span><span class="excerpt">uboot入门及进阶教程</span></a></div></widget>
+<widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：MCU</span></div><div class="widget-body"><a class="item wiki" href="/wiki/mcs51/index.html"><span class="title">mcs51 - 微机原理的第一门课：学习MCS51单片机</span><span class="excerpt">了解51单片机的世界</span></a></div></widget><widget class="widget-wrapper post-card"><div class="widget-header dis-select"><span class="name">更多：开源项目</span></div><div class="widget-body"><a class="item wiki" href="/wiki/mcs51/index.html"><span class="title">mcs51 - 微机原理的第一门课：学习MCS51单片机</span><span class="excerpt">了解51单片机的世界</span></a><a class="item wiki" href="/wiki/kernel/index.html"><span class="title">kernel - 嵌入式Linux必修课：内核的奥秘</span><span class="excerpt">学习Linux kernel</span></a><a class="item wiki" href="/wiki/ros2/index.html"><span class="title">ROS2 - 自动化的终极形态：机器人操作系统</span><span class="excerpt">ros2入门及进阶教程</span></a><a class="item wiki" href="/wiki/uboot/1.%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B.html"><span class="title">uboot - 嵌入式Linux必修课：引导的秘密</span><span class="excerpt">uboot入门及进阶教程</span></a></div></widget>
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" title="Github" href="/" rel="noopener noreferrer"><i class="fa-solid fa-github fa-brands fa-bounce"></i></a><a class="social" href="/" rel="noopener noreferrer"><i class="fa fa-wrench faa-wrench animated faa-fast"></i></a><a class="social" href="/" rel="noopener noreferrer"><i class="fas fa-spinner fa-pulse"></i></a><a class="social" href="/about/#comments" rel="noopener noreferrer"><i class="fas fa-cog fa-spin"></i></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
 </div></aside><div class="l_main" id="main">
@@ -83,44 +93,72 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/wiki/stm32/index.html">stm32</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-03-13T03:37:28.772Z">2025-03-13</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">更新于：<time datetime="2025-03-13T06:49:46.816Z">2025-03-13</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>stm32g030介绍</span></h1>
+        <h1 class="text title"><span>stm32g030c8t6介绍</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>STM32G030x6&#x2F;x8 系列主流微控制器基于高性能的 Arm® Cortex®-M0+ 32 位 RISC 内核，最高工作频率可达 64 MHz。它们集成了丰富的功能，适用于消费、工业和家电领域的广泛应用，并为物联网（IoT）解决方案做好了准备。这些器件包含一个内存保护单元（MPU）、高速嵌入式存储器（高达 64 K 字节的闪存程序存储器和 8 K 字节的 SRAM）、DMA 以及一系列系统功能、增强型 I&#x2F;O 和外设。这些器件提供标准通信接口（两个 I2C、两个 SPI&#x2F;一个 I2S 和两个 USART）、一个 12 位 ADC（2.5 MSps）（最多 19 个通道）、低功耗实时时钟（RTC）、高级控制 PWM 定时器、四个通用 16 位定时器、两个看门狗定时器和一个 SysTick 定时器。这些器件可在 -40 至 85°C 的环境温度范围内工作。它们可使用 2.0 V 至 3.6 V 的电源电压。优化的动态功耗与全面的节能模式相结合，可设计出低功耗应用。VBAT 直接电池输入可保持 RTC 和备份寄存器供电。这些器件采用 8 至 48 引脚的封装。</p>
-<p><strong>资源</strong></p>
-<p><strong>主频</strong></p>
-<p><strong>外设</strong></p>
-<p><strong>性能</strong></p>
-<p><strong>价格</strong></p>
-<p><strong>时钟</strong></p>
-<h2 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h2><p>LQFP48封装</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32g030-lqfp48.png"></p>
-<h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><p>进行stm32的开发需要安装或准备以下工具</p>
+  </div><article class="md-text content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><code>STM32G030x6/x8 </code>系列主流微控制器基于高性能的 Arm® Cortex®-M0+ 32 位 RISC 内核，最高工作频率可达 64 MHz；<code>stm32g030c8t6</code>这款芯片集成了丰富的片上资源，适用于消费、工业和家电领域的广泛应用</p>
 <ul>
-<li>MDK Keil uVersion V5.31</li>
-<li>ST-Link V2.0</li>
-<li>CH341 USB转串口</li>
-<li>STM32CubeMX</li>
+<li><p>MCU：主频最高可达64MHz</p>
+</li>
+<li><p>SRAM：8K</p>
+</li>
+<li><p>FLASH：64K</p>
+</li>
+<li><p>GPIO：44路多用途IO</p>
+</li>
+<li><p>TIMER：1路高级定时器、2路通用定时器、一路systick、2路看门狗</p>
+</li>
+<li><p>I2C：2路</p>
+</li>
+<li><p>USART：2路</p>
+</li>
+<li><p>SPI：2路</p>
+</li>
+<li><p>RTC：一个</p>
+</li>
+<li><p>ADC：1路，支持多大19个通道</p>
+</li>
 </ul>
-<h2 id="电气"><a href="#电气" class="headerlink" title="电气"></a>电气</h2><p>电源：3.3V供电，2.0 V to 3.6 V  </p>
-<p>最大输出电流：80mA</p>
-<p>最大输入电流：100mA</p>
-<p>工作温度：-40 - 85℃</p>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>配置和使用方法：</p>
-<ol>
-<li>时钟</li>
-<li>GPIO</li>
-<li>外设</li>
-<li>读写</li>
-</ol>
+<p>c8系列芯片采用<code>LQFP48</code>封装，管脚分布如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/lqfp48.png"></p>
+<h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><p>进行stm32的开发需要准备以下软件或者工具</p>
+<p><strong>MDK Keil</strong></p>
+<p>keil的安装比较简单，现在最新版本是免费的了，避免了盗版的问题</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/keil.png"></p>
+<p><strong>STM32CubeMX</strong></p>
+<p>这个工具使用了配置外设的，软硬件工程师都可以用，ST官网可以免费下载安装</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/cubemx.png"></p>
+<p>另外还需要准备：<code>ST-LINK V2</code>和<code>CH340 USB转串口</code>作作为调试工具</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/debug.jpg"></p>
+<h2 id="工程"><a href="#工程" class="headerlink" title="工程"></a>工程</h2><p>新建CubeMX工程</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/new.png"></p>
+<p>选择芯片型号<code>stm32g030c8t6</code></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/selector.png"></p>
+<p>配置外设资源</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/config.png"></p>
+<p>修改时钟</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/clock.png"></p>
+<p>导出工程配置，然后点击右上角<code>GENERATE CODE</code>就可以导出MDK KEIL工程到指定目录下了</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/project.png"></p>
+<p>正常用Keil5打开编译是没有什么问题的</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/compile.png"></p>
+<h2 id="电气"><a href="#电气" class="headerlink" title="电气"></a>电气</h2><p>关于<code>stm32g030c8t6</code>这款芯片的一些电气特性，搭配外设使用的时候要注意：</p>
+<ul>
+<li>电源：3.3V供电，2.0 V to 3.6 V  </li>
+<li>最大输出电流：80mA</li>
+<li>最大输入电流：100mA</li>
+<li>工作温度：-40 - 85℃</li>
+</ul>
+<p>这款芯片在嘉立创商城的价格也就3-5RMB左右，如果用来替代51这样的单片机问题不大，各方面性能都很优越</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/wiki/stm32/price.png"></p>
 
 <div class="article-footer fs14"></div>
 </article>
@@ -192,7 +230,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IO"><span class="toc-text">IO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91"><span class="toc-text">开发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E6%B0%94"><span class="toc-text">电气</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-text">方法</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91"><span class="toc-text">开发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B"><span class="toc-text">工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E6%B0%94"><span class="toc-text">电气</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
