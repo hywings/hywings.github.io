@@ -1,0 +1,756 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>stm32g030移植RT-Thread流程 - hywing's blog</title>
+
+  
+    <meta name="description" content="RTOS移植">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stm32g030移植RT-Thread流程">
+<meta property="og:url" content="https://blog.hywing.cn/stm32g030-port-rtt.html">
+<meta property="og:site_name" content="hywing&#39;s blog">
+<meta property="og:description" content="RTOS移植">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/st-nucleo.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/rcc.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/clock-config.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/sys.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/usart.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/project-manager.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/generate.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/overview.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/device.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/target.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/st-link-debugger.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/st-link-debug.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/flash-download.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/include-paths.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/options.png">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/task-free.png">
+<meta property="article:published_time" content="2025-03-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-20T07:33:09.186Z">
+<meta property="article:author" content="hywing">
+<meta property="article:tag" content="stm32">
+<meta property="article:tag" content="RT-Thread">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.hywing.cn/img/blog/st-nucleo.png">
+  
+  
+  
+  <meta name="keywords" content="stm32,RT-Thread">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.29.1">
+
+  
+    <link rel="shortcut icon" href="/img/blog/logo.jpg">
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css">
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/img/blog/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">hywing's blog</div><div class="sub normal cap">江上往来人，但爱鲈鱼美</div><div class="sub hover cap" style="opacity:0"> 君看一叶舟，出没风波里</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="博客" target="_blank" rel="noopener" href="https://github.com/hywing"><img no-lazy src="/img/blog/git.jpg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="文档" href="/wiki"><img no-lazy src="/img/blog/wiki.png" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="自动化" target="_blank" rel="noopener" href="https://autostuff.net" style="color:#FA6400"><img no-lazy src="/img/blog/autostuff.png" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="作者" target="_blank" rel="noopener" href="https://post.hywing.cn/about/" style="color:#F44336"><img no-lazy src="/img/blog/heaven.jpg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/auto-parts-stage.html"><span class="title">汽车零部件研发的各个阶段</span></a><a class="item title" href="/project-overview-specification.html"><span class="title">项目概要设计说明书</span></a><a class="item title" href="/ubuntu22.04-install-ros2.html"><span class="title">Ubuntu22.04搭建ROS2运行环境</span></a><a class="item title" href="/stm32g030-port-rtt.html"><span class="title">stm32g030移植RT-Thread流程</span></a><a class="item title" href="/git-reset-command.html"><span class="title">如何撤销缓冲区的提交</span></a><a class="item title" href="/beckhoff-ads-usage.html"><span class="title">倍福官方ADS组件使用</span></a><a class="item title" href="/csv-file-lose-precision.html"><span class="title">解决csv文件导出时间戳精度丢失的问题</span></a><a class="item title" href="/board-test.html"><span class="title">开发板硬件测试</span></a><a class="item title" href="/qt-charts-design.html"><span class="title">上位机数据可视化：使用QtCharts绘制波形图</span></a><a class="item title" href="/qt-table-design.html"><span class="title">上位机数据可视化：Qt表格美化</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" title="Github" href="/" rel="noopener noreferrer"><i class="fa-solid fa-github fa-brands fa-bounce"></i></a><a class="social" href="/" rel="noopener noreferrer"><i class="fa fa-wrench faa-wrench animated faa-fast"></i></a><a class="social" href="/" rel="noopener noreferrer"><i class="fas fa-spinner fa-pulse"></i></a><a class="social" href="/about/#comments" rel="noopener noreferrer"><i class="fas fa-cog fa-spin"></i></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-20T16:00:00.000Z">2025-03-21</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-03-20T07:33:09.186Z">2025-03-20</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>stm32g030移植RT-Thread流程</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="移植流程"><a href="#移植流程" class="headerlink" title="移植流程"></a>移植流程</h2><p>移植前需要安装<code>Keil.STM32G0xx_DFP.1.2.0.pack</code>组件，大致的移植过程：</p>
+<ol>
+<li>CubeMX配置</li>
+<li>RT-Thread组件配置</li>
+<li>工程模板配置</li>
+</ol>
+<p><strong>参考例程配置</strong>：拷贝仓库原有的<code>stm32g070-st-nucleo</code>工程，然后另起一个名字，目录结构如下</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/st-nucleo.png" alt="img"></p>
+<p>完整的RT-Thread BSP需要考虑的改动点：</p>
+<ol>
+<li>文档：把两个README文档改一下，改成stm32g030相关的说明</li>
+<li>芯片：board目录下是跟<code>stm32g030</code>相关的CubeMX配置、链接脚本、板级初始化文件</li>
+<li>MDK5：template工程是命令<code>scons --target=mdk5</code>生成工程的模板</li>
+<li>系统：.config文件保存RT-Thread系统的基本组件配置，rtconfig.h与之关联</li>
+</ol>
+<h2 id="CubeMX配置"><a href="#CubeMX配置" class="headerlink" title="CubeMX配置"></a>CubeMX配置</h2><h3 id="时钟配置"><a href="#时钟配置" class="headerlink" title="时钟配置"></a>时钟配置</h3><p>在<code>Caegories</code>栏点击<code>System Core</code>一栏，然后选择<code>RCC</code>，实际上<code>HSE</code>和<code>LSE</code>也可以不用配置，因为stm32已经集成了晶振，在GPIO资源紧张时可以不配置</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/rcc.png" alt="img"></p>
+<p>这里选择不配置时钟，<code>Clock Configuration</code>配置如下：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/clock-config.png" alt="img"></p>
+<h3 id="系统滴答"><a href="#系统滴答" class="headerlink" title="系统滴答"></a>系统滴答</h3><p>点击<code>SYS</code>项，配置如下图所示</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/sys.png" alt="img"></p>
+<h3 id="串口配置"><a href="#串口配置" class="headerlink" title="串口配置"></a>串口配置</h3><p>在<code>Connectivity</code>栏点击USART1项，配置PB6、PB7两个GPIO，设置波特率等串口参数</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/usart.png" alt="img"></p>
+<h3 id="工程配置"><a href="#工程配置" class="headerlink" title="工程配置"></a>工程配置</h3><p>Project Manager配置项参考</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/project-manager.png" alt="img"></p>
+<p>Code Generator配置，最后点击右上角<code>GENERATE CODE</code></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/generate.png" alt="img"></p>
+<h2 id="组件配置"><a href="#组件配置" class="headerlink" title="组件配置"></a>组件配置</h2><p><strong>先说结论</strong>，一个成功移植了GPIO和USART的系统工程大致是这样的：</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/overview.png" alt="img"></p>
+<p>board&#x2F;Kconfig</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">menu <span class="string">&quot;Hardware Drivers Config&quot;</span></span><br><span class="line"></span><br><span class="line">menu <span class="string">&quot;Onboard Peripheral Drivers&quot;</span></span><br><span class="line"></span><br><span class="line">endmenu</span><br><span class="line"></span><br><span class="line">menu <span class="string">&quot;On-chip Peripheral Drivers&quot;</span></span><br><span class="line"></span><br><span class="line">    config BSP_USING_GPIO</span><br><span class="line">        bool <span class="string">&quot;Enable GPIO&quot;</span></span><br><span class="line">        <span class="keyword">select</span> RT_USING_PIN</span><br><span class="line">        default y</span><br><span class="line"></span><br><span class="line">    menuconfig BSP_USING_UART</span><br><span class="line">        bool <span class="string">&quot;Enable UART1&quot;</span></span><br><span class="line">        default y</span><br><span class="line">        <span class="keyword">select</span> RT_USING_SERIAL</span><br><span class="line">        <span class="keyword">if</span> BSP_USING_UART</span><br><span class="line">            config BSP_STM32_UART_V1_TX_TIMEOUT</span><br><span class="line">                int <span class="string">&quot;UART TX timeout&quot;</span></span><br><span class="line">                default 2000</span><br><span class="line">                depends on RT_USING_SERIAL_V1</span><br><span class="line">                </span><br><span class="line">            config BSP_USING_UART1</span><br><span class="line">                bool <span class="string">&quot;Enable UART1&quot;</span></span><br><span class="line">                default y</span><br><span class="line"></span><br><span class="line">        endif</span><br><span class="line"></span><br><span class="line">    <span class="built_in">source</span> <span class="string">&quot;<span class="subst">$(BSP_DIR)</span>/../libraries/HAL_Drivers/drivers/Kconfig&quot;</span></span><br><span class="line"></span><br><span class="line">endmenu</span><br><span class="line"></span><br><span class="line">menu <span class="string">&quot;Board extended module Drivers&quot;</span></span><br><span class="line"></span><br><span class="line">endmenu</span><br><span class="line"></span><br><span class="line">endmenu</span><br></pre></td></tr></table></figure>
+
+<p>board&#x2F;SConscript</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> rtconfig</span><br><span class="line"><span class="keyword">from</span> building <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">Import(<span class="string">&#x27;SDK_LIB&#x27;</span>)</span><br><span class="line"></span><br><span class="line">cwd = GetCurrentDir()</span><br><span class="line"></span><br><span class="line"><span class="comment"># add general drivers</span></span><br><span class="line">src = Split(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">board.c</span></span><br><span class="line"><span class="string">CubeMX_Config/Src/stm32g0xx_hal_msp.c</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">path =  [cwd]</span><br><span class="line">path += [cwd + <span class="string">&#x27;/CubeMX_Config/Inc&#x27;</span>]</span><br><span class="line"></span><br><span class="line">startup_path_prefix = SDK_LIB</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> rtconfig.PLATFORM <span class="keyword">in</span> [<span class="string">&#x27;gcc&#x27;</span>]:</span><br><span class="line">    src += [startup_path_prefix + <span class="string">&#x27;/STM32G0xx_HAL/CMSIS/Device/ST/STM32G0xx/Source/Templates/gcc/startup_stm32g030xx.s&#x27;</span>]</span><br><span class="line"><span class="keyword">elif</span> rtconfig.PLATFORM <span class="keyword">in</span> [<span class="string">&#x27;armcc&#x27;</span>, <span class="string">&#x27;armclang&#x27;</span>]:</span><br><span class="line">    src += [startup_path_prefix + <span class="string">&#x27;/STM32G0xx_HAL/CMSIS/Device/ST/STM32G0xx/Source/Templates/arm/startup_stm32g030xx.s&#x27;</span>]</span><br><span class="line"><span class="keyword">elif</span> rtconfig.PLATFORM <span class="keyword">in</span> [<span class="string">&#x27;iccarm&#x27;</span>]:</span><br><span class="line">    src += [startup_path_prefix + <span class="string">&#x27;/STM32G0xx_HAL/CMSIS/Device/ST/STM32G0xx/Source/Templates/iar/startup_stm32g030xx.s&#x27;</span>]</span><br><span class="line"></span><br><span class="line">CPPDEFINES = [<span class="string">&#x27;STM32G030xx&#x27;</span>]</span><br><span class="line">group = DefineGroup(<span class="string">&#x27;Drivers&#x27;</span>, src, depend = [<span class="string">&#x27;&#x27;</span>], CPPPATH = path, CPPDEFINES = CPPDEFINES)</span><br><span class="line">Return(<span class="string">&#x27;group&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>board&#x2F;board.h</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Copyright (c) 2006-2025 RT-Thread Development Team</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * SPDX-License-Identifier: Apache-2.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Change Logs:</span></span><br><span class="line"><span class="comment"> * Date           Author       Notes</span></span><br><span class="line"><span class="comment"> * 2018-11-5      SummerGift   first version</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> __BOARD_H__</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __BOARD_H__</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;rtthread.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stm32g0xx.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;drv_common.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;drv_gpio.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> &#123;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> STM32_FLASH_START_ADRESS     ((uint32_t)0x08000000)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> STM32_FLASH_SIZE             (64 * 1024)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> STM32_FLASH_END_ADDRESS      ((uint32_t)(STM32_FLASH_START_ADRESS + STM32_FLASH_SIZE))</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Internal SRAM memory size[Kbytes] &lt;8-64&gt;, Default: 64*/</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> STM32_SRAM_SIZE      8</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> STM32_SRAM_END       (0x20000000 + STM32_SRAM_SIZE * 1024)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(__ARMCC_VERSION)</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> Image$$RW_IRAM1$$ZI$$Limit;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> HEAP_BEGIN      ((void *)&amp;Image$$RW_IRAM1$$ZI$$Limit)</span></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> __ICCARM__</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> section=<span class="string">&quot;CSTACK&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> HEAP_BEGIN      (__segment_end(<span class="string">&quot;CSTACK&quot;</span>))</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> __bss_end;</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> HEAP_BEGIN      ((void *)&amp;__bss_end)</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> HEAP_END        STM32_SRAM_END</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">SystemClock_Config</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> __cplusplus</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* __BOARD_H__ */</span></span></span><br></pre></td></tr></table></figure>
+
+<p>board&#x2F;board.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Copyright (c) 2006-2025 RT-Thread Development Team</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * SPDX-License-Identifier: Apache-2.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Change Logs:</span></span><br><span class="line"><span class="comment"> * Date           Author       Notes</span></span><br><span class="line"><span class="comment"> * 2018-12-21     zylx         first version</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;board.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">SystemClock_Config</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  RCC_OscInitTypeDef RCC_OscInitStruct = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">  RCC_ClkInitTypeDef RCC_ClkInitStruct = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** Configure the main internal regulator output voltage</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** Initializes the RCC Oscillators according to the specified parameters</span></span><br><span class="line"><span class="comment">  * in the RCC_OscInitTypeDef structure.</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;</span><br><span class="line">  RCC_OscInitStruct.HSIState = RCC_HSI_ON;</span><br><span class="line">  RCC_OscInitStruct.HSIDiv = RCC_HSI_DIV1;</span><br><span class="line">  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;</span><br><span class="line">  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;</span><br><span class="line">  <span class="keyword">if</span> (HAL_RCC_OscConfig(&amp;RCC_OscInitStruct) != HAL_OK)</span><br><span class="line">  &#123;</span><br><span class="line">    Error_Handler();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** Initializes the CPU, AHB and APB buses clocks</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK</span><br><span class="line">                              |RCC_CLOCKTYPE_PCLK1;</span><br><span class="line">  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;</span><br><span class="line">  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;</span><br><span class="line">  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (HAL_RCC_ClockConfig(&amp;RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)</span><br><span class="line">  &#123;</span><br><span class="line">    Error_Handler();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>board&#x2F;linker_scipts&#x2F;link.icf</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * linker script <span class="keyword">for</span> STM32F10x <span class="keyword">with</span> GNU ld</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">/* Program Entry, <span class="built_in">set</span> to mark it <span class="keyword">as</span> <span class="string">&quot;used&quot;</span> <span class="keyword">and</span> avoid gc */</span><br><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">    ROM (rx) : ORIGIN = <span class="number">0x08000000</span>, LENGTH = 64k /* 64KB flash */</span><br><span class="line">    RAM (rw) : ORIGIN = <span class="number">0x20000000</span>, LENGTH =  8k /* 8K sram */</span><br><span class="line">&#125;</span><br><span class="line">ENTRY(Reset_Handler)</span><br><span class="line">_system_stack_size = <span class="number">0x400</span>;</span><br><span class="line"></span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">    .text :</span><br><span class="line">    &#123;</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        _stext = .;</span><br><span class="line">        KEEP(*(.isr_vector))            /* Startup code */</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        *(.text)                        /* remaining code */</span><br><span class="line">        *(.text.*)                      /* remaining code */</span><br><span class="line">        *(.rodata)                      /* read-only data (constants) */</span><br><span class="line">        *(.rodata*)</span><br><span class="line">        *(.glue_7)</span><br><span class="line">        *(.glue_7t)</span><br><span class="line">        *(.gnu.linkonce.t*)</span><br><span class="line"></span><br><span class="line">        /* section information <span class="keyword">for</span> finsh shell */</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        __fsymtab_start = .;</span><br><span class="line">        KEEP(*(FSymTab))</span><br><span class="line">        __fsymtab_end = .;</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        __vsymtab_start = .;</span><br><span class="line">        KEEP(*(VSymTab))</span><br><span class="line">        __vsymtab_end = .;</span><br><span class="line"></span><br><span class="line">        /* section information <span class="keyword">for</span> initial. */</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        __rt_init_start = .;</span><br><span class="line">        KEEP(*(SORT(.rti_fn*)))</span><br><span class="line">        __rt_init_end = .;</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">        PROVIDE(__ctors_start__ = .);</span><br><span class="line">        KEEP (*(SORT(.init_array.*)))</span><br><span class="line">        KEEP (*(.init_array))</span><br><span class="line">        PROVIDE(__ctors_end__ = .);</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">        _etext = .;</span><br><span class="line">    &#125; &gt; ROM = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    /* .ARM.exidx <span class="keyword">is</span> <span class="built_in">sorted</span>, so has to go <span class="keyword">in</span> its own output section.  */</span><br><span class="line">    __exidx_start = .;</span><br><span class="line">    .ARM.exidx :</span><br><span class="line">    &#123;</span><br><span class="line">        *(.ARM.exidx* .gnu.linkonce.armexidx.*)</span><br><span class="line"></span><br><span class="line">        /* This <span class="keyword">is</span> used by the startup <span class="keyword">in</span> order to initialize the .data secion */</span><br><span class="line">        _sidata = .;</span><br><span class="line">    &#125; &gt; ROM</span><br><span class="line">    __exidx_end = .;</span><br><span class="line"></span><br><span class="line">    /* .data section which <span class="keyword">is</span> used <span class="keyword">for</span> initialized data */</span><br><span class="line"></span><br><span class="line">    .data : AT (_sidata)</span><br><span class="line">    &#123;</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        /* This <span class="keyword">is</span> used by the startup <span class="keyword">in</span> order to initialize the .data secion */</span><br><span class="line">        _sdata = . ;</span><br><span class="line"></span><br><span class="line">        *(.data)</span><br><span class="line">        *(.data.*)</span><br><span class="line">        *(.gnu.linkonce.d*)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        PROVIDE(__dtors_start__ = .);</span><br><span class="line">        KEEP(*(SORT(.dtors.*)))</span><br><span class="line">        KEEP(*(.dtors))</span><br><span class="line">        PROVIDE(__dtors_end__ = .);</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        /* This <span class="keyword">is</span> used by the startup <span class="keyword">in</span> order to initialize the .data secion */</span><br><span class="line">        _edata = . ;</span><br><span class="line">    &#125; &gt;RAM</span><br><span class="line"></span><br><span class="line">    .stack :</span><br><span class="line">    &#123;</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        _sstack = .;</span><br><span class="line">        . = . + _system_stack_size;</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        _estack = .;</span><br><span class="line">    &#125; &gt;RAM</span><br><span class="line"></span><br><span class="line">    __bss_start = .;</span><br><span class="line">    .bss :</span><br><span class="line">    &#123;</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        /* This <span class="keyword">is</span> used by the startup <span class="keyword">in</span> order to initialize the .bss secion */</span><br><span class="line">        _sbss = .;</span><br><span class="line"></span><br><span class="line">        *(.bss)</span><br><span class="line">        *(.bss.*)</span><br><span class="line">        *(COMMON)</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        /* This <span class="keyword">is</span> used by the startup <span class="keyword">in</span> order to initialize the .bss secion */</span><br><span class="line">        _ebss = . ;</span><br><span class="line"></span><br><span class="line">        *(.bss.init)</span><br><span class="line">    &#125; &gt; RAM</span><br><span class="line">    __bss_end = .;</span><br><span class="line"></span><br><span class="line">    _end = .;</span><br><span class="line"></span><br><span class="line">    /* Stabs debugging sections.  */</span><br><span class="line">    .stab          <span class="number">0</span> : &#123; *(.stab) &#125;</span><br><span class="line">    .stabstr       <span class="number">0</span> : &#123; *(.stabstr) &#125;</span><br><span class="line">    .stab.excl     <span class="number">0</span> : &#123; *(.stab.excl) &#125;</span><br><span class="line">    .stab.exclstr  <span class="number">0</span> : &#123; *(.stab.exclstr) &#125;</span><br><span class="line">    .stab.index    <span class="number">0</span> : &#123; *(.stab.index) &#125;</span><br><span class="line">    .stab.indexstr <span class="number">0</span> : &#123; *(.stab.indexstr) &#125;</span><br><span class="line">    .comment       <span class="number">0</span> : &#123; *(.comment) &#125;</span><br><span class="line">    /* DWARF debug sections.</span><br><span class="line">     * Symbols <span class="keyword">in</span> the DWARF debugging sections are relative to the beginning</span><br><span class="line">     * of the section so we begin them at <span class="number">0.</span>  */</span><br><span class="line">    /* DWARF <span class="number">1</span> */</span><br><span class="line">    .debug          <span class="number">0</span> : &#123; *(.debug) &#125;</span><br><span class="line">    .line           <span class="number">0</span> : &#123; *(.line) &#125;</span><br><span class="line">    /* GNU DWARF <span class="number">1</span> extensions */</span><br><span class="line">    .debug_srcinfo  <span class="number">0</span> : &#123; *(.debug_srcinfo) &#125;</span><br><span class="line">    .debug_sfnames  <span class="number">0</span> : &#123; *(.debug_sfnames) &#125;</span><br><span class="line">    /* DWARF <span class="number">1.1</span> <span class="keyword">and</span> DWARF <span class="number">2</span> */</span><br><span class="line">    .debug_aranges  <span class="number">0</span> : &#123; *(.debug_aranges) &#125;</span><br><span class="line">    .debug_pubnames <span class="number">0</span> : &#123; *(.debug_pubnames) &#125;</span><br><span class="line">    /* DWARF <span class="number">2</span> */</span><br><span class="line">    .debug_info     <span class="number">0</span> : &#123; *(.debug_info .gnu.linkonce.wi.*) &#125;</span><br><span class="line">    .debug_abbrev   <span class="number">0</span> : &#123; *(.debug_abbrev) &#125;</span><br><span class="line">    .debug_line     <span class="number">0</span> : &#123; *(.debug_line) &#125;</span><br><span class="line">    .debug_frame    <span class="number">0</span> : &#123; *(.debug_frame) &#125;</span><br><span class="line">    .debug_str      <span class="number">0</span> : &#123; *(.debug_str) &#125;</span><br><span class="line">    .debug_loc      <span class="number">0</span> : &#123; *(.debug_loc) &#125;</span><br><span class="line">    .debug_macinfo  <span class="number">0</span> : &#123; *(.debug_macinfo) &#125;</span><br><span class="line">    /* SGI/MIPS DWARF <span class="number">2</span> extensions */</span><br><span class="line">    .debug_weaknames <span class="number">0</span> : &#123; *(.debug_weaknames) &#125;</span><br><span class="line">    .debug_funcnames <span class="number">0</span> : &#123; *(.debug_funcnames) &#125;</span><br><span class="line">    .debug_typenames <span class="number">0</span> : &#123; *(.debug_typenames) &#125;</span><br><span class="line">    .debug_varnames  <span class="number">0</span> : &#123; *(.debug_varnames) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>board&#x2F;linker_scipts&#x2F;link.sct，这个是MDK的链接脚本文件，需要加上<code>rti_fn</code>保证RT-Thread组件的初始化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">; *************************************************************</span><br><span class="line">; *** Scatter-Loading Description File generated by uVision ***</span><br><span class="line">; *************************************************************</span><br><span class="line"></span><br><span class="line">LR_IROM1 <span class="number">0x08000000</span> <span class="number">0x00010000</span>  &#123;    ; load region size_region</span><br><span class="line">  ER_IROM1 <span class="number">0x08000000</span> <span class="number">0x00010000</span>  &#123;  ; load address = execution address</span><br><span class="line">   *.o (RESET, +First)</span><br><span class="line">   *(InRoot$$Sections)</span><br><span class="line">   .ANY (+RO)</span><br><span class="line">  &#125;</span><br><span class="line">  RW_IRAM1 <span class="number">0x20000000</span> <span class="number">0x00002000</span>  &#123;  ; RW data</span><br><span class="line">   .ANY (+RW +ZI)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>board&#x2F;linker_scripts&#x2F;link.lds，这个是arm gcc的链接脚本</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * linker script for STM32F10x with GNU ld</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Program Entry, set to mark it as &quot;used&quot; and avoid gc */</span></span><br><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">    ROM (rx) : ORIGIN = <span class="number">0x08000000</span>, LENGTH = 64k <span class="comment">/* 128KB flash */</span></span><br><span class="line">    RAM (rw) : ORIGIN = <span class="number">0x20000000</span>, LENGTH =  8k <span class="comment">/* 8K sram */</span></span><br><span class="line">&#125;</span><br><span class="line">ENTRY(Reset_Handler)</span><br><span class="line">_system_stack_size = <span class="number">0x400</span>;</span><br><span class="line"></span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">    .text :</span><br><span class="line">    &#123;</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        _stext = .;</span><br><span class="line">        KEEP(*(.isr_vector))            <span class="comment">/* Startup code */</span></span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        *(.text)                        <span class="comment">/* remaining code */</span></span><br><span class="line">        *(.text.*)                      <span class="comment">/* remaining code */</span></span><br><span class="line">        *(.rodata)                      <span class="comment">/* read-only data (constants) */</span></span><br><span class="line">        *(.rodata*)</span><br><span class="line">        *(.glue_7)</span><br><span class="line">        *(.glue_7t)</span><br><span class="line">        *(.gnu.linkonce.t*)</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* section information for finsh shell */</span></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        __fsymtab_start = .;</span><br><span class="line">        KEEP(*(FSymTab))</span><br><span class="line">        __fsymtab_end = .;</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        __vsymtab_start = .;</span><br><span class="line">        KEEP(*(VSymTab))</span><br><span class="line">        __vsymtab_end = .;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* section information for initial. */</span></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        __rt_init_start = .;</span><br><span class="line">        KEEP(*(SORT(.rti_fn*)))</span><br><span class="line">        __rt_init_end = .;</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">        PROVIDE(__ctors_start__ = .);</span><br><span class="line">        KEEP (*(SORT(.init_array.*)))</span><br><span class="line">        KEEP (*(.init_array))</span><br><span class="line">        PROVIDE(__ctors_end__ = .);</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">        _etext = .;</span><br><span class="line">    &#125; &gt; ROM = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* .ARM.exidx is sorted, so has to go in its own output section.  */</span></span><br><span class="line">    __exidx_start = .;</span><br><span class="line">    .ARM.exidx :</span><br><span class="line">    &#123;</span><br><span class="line">        *(.ARM.exidx* .gnu.linkonce.armexidx.*)</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* This is used by the startup in order to initialize the .data secion */</span></span><br><span class="line">        _sidata = .;</span><br><span class="line">    &#125; &gt; <span class="type">ROM</span></span><br><span class="line">    <span class="variable">__exidx_end</span> <span class="operator">=</span> .;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* .data section which is used for initialized data */</span></span><br><span class="line"></span><br><span class="line">    .data : AT (_sidata)</span><br><span class="line">    &#123;</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        <span class="comment">/* This is used by the startup in order to initialize the .data secion */</span></span><br><span class="line">        _sdata = . ;</span><br><span class="line"></span><br><span class="line">        *(.data)</span><br><span class="line">        *(.data.*)</span><br><span class="line">        *(.gnu.linkonce.d*)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        PROVIDE(__dtors_start__ = .);</span><br><span class="line">        KEEP(*(SORT(.dtors.*)))</span><br><span class="line">        KEEP(*(.dtors))</span><br><span class="line">        PROVIDE(__dtors_end__ = .);</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        <span class="comment">/* This is used by the startup in order to initialize the .data secion */</span></span><br><span class="line">        _edata = . ;</span><br><span class="line">    &#125; &gt;RAM</span><br><span class="line"></span><br><span class="line">    .stack :</span><br><span class="line">    &#123;</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        _sstack = .;</span><br><span class="line">        . = . + _system_stack_size;</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        _estack = .;</span><br><span class="line">    &#125; &gt;<span class="type">RAM</span></span><br><span class="line"></span><br><span class="line">    <span class="variable">__bss_start</span> <span class="operator">=</span> .;</span><br><span class="line">    .bss :</span><br><span class="line">    &#123;</span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        <span class="comment">/* This is used by the startup in order to initialize the .bss secion */</span></span><br><span class="line">        _sbss = .;</span><br><span class="line"></span><br><span class="line">        *(.bss)</span><br><span class="line">        *(.bss.*)</span><br><span class="line">        *(COMMON)</span><br><span class="line"></span><br><span class="line">        . = ALIGN(<span class="number">4</span>);</span><br><span class="line">        <span class="comment">/* This is used by the startup in order to initialize the .bss secion */</span></span><br><span class="line">        _ebss = . ;</span><br><span class="line"></span><br><span class="line">        *(.bss.init)</span><br><span class="line">    &#125; &gt; <span class="type">RAM</span></span><br><span class="line">    <span class="variable">__bss_end</span> <span class="operator">=</span> .;</span><br><span class="line"></span><br><span class="line">    _end = .;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Stabs debugging sections.  */</span></span><br><span class="line">    .stab          <span class="number">0</span> : &#123; *(.stab) &#125;</span><br><span class="line">    .stabstr       <span class="number">0</span> : &#123; *(.stabstr) &#125;</span><br><span class="line">    .stab.excl     <span class="number">0</span> : &#123; *(.stab.excl) &#125;</span><br><span class="line">    .stab.exclstr  <span class="number">0</span> : &#123; *(.stab.exclstr) &#125;</span><br><span class="line">    .stab.index    <span class="number">0</span> : &#123; *(.stab.index) &#125;</span><br><span class="line">    .stab.indexstr <span class="number">0</span> : &#123; *(.stab.indexstr) &#125;</span><br><span class="line">    .comment       <span class="number">0</span> : &#123; *(.comment) &#125;</span><br><span class="line">    <span class="comment">/* DWARF debug sections.</span></span><br><span class="line"><span class="comment">     * Symbols in the DWARF debugging sections are relative to the beginning</span></span><br><span class="line"><span class="comment">     * of the section so we begin them at 0.  */</span></span><br><span class="line">    <span class="comment">/* DWARF 1 */</span></span><br><span class="line">    .debug          <span class="number">0</span> : &#123; *(.debug) &#125;</span><br><span class="line">    .line           <span class="number">0</span> : &#123; *(.line) &#125;</span><br><span class="line">    <span class="comment">/* GNU DWARF 1 extensions */</span></span><br><span class="line">    .debug_srcinfo  <span class="number">0</span> : &#123; *(.debug_srcinfo) &#125;</span><br><span class="line">    .debug_sfnames  <span class="number">0</span> : &#123; *(.debug_sfnames) &#125;</span><br><span class="line">    <span class="comment">/* DWARF 1.1 and DWARF 2 */</span></span><br><span class="line">    .debug_aranges  <span class="number">0</span> : &#123; *(.debug_aranges) &#125;</span><br><span class="line">    .debug_pubnames <span class="number">0</span> : &#123; *(.debug_pubnames) &#125;</span><br><span class="line">    <span class="comment">/* DWARF 2 */</span></span><br><span class="line">    .debug_info     <span class="number">0</span> : &#123; *(.debug_info .gnu.linkonce.wi.*) &#125;</span><br><span class="line">    .debug_abbrev   <span class="number">0</span> : &#123; *(.debug_abbrev) &#125;</span><br><span class="line">    .debug_line     <span class="number">0</span> : &#123; *(.debug_line) &#125;</span><br><span class="line">    .debug_frame    <span class="number">0</span> : &#123; *(.debug_frame) &#125;</span><br><span class="line">    .debug_str      <span class="number">0</span> : &#123; *(.debug_str) &#125;</span><br><span class="line">    .debug_loc      <span class="number">0</span> : &#123; *(.debug_loc) &#125;</span><br><span class="line">    .debug_macinfo  <span class="number">0</span> : &#123; *(.debug_macinfo) &#125;</span><br><span class="line">    <span class="comment">/* SGI/MIPS DWARF 2 extensions */</span></span><br><span class="line">    .debug_weaknames <span class="number">0</span> : &#123; *(.debug_weaknames) &#125;</span><br><span class="line">    .debug_funcnames <span class="number">0</span> : &#123; *(.debug_funcnames) &#125;</span><br><span class="line">    .debug_typenames <span class="number">0</span> : &#123; *(.debug_typenames) &#125;</span><br><span class="line">    .debug_varnames  <span class="number">0</span> : &#123; *(.debug_varnames) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>main.c，最小例程里边带了LED闪烁功能</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Copyright (c) 2006-2025 RT-Thread Development Team</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * SPDX-License-Identifier: Apache-2.0</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Change Logs:</span></span><br><span class="line"><span class="comment"> * Date           Author       Notes</span></span><br><span class="line"><span class="comment"> * 2025-3-17      hywing       first version</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;board.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;rtthread.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> RT_USING_NANO</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;rtdevice.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* RT_USING_NANO */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* defined the LED0 pin: PB4 */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> LED0_PIN    GET_PIN(B, 4)</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* set LED0 pin mode to output */</span></span><br><span class="line">    rt_pin_mode(LED0_PIN, PIN_MODE_OUTPUT);</span><br><span class="line"></span><br><span class="line">        rt_kprintf(<span class="string">&quot;Welcome to the world of IoT Stuff!\r\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        rt_pin_write(LED0_PIN, PIN_HIGH);</span><br><span class="line">        rt_thread_mdelay(<span class="number">500</span>);</span><br><span class="line">        rt_pin_write(LED0_PIN, PIN_LOW);</span><br><span class="line">        rt_thread_mdelay(<span class="number">500</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> RT_EOK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="工程模板"><a href="#工程模板" class="headerlink" title="工程模板"></a>工程模板</h2><p>我们先把Template工程配置好，然后后面就可以通过scons自动生成想要的工程配置，打开Template工程模板选择<code>STM32G030C8TX</code></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/device.png" alt="img"></p>
+<p>时钟配置为16MHz，检查<code>IROM1</code>和<code>IRAM1</code>的起始地址以及大小是否正确</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/target.png" alt="img"></p>
+<p>下载器配置为<code>ST-Link Debugger</code></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/st-link-debugger.png" alt="img"></p>
+<p>ST-Link Debug配置，Clock Req设为10MHz</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/st-link-debug.png" alt="img"></p>
+<p>Flash Download配置</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/flash-download.png" alt="img"></p>
+<p><code>Include Paths</code>调整：拷贝过来的例程有些是不对的，需要修正过来</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/include-paths.png" alt="img"></p>
+<p>导出MDK Keil5工程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scons --target=mdk5</span><br></pre></td></tr></table></figure>
+
+<p>导出的rtconfig.h文件配置如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> RT_CONFIG_H__</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_CONFIG_H__</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SOC_STM32G030RB</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BOARD_STM32G030_TINY_BOARD</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* RT-Thread Kernel */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* klibc options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_vsnprintf options */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_KLIBC_USING_LIBC_VSNPRINTF</span></span><br><span class="line"><span class="comment">/* end of rt_vsnprintf options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_vsscanf options */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_KLIBC_USING_LIBC_VSSCANF</span></span><br><span class="line"><span class="comment">/* end of rt_vsscanf options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_memset options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_memset options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_memcpy options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_memcpy options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_memmove options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_memmove options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_memcmp options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_memcmp options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_strstr options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_strstr options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_strcasecmp options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_strcasecmp options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_strncpy options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_strncpy options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_strcpy options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_strcpy options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_strncmp options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_strncmp options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_strcmp options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_strcmp options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_strlen options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_strlen options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* rt_strnlen options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of rt_strnlen options */</span></span><br><span class="line"><span class="comment">/* end of klibc options */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_NAME_MAX 8</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_CPUS_NR 1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_ALIGN_SIZE 8</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_THREAD_PRIORITY_32</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_THREAD_PRIORITY_MAX 32</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_TICK_PER_SECOND 1000</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_OVERFLOW_CHECK</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_HOOK</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_HOOK_USING_FUNC_PTR</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_IDLE_HOOK</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_IDLE_HOOK_LIST_SIZE 4</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> IDLE_THREAD_STACK_SIZE 256</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* kservice options */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of kservice options */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_DEBUG</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_DEBUGING_ASSERT</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_DEBUGING_COLOR</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_DEBUGING_CONTEXT</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Inter-Thread communication */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_SEMAPHORE</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_MUTEX</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_EVENT</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_MAILBOX</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_MESSAGEQUEUE</span></span><br><span class="line"><span class="comment">/* end of Inter-Thread communication */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Memory Management */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_MEMPOOL</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_SMALL_MEM</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_SMALL_MEM_AS_HEAP</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_HEAP</span></span><br><span class="line"><span class="comment">/* end of Memory Management */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_DEVICE</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_CONSOLE</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_CONSOLEBUF_SIZE 128</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_CONSOLE_DEVICE_NAME <span class="string">&quot;uart1&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_VER_NUM 0x50200</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_BACKTRACE_LEVEL_MAX_NR 32</span></span><br><span class="line"><span class="comment">/* end of RT-Thread Kernel */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARCH_ARM</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARCH_ARM_CORTEX_M</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ARCH_ARM_CORTEX_M0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* RT-Thread Components */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_COMPONENTS_INIT</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_USER_MAIN</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_MAIN_THREAD_STACK_SIZE 1024</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_MAIN_THREAD_PRIORITY 10</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_MSH</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_FINSH</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_USING_MSH</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_THREAD_NAME <span class="string">&quot;tshell&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_THREAD_PRIORITY 20</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_THREAD_STACK_SIZE 768</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_USING_HISTORY</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_HISTORY_LINES 5</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_USING_SYMTAB</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_CMD_SIZE 80</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MSH_USING_BUILT_IN_COMMANDS</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_USING_DESCRIPTION</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_ARG_MAX 10</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FINSH_USING_OPTION_COMPLETION</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* DFS: device virtual file system */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of DFS: device virtual file system */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Device Drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_DEVICE_IPC</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_UNAMED_PIPE_NUMBER 64</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_SERIAL</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_SERIAL_V1</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_SERIAL_USING_DMA</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_SERIAL_RB_BUFSZ 64</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_USING_PIN</span></span><br><span class="line"><span class="comment">/* end of Device Drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* C/C++ and POSIX layer */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* ISO-ANSI C layer */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Timezone and Daylight Saving Time */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_LIBC_USING_LIGHT_TZ_DST</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_LIBC_TZ_DEFAULT_HOUR 8</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_LIBC_TZ_DEFAULT_MIN 0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RT_LIBC_TZ_DEFAULT_SEC 0</span></span><br><span class="line"><span class="comment">/* end of Timezone and Daylight Saving Time */</span></span><br><span class="line"><span class="comment">/* end of ISO-ANSI C layer */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* POSIX (Portable Operating System Interface) layer */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Interprocess Communication (IPC) */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Socket is in the &#x27;Network&#x27; category */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Interprocess Communication (IPC) */</span></span><br><span class="line"><span class="comment">/* end of POSIX (Portable Operating System Interface) layer */</span></span><br><span class="line"><span class="comment">/* end of C/C++ and POSIX layer */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Network */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Network */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Memory protection */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Memory protection */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Utilities */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Utilities */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Using USB legacy version */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Using USB legacy version */</span></span><br><span class="line"><span class="comment">/* end of RT-Thread Components */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* RT-Thread Utestcases */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of RT-Thread Utestcases */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* RT-Thread online packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* IoT - internet of things */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Wi-Fi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Marvell WiFi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Marvell WiFi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Wiced WiFi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Wiced WiFi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* CYW43012 WiFi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of CYW43012 WiFi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* BL808 WiFi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of BL808 WiFi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* CYW43439 WiFi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of CYW43439 WiFi */</span></span><br><span class="line"><span class="comment">/* end of Wi-Fi */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* IoT Cloud */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of IoT Cloud */</span></span><br><span class="line"><span class="comment">/* end of IoT - internet of things */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* security packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of security packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* language packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* JSON: JavaScript Object Notation, a lightweight data-interchange format */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of JSON: JavaScript Object Notation, a lightweight data-interchange format */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* XML: Extensible Markup Language */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of XML: Extensible Markup Language */</span></span><br><span class="line"><span class="comment">/* end of language packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* multimedia packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* LVGL: powerful and easy-to-use embedded GUI library */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of LVGL: powerful and easy-to-use embedded GUI library */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* u8g2: a monochrome graphic library */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of u8g2: a monochrome graphic library */</span></span><br><span class="line"><span class="comment">/* end of multimedia packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* tools packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of tools packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* system packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* enhanced kernel services */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of enhanced kernel services */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* acceleration: Assembly language or algorithmic acceleration packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of acceleration: Assembly language or algorithmic acceleration packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* CMSIS: ARM Cortex-M Microcontroller Software Interface Standard */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of CMSIS: ARM Cortex-M Microcontroller Software Interface Standard */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Micrium: Micrium software products porting for RT-Thread */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Micrium: Micrium software products porting for RT-Thread */</span></span><br><span class="line"><span class="comment">/* end of system packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* peripheral libraries and drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* HAL &amp; SDK Drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* STM32 HAL &amp; SDK Drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of STM32 HAL &amp; SDK Drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Infineon HAL Packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Infineon HAL Packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Kendryte SDK */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Kendryte SDK */</span></span><br><span class="line"><span class="comment">/* end of HAL &amp; SDK Drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* sensors drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of sensors drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* touch drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of touch drivers */</span></span><br><span class="line"><span class="comment">/* end of peripheral libraries and drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* AI packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of AI packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Signal Processing and Control Algorithm Packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Signal Processing and Control Algorithm Packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* miscellaneous packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* project laboratory */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of project laboratory */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* samples: kernel and components samples */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of samples: kernel and components samples */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* entertainment: terminal games and other interesting software packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of entertainment: terminal games and other interesting software packages */</span></span><br><span class="line"><span class="comment">/* end of miscellaneous packages */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Arduino libraries */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Projects and Demos */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Projects and Demos */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Sensors */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Sensors */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Display */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Display */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Timing */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Timing */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Data Processing */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Data Processing */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Data Storage */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Communication */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Communication */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Device Control */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Device Control */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Other */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Other */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Signal IO */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Signal IO */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Uncategorized */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Arduino libraries */</span></span><br><span class="line"><span class="comment">/* end of RT-Thread online packages */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SOC_FAMILY_STM32</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SOC_SERIES_STM32G0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BOARD_SERIES_STM32_NUCLEO_64</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Hardware Drivers Config */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Onboard Peripheral Drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* On-chip Peripheral Drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BSP_USING_GPIO</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BSP_USING_UART</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BSP_STM32_UART_V1_TX_TIMEOUT 2000</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BSP_USING_UART1</span></span><br><span class="line"><span class="comment">/* end of On-chip Peripheral Drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Board extended module Drivers */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* end of Hardware Drivers Config */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol>
+<li>断点失效：尽量不用<code>Browse Information</code>就OK</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/options.png" alt="img"></p>
+<ol>
+<li>没有msh提示符输出：把msh线程的栈空间大小<code>FINSH_THREAD_STACK_SIZE</code>调小一点就OK，512也是可以的但ps命令会卡死</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define FINSH_THREAD_STACK_SIZE 768</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>资源紧张，SRAM比较有限，任务的堆栈尽量小一些</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/task-free.png" alt="img"></p>
+<h2 id="开源"><a href="#开源" class="headerlink" title="开源"></a>开源</h2><p>移植的工程已经push到RT-Thread GitHub仓库：<a target="_blank" rel="noopener" href="https://github.com/RT-Thread/rt-thread/tree/master/bsp/stm32/stm32g030-tiny-board">rt-thread&#x2F;bsp&#x2F;stm32&#x2F;stm32g030-tiny-board at master · RT-Thread&#x2F;rt-thread</a></p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.hywing.cn/stm32g030-port-rtt.html" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/stm32g030-port-rtt.html&title=stm32g030移植RT-Thread流程 - hywing's blog&summary=RTOS移植"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=stm32g030移植RT-Thread流程 - hywing's blog&amp;body=https://blog.hywing.cn/stm32g030-port-rtt.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.hywing.cn/stm32g030-port-rtt.html"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/git-reset-command.html">如何撤销缓冲区的提交</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/">开源库</a></div><div class="sitemap-group"><span class="fs15">社交</span><a href="/">友链</a><a href="/">留言板</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/hywing">GitHub</a></div></div><div class="text"><center>
+<span>
+© 2025
+<a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/hywing">hywing</a>
+使用 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/hywing/hexo-theme-stellar">Stellar</a>
+创建
+</span>
+<br>
+<!--不蒜子计数器-->
+<script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--添加一个访问量-->
+<span>总访问 <span id="busuanzi_value_site_pv" style="font-weight: bold;">113701</span> 次 | 本页访问 <span id="busuanzi_value_page_pv" style="font-weight: bold;">326</span> 次</span>
+</br>
+<span id="runtime_span"></span>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var runtime_span = document.getElementById('runtime_span');
+
+    function show_runtime() {
+      // 调用定时器
+      setTimeout(show_runtime, 1000);
+
+      var seconds = 1000;
+      var minutes = seconds * 60;
+      var hours = minutes * 60;
+      var days = hours * 24;
+      var years = days * 365;
+
+      var today = new Date();
+      var todayYear = today.getFullYear();
+      var todayMonth = today.getMonth();
+      var todayDate = today.getDate();
+      var todayHour = today.getHours();
+      var todayMinute = today.getMinutes();
+      var todaySecond = today.getSeconds();
+
+      var t1 = Date.UTC(2025, 0, 5, 0, 0, 0); // UTC时间，月份从0开始
+      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+      var diff = t2 - t1;
+
+      var diffYears = Math.floor(diff / years);
+      var diffDays = Math.floor((diff / days) - diffYears * 365);
+      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+
+      // 更新显示时间的span元素内容
+      runtime_span.innerHTML = "本网站已经稳定运行：" + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒🦉";
+    }
+
+    show_runtime(); // 初次调用函数以启动定时器
+
+    
+  });
+</script>
+</center>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%BB%E6%A4%8D%E6%B5%81%E7%A8%8B"><span class="toc-text">移植流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CubeMX%E9%85%8D%E7%BD%AE"><span class="toc-text">CubeMX配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%92%9F%E9%85%8D%E7%BD%AE"><span class="toc-text">时钟配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%BB%B4%E7%AD%94"><span class="toc-text">系统滴答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3%E9%85%8D%E7%BD%AE"><span class="toc-text">串口配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE"><span class="toc-text">工程配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-text">组件配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF"><span class="toc-text">工程模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">遇到的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BA%90"><span class="toc-text">开源</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.29.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    }
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
