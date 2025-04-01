@@ -28,7 +28,7 @@
 <meta property="og:description" content="在父控件的类里边实现子控件的绘图">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-31T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-01T08:11:16.005Z">
+<meta property="article:modified_time" content="2025-04-01T09:55:10.439Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="Qt">
 <meta property="article:tag" content="绘图">
@@ -80,7 +80,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">程序设计</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-31T16:00:00.000Z">2025-04-01</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-01T08:11:16.005Z">2025-04-01</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-31T16:00:00.000Z">2025-04-01</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-01T09:55:10.439Z">2025-04-01</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -91,7 +91,7 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>有时候，我们并不想派生一个类（可能是因为懒，毕竟要写cpp和h文件），重写它的<code>paintEvent</code>虚函数来绘图，但父控件的paintEvent并不是你该用的，因为只属于父控件；那有没有一种办法，可以在父控件的类里边实现子控件的绘图呢？</p>
+  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>有时候，我们并不想派生一个类（可能是因为懒，毕竟要写cpp和h文件，还要重写它的<code>paintEvent</code>虚函数），可是父控件的<code>paintEvent</code>并不是你想用就能用的，因为它只属于父控件；那有没有一种办法，可以在父控件的类里边实现子控件的绘图呢？</p>
 <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们需要对Qt的事件机制比较熟悉，比如paintEvent，它本质是一个<code>QEvent::paint</code>的事件；如果在事件队列里边拦截了<code>QEvent::paint</code>，再进行<code>QPainter</code>绘图，这个和paintEvent是一样的效果！</p>
 <h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p>这里的ui-&gt;dashboard1是一个<code>QLabel</code>，我们打算侦听它的事件</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ui-&gt;dashboard1-&gt;<span class="built_in">installEventFilter</span>(<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
