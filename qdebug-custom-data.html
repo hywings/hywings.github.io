@@ -17,25 +17,26 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>cmake获取指定目录下的所有文件 - hywing's blog</title>
+  <title>自定义数据类型支持qDebug输出 - hywing's blog</title>
 
   
-    <meta name="description" content="cmake奇技淫巧">
+    <meta name="description" content="Qt的一些小技巧">
 <meta property="og:type" content="article">
-<meta property="og:title" content="cmake获取指定目录下的所有文件">
-<meta property="og:url" content="https://blog.hywing.cn/cmake-recurse-files.html">
+<meta property="og:title" content="自定义数据类型支持qDebug输出">
+<meta property="og:url" content="https://blog.hywing.cn/qdebug-custom-data.html">
 <meta property="og:site_name" content="hywing&#39;s blog">
-<meta property="og:description" content="cmake奇技淫巧">
+<meta property="og:description" content="Qt的一些小技巧">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-02-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-03T09:00:13.007Z">
+<meta property="article:published_time" content="2025-04-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-03T09:00:13.059Z">
 <meta property="article:author" content="hywing">
-<meta property="article:tag" content="cmake">
+<meta property="article:tag" content="Qt">
+<meta property="article:tag" content="qDebug">
 <meta name="twitter:card" content="summary">
   
   
   
-  <meta name="keywords" content="cmake">
+  <meta name="keywords" content="Qt,qDebug">
 
   <!-- feed -->
   
@@ -78,24 +79,24 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-02-10T16:00:00.000Z">2025-02-11</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-03T09:00:13.007Z">2025-04-03</time></span></div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">程序设计</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-02T16:00:00.000Z">2025-04-03</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-03T09:00:13.059Z">2025-04-03</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>cmake获取指定目录下的所有文件</span></h1>
+        <h1 class="text title"><span>自定义数据类型支持qDebug输出</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>编写跨平台的工程时，因为项目比较大，文件很多，开发人员很多，不想一一列举<code>add_executable</code>里边的文件</p>
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>用<code>FILE</code>宏获取某个指定目录下的同一类型的所有文件，用<code>DIAGNOSTIC</code>和<code>SERIALIZE</code>两个变量来分别存储所有符合条件的文件名，<code>include_directories</code>也可以自动包含目录下的所有头文件</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FILE</span>(GLOB_RECURSE DIAGNOSTIC <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/diagnostic/*.c)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/diagnostic)</span><br><span class="line"></span><br><span class="line"><span class="keyword">FILE</span>(GLOB_RECURSE SERIALIZE <span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/serialize/*.c)</span><br><span class="line"><span class="keyword">include_directories</span>(<span class="variable">$&#123;CMAKE_SOURCE_DIR&#125;</span>/serialize)</span><br></pre></td></tr></table></figure>
+  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>写Qt程序的时候，发现自定义数据数据对象就不能用<code>qDebug</code>直接输出了，每次都要写一大串的字符参数列表来打印log，有没有什么办法可以直接打印对象呢？很简单，写个友元函数就OK了</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>以结构体类型为例，需要实现<code>&lt;&lt;</code>运算符重载</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">float</span> x;</span><br><span class="line">    <span class="type">float</span> y;</span><br><span class="line">    <span class="type">float</span> z;</span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    <span class="type">int</span> intensity;</span><br><span class="line">    <span class="type">int</span> imageX;</span><br><span class="line">    <span class="type">int</span> imageY;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Point</span>() &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;x = <span class="built_in">qQNaN</span>();</span><br><span class="line">        <span class="keyword">this</span>-&gt;y = <span class="built_in">qQNaN</span>();</span><br><span class="line">        <span class="keyword">this</span>-&gt;z = <span class="built_in">qQNaN</span>();</span><br><span class="line">        <span class="keyword">this</span>-&gt;id = <span class="built_in">qQNaN</span>();</span><br><span class="line">        <span class="keyword">this</span>-&gt;intensity = <span class="built_in">qQNaN</span>();</span><br><span class="line">        <span class="keyword">this</span>-&gt;imageX = <span class="built_in">qQNaN</span>();</span><br><span class="line">        <span class="keyword">this</span>-&gt;imageY = <span class="built_in">qQNaN</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Point</span>(<span class="type">const</span> Point &amp;point) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;x = point.x;</span><br><span class="line">        <span class="keyword">this</span>-&gt;y = point.y;</span><br><span class="line">        <span class="keyword">this</span>-&gt;z = point.z;</span><br><span class="line">        <span class="keyword">this</span>-&gt;id = point.id;</span><br><span class="line">        <span class="keyword">this</span>-&gt;intensity = point.intensity;</span><br><span class="line">        <span class="keyword">this</span>-&gt;imageX = point.imageX;</span><br><span class="line">        <span class="keyword">this</span>-&gt;imageY = point.imageY;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Point &amp;<span class="keyword">operator</span> =(<span class="type">const</span> Point &amp;point) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;x = point.x;</span><br><span class="line">        <span class="keyword">this</span>-&gt;y = point.y;</span><br><span class="line">        <span class="keyword">this</span>-&gt;z = point.z;</span><br><span class="line">        <span class="keyword">this</span>-&gt;id = point.id;</span><br><span class="line">        <span class="keyword">this</span>-&gt;intensity = point.intensity;</span><br><span class="line">        <span class="keyword">this</span>-&gt;imageX = point.imageX;</span><br><span class="line">        <span class="keyword">this</span>-&gt;imageY = point.imageY;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">friend</span> QDebug <span class="keyword">operator</span>&lt;&lt;(QDebug dbg, <span class="type">const</span> Point &amp;point)</span><br><span class="line">    &#123;</span><br><span class="line">        dbg &lt;&lt; point.id &lt;&lt; <span class="string">&quot; : (&quot;</span> &lt;&lt; point.x &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; point.y &lt;&lt; <span class="string">&quot;,&quot;</span> &lt;&lt; point.z &lt;&lt; <span class="string">&quot;)&quot;</span> &lt;&lt; <span class="string">&quot; intensity : &quot;</span> &lt;&lt; point.intensity;</span><br><span class="line">        <span class="keyword">return</span> dbg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>再在<code>add_executable</code>里边添加<code>DIAGNOSTIC</code>和<code>SERIALIZE</code>两个变量，这样新增文件只要执行一下cmake就可以了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">add_executable(zhd-desktop</span><br><span class="line">    main.c</span><br><span class="line">    $&#123;DIAGNOSTIC&#125;</span><br><span class="line">    $&#123;SERIALIZE&#125;</span><br><span class="line">    logo.rc</span><br><span class="line">    res.qrc</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>然后自定义的数据可以直接用<code>qDebug</code>打印了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">qDebug</span>() &lt;&lt; <span class="built_in">Point</span>();</span><br></pre></td></tr></table></figure>
 
 
 <div class="article-footer fs14">
@@ -108,18 +109,18 @@
     <section id="share">
       <div class="header"><span>分享文章</span></div>
       <div class="body">
-        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.hywing.cn/cmake-recurse-files.html" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/cmake-recurse-files.html&title=cmake获取指定目录下的所有文件 - hywing's blog&summary=cmake奇技淫巧"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=cmake获取指定目录下的所有文件 - hywing's blog&amp;body=https://blog.hywing.cn/cmake-recurse-files.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.hywing.cn/qdebug-custom-data.html" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/qdebug-custom-data.html&title=自定义数据类型支持qDebug输出 - hywing's blog&summary=Qt的一些小技巧"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=自定义数据类型支持qDebug输出 - hywing's blog&amp;body=https://blog.hywing.cn/qdebug-custom-data.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
-          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.hywing.cn/cmake-recurse-files.html"/>
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.hywing.cn/qdebug-custom-data.html"/>
         </div>
         
       </div>
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/professional-english.html">专业英语词汇</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/nxp-stuff.html">与NXP的一点缘分</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/github-cannot-push.html">github无法提交代码问题</a></div></section></div>
 
 
 
@@ -189,7 +190,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82"><span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3"><span class="toc-text">解决</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
