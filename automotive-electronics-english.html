@@ -17,28 +17,26 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>信号和槽函数重载写法参考 - hywing's blog</title>
+  <title>汽车电子专业英语合集 - hywing's blog</title>
 
   
-    <meta name="description" content="C++函数重载应用">
+    <meta name="description" content="英语词汇总结">
 <meta property="og:type" content="article">
-<meta property="og:title" content="信号和槽函数重载写法参考">
-<meta property="og:url" content="https://blog.hywing.cn/qt-signal-slot-overload.html">
+<meta property="og:title" content="汽车电子专业英语合集">
+<meta property="og:url" content="https://blog.hywing.cn/automotive-electronics-english.html">
 <meta property="og:site_name" content="hywing&#39;s blog">
-<meta property="og:description" content="C++函数重载应用">
+<meta property="og:description" content="英语词汇总结">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-02-21T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-16T07:35:40.408Z">
+<meta property="article:published_time" content="2025-04-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-16T07:35:40.453Z">
 <meta property="article:author" content="hywing">
-<meta property="article:tag" content="Qt">
-<meta property="article:tag" content="信号">
-<meta property="article:tag" content="槽">
-<meta property="article:tag" content="重载">
+<meta property="article:tag" content="专业英语">
+<meta property="article:tag" content="汽车电子">
 <meta name="twitter:card" content="summary">
   
   
   
-  <meta name="keywords" content="Qt,信号,槽,重载">
+  <meta name="keywords" content="专业英语,汽车电子">
 
   <!-- feed -->
   
@@ -81,33 +79,62 @@
 <div class="article banner top">
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
-<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">程序设计</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-02-21T16:00:00.000Z">2025-02-22</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-16T07:35:40.408Z">2025-04-16</time></span></div></div></div>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E7%A7%91/">学科</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-04-15T16:00:00.000Z">2025-04-16</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-04-16T07:35:40.453Z">2025-04-16</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>信号和槽函数重载写法参考</span></h1>
+        <h1 class="text title"><span>汽车电子专业英语合集</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="信号重载"><a href="#信号重载" class="headerlink" title="信号重载"></a>信号重载</h2><p>最常见的重载信号就是<code>QComboBox::currentIndexChanged</code>，它有<code>int</code>和<code>const QString &amp;</code>两种重载参数</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(ui-&gt;algorithm, QOverload&lt;<span class="type">int</span>&gt;::<span class="built_in">of</span>(&amp;QComboBox::currentIndexChanged), <span class="keyword">this</span>, [=](<span class="type">int</span> index) &#123;</span><br><span class="line">    <span class="keyword">if</span>(index == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">initTable</span>(PID);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;<span class="built_in">initTable</span>(Model);</span><br><span class="line">    &#125;</span><br><span class="line">    emit <span class="keyword">this</span>-&gt;<span class="built_in">changeAlgorithm</span>(index);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">connect</span>(ui-&gt;algorithm, QOverload&lt;<span class="type">const</span> QString &amp;&gt;::<span class="built_in">of</span>(&amp;QComboBox::currentIndexChanged), <span class="keyword">this</span>, [=](<span class="type">const</span> QString &amp;text) &#123;</span><br><span class="line">    <span class="built_in">qDebug</span>() &lt;&lt; text;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="槽函数重载"><a href="#槽函数重载" class="headerlink" title="槽函数重载"></a>槽函数重载</h2><p>以传递自定义参数类型为例，自定义结构体需要注册成Qt的元数据类型</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack (4)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125; TAlgorithmModel;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack ()</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Q_DECLARE_METATYPE</span>(TAlgorithmModel *)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack (4)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">	...</span><br><span class="line">&#125; TAlgorithmPid;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack ()</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Q_DECLARE_METATYPE</span>(TAlgorithmPid *)</span><br></pre></td></tr></table></figure>
-
-<p>发送方信号</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原始信号</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">NetworkManager::updateModel</span><span class="params">(<span class="type">const</span> TAlgorithmModel *)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">NetworkManager::updatePid</span><span class="params">(<span class="type">const</span> TAlgorithmPid *)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>接收方槽函数重载</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 重载槽函数</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">OperatePage::onUpdateTable</span><span class="params">(<span class="type">const</span> TAlgorithmModel *p)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">OperatePage::onUpdateTable</span><span class="params">(<span class="type">const</span> TAlgorithmPid *p)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>信号和槽写法参考</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">connect</span>(NetworkManager::<span class="built_in">getInstance</span>(), &amp;NetworkManager::updateModel, operate, QOverload&lt;<span class="type">const</span> TAlgorithmModel *&gt;::<span class="built_in">of</span>(&amp;OperatePage::onUpdateTable));</span><br><span class="line"><span class="built_in">connect</span>(NetworkManager::<span class="built_in">getInstance</span>(), &amp;NetworkManager::updatePid, operate, QOverload&lt;<span class="type">const</span> TAlgorithmPid *&gt;::<span class="built_in">of</span>(&amp;OperatePage::onUpdateTable));</span><br></pre></td></tr></table></figure>
-
+  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>汽车电子领域专业英语词汇汇总，不定期更新</p>
+<h2 id="词汇"><a href="#词汇" class="headerlink" title="词汇"></a>词汇</h2><p><strong>车灯类</strong></p>
+<ul>
+<li>前照明灯：Front position lamp</li>
+<li>后照明灯：Rear position lamp</li>
+<li>左照明灯：Left-side marker lamp</li>
+<li>右照明灯：Right-side marker lamp</li>
+<li>驾驶室顶灯：Cab interior lamp</li>
+<li>左转向灯：Left turn signal lamp</li>
+<li>右转向灯：Right turn signal lamp</li>
+<li>示廊灯：Clearance lamp</li>
+<li>前近光灯：Low beam headlamp</li>
+<li>前远光灯：High beam headlamp</li>
+<li>前雾灯：Front fog lamp</li>
+<li>信号报警灯：Warning signal lamp</li>
+<li>旋转报警灯：Rotating beacon light</li>
+<li>刹车灯：Stop lamp</li>
+<li>后牌照灯：License plate lamp</li>
+<li>喇叭：Horn</li>
+</ul>
+<p><strong>发动机类</strong></p>
+<ul>
+<li>发动机转速：engine speed</li>
+<li>机油压力：engine oil pressure</li>
+<li>水温：water temperature</li>
+<li>负载率：load rate</li>
+<li>机油温度：engine oil temperature</li>
+<li>瞬时油耗：instantaneous fuel consumption</li>
+<li>增压温度：boost temperature</li>
+<li>发动机总油耗：total fuel consumption</li>
+<li>发动机总时间：engine total hours</li>
+<li>离合器滑差：clutch slip</li>
+</ul>
+<p><strong>传感器类</strong></p>
+<ul>
+<li>刹车踏板：brake pedal</li>
+<li>油门踏板：accelerator pedal</li>
+<li>履带涨紧压力：track tension pressure</li>
+<li>吸回油压力发讯器：suction oil pressure sensor</li>
+<li>发动机电子阻塞：Engine Electronic Limp Mode</li>
+<li>转向角度传感器：Steering Angle Sensor</li>
+<li>驾驶室暖风：Cab Heater</li>
+<li>发动机循环水加热：Engine Coolant Heating</li>
+</ul>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -119,18 +146,18 @@
     <section id="share">
       <div class="header"><span>分享文章</span></div>
       <div class="body">
-        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.hywing.cn/qt-signal-slot-overload.html" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/qt-signal-slot-overload.html&title=信号和槽函数重载写法参考 - hywing's blog&summary=C++函数重载应用"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=信号和槽函数重载写法参考 - hywing's blog&amp;body=https://blog.hywing.cn/qt-signal-slot-overload.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.hywing.cn/automotive-electronics-english.html" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/automotive-electronics-english.html&title=汽车电子专业英语合集 - hywing's blog&summary=英语词汇总结"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=汽车电子专业英语合集 - hywing's blog&amp;body=https://blog.hywing.cn/automotive-electronics-english.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
-          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.hywing.cn/qt-signal-slot-overload.html"/>
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.hywing.cn/automotive-electronics-english.html"/>
         </div>
         
       </div>
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/msvc-g++-coder-problem.html">msvc与g++编译器字符编码问题</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/git-repository.html">git仓库重定向</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/qdialog-usage.html">对QDialog的一点思考</a></div></section></div>
 
 
 
@@ -200,7 +227,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8D%E8%BD%BD"><span class="toc-text">信号重载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A7%BD%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD"><span class="toc-text">槽函数重载</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%8D%E6%B1%87"><span class="toc-text">词汇</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
