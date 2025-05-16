@@ -1,0 +1,933 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
+  
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
+  <meta name="theme-color" content="#f9fafb">
+  
+  <title>LAUNCHXL-F28379D链接文件功能详解 - hywing's blog</title>
+
+  
+    <meta name="description" content="DSP CMD脚本详解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LAUNCHXL-F28379D链接文件功能详解">
+<meta property="og:url" content="https://blog.hywing.cn/launchxl-f28379d-link-script.html">
+<meta property="og:site_name" content="hywing&#39;s blog">
+<meta property="og:description" content="DSP CMD脚本详解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.hywing.cn/img/blog/LAUNCHXL-F28379D%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3-1.png">
+<meta property="article:published_time" content="2025-05-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-16T09:10:39.116Z">
+<meta property="article:author" content="hywing">
+<meta property="article:tag" content="DSP">
+<meta property="article:tag" content="LAUNCHXL-F28379D">
+<meta property="article:tag" content="链接脚本">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.hywing.cn/img/blog/LAUNCHXL-F28379D%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3-1.png">
+  
+  
+  
+  <meta name="keywords" content="DSP,LAUNCHXL-F28379D,链接脚本">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.29.1">
+
+  
+    <link rel="shortcut icon" href="/img/blog/logo.jpg">
+  
+
+  
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-screen-webfont/1.6.0/lxgwwenkaiscreen.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css">
+</head>
+<body>
+
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/img/blog/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">hywing's blog</div><div class="sub normal cap">江上往来人，但爱鲈鱼美</div><div class="sub hover cap" style="opacity:0"> 君看一叶舟，出没风波里</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item active" title="开源" target="_blank" rel="noopener" href="https://github.com/hywing"><img no-lazy src="/img/blog/git.jpg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="文档" href="/wiki"><img no-lazy src="/img/blog/wiki.png" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="自动化" target="_blank" rel="noopener" href="https://autostuff.net" style="color:#FA6400"><img no-lazy src="/img/blog/autostuff.png" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="nav-item" title="作者" target="_blank" rel="noopener" href="https://post.hywing.cn/about/" style="color:#F44336"><img no-lazy src="/img/blog/heaven.jpg" / onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a></nav>
+</div>
+<div class="widgets">
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/auto-parts-stage.html"><span class="title">汽车零部件研发的各个阶段</span></a><a class="item title" href="/stm32f103rct6-board-cannot-debug.html"><span class="title">stm32f103rct6开发板无法调试问题</span></a><a class="item title" href="/automotive-electronics-english.html"><span class="title">汽车电子专业英语合集</span></a><a class="item title" href="/rk3588-port-gpsd.html"><span class="title">RK3588移植GPSD</span></a><a class="item title" href="/simple-qml-project.html"><span class="title">一个简单的QML工程参考示例</span></a><a class="item title" href="/qtcreator-designer-page-problem.html"><span class="title">QtCreator16.0.1设计页面无法打开</span></a><a class="item title" href="/launchxl-f28379d-custom-printf.html"><span class="title">LAUNCHXL-F28379D自定义数据格式打印</span></a><a class="item title" href="/launchxl-f28379d-link-script.html"><span class="title">LAUNCHXL-F28379D链接文件功能详解</span></a><a class="item title" href="/linux-can-usage.html"><span class="title">Linux下调试和使用CAN接口</span></a><a class="item title" href="/project-overview-specification.html"><span class="title">项目概要设计说明书</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" title="Github" href="/" rel="noopener noreferrer"><i class="fa-solid fa-github fa-brands fa-bounce"></i></a><a class="social" href="/" rel="noopener noreferrer"><i class="fa fa-wrench faa-wrench animated faa-fast"></i></a><a class="social" href="/" rel="noopener noreferrer"><i class="fas fa-spinner fa-pulse"></i></a><a class="social" href="/" rel="noopener noreferrer"><i class="fas fa-cog fa-spin"></i></a><a class="social" onclick="switchTheme()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" fill-rule="evenodd" d="M582.4 326.4c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256z m0 448c-70.4 0-131.2-36.8-164.8-92.8 12.8 3.2 27.2 4.8 40 4.8 121.6 0 219.2-99.2 219.2-219.2 0-17.6-1.6-35.2-6.4-52.8 60.8 32 102.4 96 102.4 169.6 1.6 104-84.8 190.4-190.4 190.4zM582.4 262.4c17.6 0 32-14.4 32-32v-128c0-17.6-14.4-32-32-32s-32 14.4-32 32v128c0 17.6 14.4 32 32 32zM262.4 582.4c0-17.6-14.4-32-32-32h-128c-17.6 0-32 14.4-32 32s14.4 32 32 32h128c17.6 0 32-14.4 32-32zM310.4 356.8c6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6 12.8-12.8 12.8-32 0-44.8l-91.2-91.2c-12.8-12.8-32-12.8-44.8 0-12.8 12.8-12.8 32 0 44.8l91.2 91.2zM944 220.8c-12.8-12.8-32-12.8-44.8 0l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-33.6 0-44.8zM310.4 808l-91.2 91.2c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 14.4 9.6 22.4 9.6 8 0 16-3.2 22.4-9.6l91.2-91.2c12.8-12.8 12.8-32 0-44.8-11.2-11.2-32-11.2-44.8 0z"></path></svg></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">程序设计</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-05-15T16:00:00.000Z">2025-05-16</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-05-16T09:10:39.116Z">2025-05-16</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>LAUNCHXL-F28379D链接文件功能详解</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="CMD文件"><a href="#CMD文件" class="headerlink" title="CMD文件"></a>CMD文件</h2><p>主要是有FLASH和RAM两种下载模式：FLASH是把程序烧录到FLASH中运行，RAM模式则是把程序烧录到RAM里边运行，以TMS320F28379D为例，它支持2837xD_FLASH_lnk_cpu1.cmd和2837xD_RAM_lnk_cpu1.cmd两种下载调试模式，下载模式可以在对应工程的<code>Properties -&gt; General -&gt; Linker command file</code>里边指定</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/LAUNCHXL-F28379D%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6%E5%8A%9F%E8%83%BD%E8%AF%A6%E8%A7%A3-1.png" alt="在这里插入图片描述"></p>
+<h3 id="FLASH"><a href="#FLASH" class="headerlink" title="FLASH"></a>FLASH</h3><p>FLASH模式主要包括<code>MEMORY</code>和<code>SECTIONS</code>两个字段；至于内存块怎么用，<code>SECTIONS</code>会告诉你</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般MEMORY会分成两个PAGE：PAGE0和PAGE1，PAGE0存放program代码（FLASH），PAGE1存放data代码（RAM）；每个PAGE包含若干个内存块，每个内存块的<code>字段名</code>、<code>起始地址</code>和<code>大小空间</code>会在<code>MEMORY</code>里边给出，原则上合起来的空间不能超过物理内存空间大小</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">MEMORY</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">PAGE 0 :</span>  <span class="string">/*</span> <span class="string">程序存储区(Flash)</span> <span class="string">*/</span></span><br><span class="line">   <span class="attr">BEGIN      :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x080000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000002</span></span><br><span class="line">   <span class="attr">FLASHA     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x080002</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001FFE</span></span><br><span class="line">   </span><br><span class="line">   <span class="string">/*</span> <span class="string">方案一：合并FLASHB/C/D为一个更大的区域（已应用）</span> <span class="string">*/</span></span><br><span class="line">   <span class="attr">FLASHBCD   :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x082000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x006000</span>   <span class="string">/*</span> <span class="string">24KB</span> <span class="string">(合并B+C+D)</span> <span class="string">*/</span></span><br><span class="line">   </span><br><span class="line">   <span class="string">/*</span> <span class="string">方案二：分别保留各区（如需用方案二，注释上面的FLASHBCD，取消下面三行的注释）</span></span><br><span class="line">   <span class="attr">FLASHB     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x082000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x002000</span></span><br><span class="line">   <span class="attr">FLASHC     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x084000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x002000</span></span><br><span class="line">   <span class="attr">FLASHD     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x086000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x002000</span></span><br><span class="line">   <span class="string">*/</span></span><br><span class="line">   </span><br><span class="line">   <span class="attr">FLASHE     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x088000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x008000</span></span><br><span class="line">   <span class="attr">FLASHF     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x090000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x008000</span></span><br><span class="line">   <span class="attr">RESET      :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x3FFFC0</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000002</span></span><br><span class="line"></span><br><span class="line"><span class="attr">PAGE 1 :</span>  <span class="string">/*</span> <span class="string">数据存储区(RAM)</span> <span class="string">*/</span></span><br><span class="line">   <span class="attr">RAMM0      :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x000123</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x0002DD</span></span><br><span class="line">   <span class="attr">RAMM1      :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x000400</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x0003F8</span></span><br><span class="line">   <span class="attr">RAMLS0     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x008000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RAMLS5     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00A800</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RAMGS0     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00C000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS1     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00D000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">CPU1TOCPU2RAM :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x03FC00</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000400</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至于内存块怎么用，<code>SECTIONS</code>会告诉你，SECTIONS会把MEMORY里边定义的内存块安排得明明白白，以下代码跟ARM里边的link script差不多，我们可以看到下边代码段（eabi、text、const）主要是存放在FLASH空间，数据段（bss、func、stack、data）主要是存放RAM空间</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">   <span class="comment">/*--- 启动代码段 ---*/</span></span><br><span class="line">   codestart       : <span class="operator">&gt;</span> <span class="keyword">BEGIN</span>, PAGE <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">   .reset          : <span class="operator">&gt;</span> RESET, PAGE <span class="operator">=</span> <span class="number">0</span>, TYPE <span class="operator">=</span> DSECT</span><br><span class="line"></span><br><span class="line">   <span class="comment">/*--- EABI段 ---*/</span></span><br><span class="line">   .cinit          : <span class="operator">&gt;</span> FLASHA, PAGE <span class="operator">=</span> <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   </span><br><span class="line">   <span class="comment">/* 方案一：使用更大的合并区（已应用） */</span></span><br><span class="line">   .text           : <span class="operator">&gt;</span> FLASHBCD, PAGE <span class="operator">=</span> <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   </span><br><span class="line">   <span class="comment">/* 方案二：分配到多个区（如需用方案二，注释上面的.text行，取消下面这行的注释）</span></span><br><span class="line"><span class="comment">   .text           : &gt;&gt; FLASHB | FLASHC | FLASHD, PAGE = 0, ALIGN(8)</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">   </span><br><span class="line">   .const          : <span class="operator">&gt;</span> FLASHF, PAGE <span class="operator">=</span> <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   .init_array     : <span class="operator">&gt;</span> FLASHA, PAGE <span class="operator">=</span> <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   .bss            : <span class="operator">&gt;</span> RAMLS5, PAGE <span class="operator">=</span> <span class="number">1</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   .sysmem         : <span class="operator">&gt;</span> RAMGS1, PAGE <span class="operator">=</span> <span class="number">1</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">   <span class="comment">/*--- RAM函数段 ---*/</span></span><br><span class="line">   .TI.ramfunc :</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="operator">*</span>(.TI.ramfunc)</span><br><span class="line">      <span class="operator">*</span>(.ramfunc)</span><br><span class="line">   &#125;</span><br><span class="line">   LOAD <span class="operator">=</span> FLASHE, PAGE <span class="operator">=</span> <span class="number">0</span>   <span class="comment">/* 将FLASHD改为FLASHE，避免冲突 */</span></span><br><span class="line">   RUN <span class="operator">=</span> RAMLS0, PAGE <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">   LOAD_START(RamfuncsLoadStart),</span><br><span class="line">   LOAD_END(RamfuncsLoadEnd),</span><br><span class="line">   LOAD_SIZE(RamfuncsLoadSize),</span><br><span class="line">   RUN_START(RamfuncsRunStart),</span><br><span class="line">   RUN_SIZE(RamfuncsRunSize),</span><br><span class="line">   RUN_END(RamfuncsRunEnd),</span><br><span class="line">   ALIGN(<span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">   <span class="comment">/*--- 数据段 ---*/</span></span><br><span class="line">   .stack          : <span class="operator">&gt;</span> RAMGS0, PAGE <span class="operator">=</span> <span class="number">1</span>   <span class="comment">/* 改为更大的内存区 */</span></span><br><span class="line">   .data           : <span class="operator">&gt;</span> RAMGS0, PAGE <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">   .cio            : <span class="operator">&gt;</span> RAMLS5, PAGE <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/*--- COFF兼容段 ---*/</span></span><br><span class="line">   .pinit          : <span class="operator">&gt;</span> FLASHA, PAGE <span class="operator">=</span> <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   .ebss           : <span class="operator">&gt;</span> RAMLS5, PAGE <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">   .econst         : <span class="operator">&gt;</span> FLASHA, PAGE <span class="operator">=</span> <span class="number">0</span>, ALIGN(<span class="number">8</span>)</span><br><span class="line">   .esysmem        : <span class="operator">&gt;</span> RAMGS1, PAGE <span class="operator">=</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">   <span class="comment">/*--- IPC通信段 ---*/</span></span><br><span class="line">   <span class="keyword">GROUP</span> : <span class="operator">&gt;</span> CPU1TOCPU2RAM, PAGE <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">   &#123;</span><br><span class="line">      PUTBUFFER</span><br><span class="line">      PUTWRITEIDX</span><br><span class="line">      GETREADIDX</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/*--- 明确指定ramgs0/ramgs1段，消除警告 ---*/</span></span><br><span class="line">   ramgs0 : <span class="operator">&gt;</span> RAMGS0, PAGE <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">   ramgs1 : <span class="operator">&gt;</span> RAMGS1, PAGE <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>link script里边每个字段的功能</p>
+<table>
+<thead>
+<tr>
+<th>段名称</th>
+<th>内存位置</th>
+<th>页面</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>codestart</td>
+<td>BEGIN</td>
+<td>PAGE &#x3D; 0</td>
+<td>代码起始部分，位于Flash初始地址，包含程序入口点</td>
+</tr>
+<tr>
+<td>.reset</td>
+<td>RESET</td>
+<td>PAGE &#x3D; 0</td>
+<td>复位向量段，TYPE &#x3D; DSECT表示只是描述性的，不占用实际空间</td>
+</tr>
+<tr>
+<td>.cinit</td>
+<td>FLASHA</td>
+<td>PAGE &#x3D; 0</td>
+<td>C语言全局变量初始化表，ALIGN(8)表示按8字节对齐</td>
+</tr>
+<tr>
+<td>.text</td>
+<td>FLASHBCD</td>
+<td>PAGE &#x3D; 0</td>
+<td>主要代码段，放在合并的大Flash区域(24KB)以容纳更多代码</td>
+</tr>
+<tr>
+<td>.const</td>
+<td>FLASHF</td>
+<td>PAGE &#x3D; 0</td>
+<td>常量数据段，存放在Flash中的只读数据</td>
+</tr>
+<tr>
+<td>.init_array</td>
+<td>FLASHA</td>
+<td>PAGE &#x3D; 0</td>
+<td>用于C++全局对象构造函数的表</td>
+</tr>
+<tr>
+<td>.bss</td>
+<td>RAMLS5</td>
+<td>PAGE &#x3D; 1</td>
+<td>未初始化的全局和静态变量段，位于RAM中</td>
+</tr>
+<tr>
+<td>.sysmem</td>
+<td>RAMGS1</td>
+<td>PAGE &#x3D; 1</td>
+<td>动态内存分配的堆区域，用于malloc()等函数</td>
+</tr>
+<tr>
+<td>.TI.ramfunc</td>
+<td>FLASHE→RAMLS0</td>
+<td>PAGE &#x3D; 0→1</td>
+<td>RAM函数段，特殊处理：在Flash中存储但运行时复制到RAM中执行</td>
+</tr>
+<tr>
+<td>.stack</td>
+<td>RAMGS0</td>
+<td>PAGE &#x3D; 1</td>
+<td>系统堆栈段，已移至更大的内存区域RAMGS0</td>
+</tr>
+<tr>
+<td>.data</td>
+<td>RAMGS0</td>
+<td>PAGE &#x3D; 1</td>
+<td>已初始化的全局和静态变量段</td>
+</tr>
+<tr>
+<td>.cio</td>
+<td>RAMLS5</td>
+<td>PAGE &#x3D; 1</td>
+<td>C标准I&#x2F;O缓冲区</td>
+</tr>
+<tr>
+<td>.pinit</td>
+<td>FLASHA</td>
+<td>PAGE &#x3D; 0</td>
+<td>用于C++全局对象初始化的表(旧格式)</td>
+</tr>
+<tr>
+<td>.ebss</td>
+<td>RAMLS5</td>
+<td>PAGE &#x3D; 1</td>
+<td>扩展的.bss段，COFF格式兼容性</td>
+</tr>
+<tr>
+<td>.econst</td>
+<td>FLASHA</td>
+<td>PAGE &#x3D; 0</td>
+<td>扩展的常量段，COFF格式兼容性，存放在Flash中</td>
+</tr>
+<tr>
+<td>.esysmem</td>
+<td>RAMGS1</td>
+<td>PAGE &#x3D; 1</td>
+<td>扩展的系统内存段，COFF格式兼容性</td>
+</tr>
+<tr>
+<td>GROUP (CPU1TOCPU2RAM)</td>
+<td>CPU1TOCPU2RAM</td>
+<td>PAGE &#x3D; 1</td>
+<td>CPU1到CPU2的通信缓冲区，包含多个子段</td>
+</tr>
+<tr>
+<td>ramgs0&#x2F;ramgs1</td>
+<td>RAMGS0&#x2F;RAMGS1</td>
+<td>PAGE &#x3D; 1</td>
+<td>明确指定这些内存区域的段名，以消除链接警告</td>
+</tr>
+</tbody></table>
+<h3 id="RAM"><a href="#RAM" class="headerlink" title="RAM"></a>RAM</h3><p>RAM模式主要包括<code>MEMORY</code>和<code>SECTIONS</code>两个字段，这个跟FLASH模式是一样的，但不同的是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般MEMORY会分成两个PAGE：PAGE0和PAGE1，PAGE0存放program代码（RAM），PAGE1存放data代码（RAM），可以看到为了优化调试运行速度，所有的应用及数据都放在RAM运行了</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">MEMORY</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="attr">PAGE 0 :</span></span><br><span class="line">   <span class="attr">BEGIN            :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x000000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000002</span></span><br><span class="line">   <span class="attr">RAMM0            :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x000123</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x0002DD</span></span><br><span class="line">   <span class="attr">RAMD0            :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00B000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RAMLS0           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x008000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RAMLS1           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x008800</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RAMLS2           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x009000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RAMLS3           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x009800</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RAMLS4           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00A000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RESET            :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x3FFFC0</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000002</span></span><br><span class="line"></span><br><span class="line"><span class="attr">PAGE 1 :</span></span><br><span class="line">   <span class="attr">BOOT_RSVD        :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x000002</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000121</span></span><br><span class="line">   <span class="attr">RAMM1            :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x000400</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x0003F8</span></span><br><span class="line">   <span class="attr">RAMD1            :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00B800</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RAMLS0           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x008000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RAMLS5           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00A800</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">RAMGS0           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00C000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS1           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00D000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS2           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00E000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="string">/*</span> <span class="string">合并RAMGS3~5为一个大区</span> <span class="string">*/</span></span><br><span class="line">   <span class="attr">RAMGS3_5         :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00F000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x003000</span></span><br><span class="line">   <span class="string">/*</span> <span class="string">注释掉原有的RAMGS3~5</span></span><br><span class="line">   <span class="attr">RAMGS3           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x00F000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS4           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x010000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS5           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x011000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="string">*/</span></span><br><span class="line">   <span class="attr">RAMGS6           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x012000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS7           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x013000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS8           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x014000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS9           :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x015000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS10          :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x016000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS11          :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x017000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS12          :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x018000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS13          :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x019000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS14          :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x01A000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x001000</span></span><br><span class="line">   <span class="attr">RAMGS15          :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x01B000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000FF8</span></span><br><span class="line">   <span class="attr">CPU2TOCPU1RAM    :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x03F800</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000400</span></span><br><span class="line">   <span class="attr">CPU1TOCPU2RAM    :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x03FC00</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000400</span></span><br><span class="line">   <span class="attr">CANA_MSG_RAM     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x049000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">   <span class="attr">CANB_MSG_RAM     :</span> <span class="string">origin</span> <span class="string">=</span> <span class="number">0x04B000</span>, <span class="string">length</span> <span class="string">=</span> <span class="number">0x000800</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到下边代码段（eabi、text、const）以及数据段（bss、func、stack、data）全都存RAM空间</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">SECTIONS</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="attr">codestart        :</span> <span class="string">&gt;</span> <span class="string">BEGIN</span>,     <span class="string">PAGE</span> <span class="string">=</span> <span class="number">0</span></span><br><span class="line">   <span class="string">.reset</span>           <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RESET</span>,     <span class="string">PAGE</span> <span class="string">=</span> <span class="number">0</span>, <span class="string">TYPE</span> <span class="string">=</span> <span class="string">DSECT</span></span><br><span class="line"></span><br><span class="line">   <span class="string">/*</span> <span class="string">让.text段放入合并后的大区</span> <span class="string">*/</span></span><br><span class="line">   <span class="string">.text</span>            <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMGS3_5</span>,  <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line">   <span class="string">.cinit</span>           <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMM0</span>,     <span class="string">PAGE</span> <span class="string">=</span> <span class="number">0</span></span><br><span class="line">   <span class="string">.switch</span>          <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMM0</span>,     <span class="string">PAGE</span> <span class="string">=</span> <span class="number">0</span></span><br><span class="line">   <span class="string">.bss</span>             <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMLS5</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span>, <span class="string">ALIGN(8)</span></span><br><span class="line">   <span class="string">.init_array</span>      <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMM0</span>,     <span class="string">PAGE</span> <span class="string">=</span> <span class="number">0</span></span><br><span class="line">   <span class="string">.const</span>           <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMLS5</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line">   <span class="string">.data</span>            <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMLS5</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line">   <span class="string">.sysmem</span>          <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMLS5</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">   <span class="string">.TI.ramfunc</span>      <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMLS0</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span>, <span class="string">ALIGN(8)</span></span><br><span class="line"></span><br><span class="line">   <span class="string">.stack</span>           <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMM1</span>,     <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span>, <span class="string">ALIGN(8)</span></span><br><span class="line">   <span class="string">.pinit</span>           <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMM0</span>,     <span class="string">PAGE</span> <span class="string">=</span> <span class="number">0</span></span><br><span class="line">   <span class="string">.ebss</span>            <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMLS5</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line">   <span class="string">.econst</span>          <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMLS5</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line">   <span class="string">.esysmem</span>         <span class="string">:</span> <span class="string">&gt;</span> <span class="string">RAMLS5</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">   <span class="attr">Filter_RegsFile  :</span> <span class="string">&gt;</span> <span class="string">RAMGS0</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line">   <span class="attr">ramgs0           :</span> <span class="string">&gt;</span> <span class="string">RAMGS0</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line">   <span class="attr">ramgs1           :</span> <span class="string">&gt;</span> <span class="string">RAMGS1</span>,    <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">   <span class="string">/*</span> <span class="string">SDFM例程段移到后面未用的RAM区</span> <span class="string">*/</span></span><br><span class="line">   <span class="attr">Filter1_RegsFile :</span> <span class="string">&gt;</span> <span class="string">RAMGS6</span>, <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span>, <span class="string">fill=0x1111</span></span><br><span class="line">   <span class="attr">Filter2_RegsFile :</span> <span class="string">&gt;</span> <span class="string">RAMGS7</span>, <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span>, <span class="string">fill=0x2222</span></span><br><span class="line">   <span class="attr">Filter3_RegsFile :</span> <span class="string">&gt;</span> <span class="string">RAMGS8</span>, <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span>, <span class="string">fill=0x3333</span></span><br><span class="line">   <span class="attr">Filter4_RegsFile :</span> <span class="string">&gt;</span> <span class="string">RAMGS9</span>, <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span>, <span class="string">fill=0x4444</span></span><br><span class="line">   <span class="attr">Difference_RegsFile :</span> <span class="string">&gt;</span> <span class="string">RAMGS10</span>, <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span>, <span class="string">fill=0x3333</span></span><br><span class="line"></span><br><span class="line">   <span class="attr">GROUP :</span> <span class="string">&gt;</span> <span class="string">CPU1TOCPU2RAM</span>, <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line">   &#123;</span><br><span class="line">      <span class="string">PUTBUFFER</span></span><br><span class="line">      <span class="string">PUTWRITEIDX</span></span><br><span class="line">      <span class="string">GETREADIDX</span></span><br><span class="line">   &#125;</span><br><span class="line">   <span class="attr">GROUP :</span> <span class="string">&gt;</span> <span class="string">CPU2TOCPU1RAM</span>, <span class="string">PAGE</span> <span class="string">=</span> <span class="number">1</span></span><br><span class="line">   &#123;</span><br><span class="line">      <span class="attr">GETBUFFER :</span>    <span class="string">TYPE</span> <span class="string">=</span> <span class="string">DSECT</span></span><br><span class="line">      <span class="attr">GETWRITEIDX :</span>  <span class="string">TYPE</span> <span class="string">=</span> <span class="string">DSECT</span></span><br><span class="line">      <span class="attr">PUTREADIDX :</span>   <span class="string">TYPE</span> <span class="string">=</span> <span class="string">DSECT</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每个SECTIONS字段功能详解</p>
+<table>
+<thead>
+<tr>
+<th>段名称</th>
+<th>内存位置</th>
+<th>页面</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>codestart</td>
+<td>BEGIN</td>
+<td>PAGE &#x3D; 0</td>
+<td>代码起始部分，通常包含程序入口点和初始化代码</td>
+</tr>
+<tr>
+<td>.reset</td>
+<td>RESET</td>
+<td>PAGE &#x3D; 0</td>
+<td>复位向量段，用于处理CPU复位后的跳转地址，TYPE &#x3D; DSECT表示只是描述性的，不占用实际空间</td>
+</tr>
+<tr>
+<td>.text</td>
+<td>RAMGS3_5</td>
+<td>PAGE &#x3D; 1</td>
+<td>主要代码段，包含程序的执行代码，放在合并的大内存区域中以容纳更多代码</td>
+</tr>
+<tr>
+<td>.cinit</td>
+<td>RAMM0</td>
+<td>PAGE &#x3D; 0</td>
+<td>C语言全局变量初始化表段，用于存储全局变量的初始值</td>
+</tr>
+<tr>
+<td>.switch</td>
+<td>RAMM0</td>
+<td>PAGE &#x3D; 0</td>
+<td>用于C语言switch语句的跳转表</td>
+</tr>
+<tr>
+<td>.bss</td>
+<td>RAMLS5</td>
+<td>PAGE &#x3D; 1</td>
+<td>未初始化的全局和静态变量段，ALIGN(8)表示按8字节对齐</td>
+</tr>
+<tr>
+<td>.init_array</td>
+<td>RAMM0</td>
+<td>PAGE &#x3D; 0</td>
+<td>用于C++全局对象构造函数的表</td>
+</tr>
+<tr>
+<td>.const</td>
+<td>RAMLS5</td>
+<td>PAGE &#x3D; 1</td>
+<td>常量数据段，存放程序中的常量值</td>
+</tr>
+<tr>
+<td>.data</td>
+<td>RAMLS5</td>
+<td>PAGE &#x3D; 1</td>
+<td>已初始化的全局和静态变量段</td>
+</tr>
+<tr>
+<td>.sysmem</td>
+<td>RAMLS5</td>
+<td>PAGE &#x3D; 1</td>
+<td>动态内存分配的堆区域，用于malloc()等函数</td>
+</tr>
+<tr>
+<td>.TI.ramfunc</td>
+<td>RAMLS0</td>
+<td>PAGE &#x3D; 1</td>
+<td>RAM函数段，存放需要在RAM中执行的高性能函数</td>
+</tr>
+<tr>
+<td>.stack</td>
+<td>RAMM1</td>
+<td>PAGE &#x3D; 1</td>
+<td>系统堆栈段，用于函数调用和局部变量</td>
+</tr>
+<tr>
+<td>.pinit</td>
+<td>RAMM0</td>
+<td>PAGE &#x3D; 0</td>
+<td>用于C++全局对象初始化的表(旧格式)</td>
+</tr>
+<tr>
+<td>.ebss</td>
+<td>RAMLS5</td>
+<td>PAGE &#x3D; 1</td>
+<td>扩展的.bss段，COFF格式兼容性</td>
+</tr>
+<tr>
+<td>.econst</td>
+<td>RAMLS5</td>
+<td>PAGE &#x3D; 1</td>
+<td>扩展的常量段，COFF格式兼容性</td>
+</tr>
+<tr>
+<td>.esysmem</td>
+<td>RAMLS5</td>
+<td>PAGE &#x3D; 1</td>
+<td>扩展的系统内存段，COFF格式兼容性</td>
+</tr>
+<tr>
+<td>Filter_RegsFile</td>
+<td>RAMGS0</td>
+<td>PAGE &#x3D; 1</td>
+<td>滤波器寄存器文件，用于数字滤波器的配置数据</td>
+</tr>
+<tr>
+<td>ramgs0&#x2F;ramgs1</td>
+<td>RAMGS0&#x2F;RAMGS1</td>
+<td>PAGE &#x3D; 1</td>
+<td>明确指定这些内存区域的段名，以便在代码中直接引用</td>
+</tr>
+<tr>
+<td>Filter1_RegsFile等</td>
+<td>RAMGS6-10</td>
+<td>PAGE &#x3D; 1</td>
+<td>SDFM(Sigma-Delta滤波器模块)例程数据区，fill值用于特定的初始化模式</td>
+</tr>
+<tr>
+<td>GROUP (CPU1TOCPU2RAM)</td>
+<td>CPU1TOCPU2RAM</td>
+<td>PAGE &#x3D; 1</td>
+<td>CPU1到CPU2的通信缓冲区，包含多个子段用于数据传输和同步</td>
+</tr>
+<tr>
+<td>GROUP (CPU2TOCPU1RAM)</td>
+<td>CPU2TOCPU1RAM</td>
+<td>PAGE &#x3D; 1</td>
+<td>CPU2到CPU1的通信缓冲区，TYPE &#x3D; DSECT表示这些段在CPU1中只是描述性的</td>
+</tr>
+</tbody></table>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    
+    <section id="share">
+      <div class="header"><span>分享文章</span></div>
+      <div class="body">
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.hywing.cn/launchxl-f28379d-link-script.html" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/launchxl-f28379d-link-script.html&title=LAUNCHXL-F28379D链接文件功能详解 - hywing's blog&summary=DSP CMD脚本详解"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=LAUNCHXL-F28379D链接文件功能详解 - hywing's blog&amp;body=https://blog.hywing.cn/launchxl-f28379d-link-script.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        
+        <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.hywing.cn/launchxl-f28379d-link-script.html"/>
+        </div>
+        
+      </div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/launchxl-f28379d-custom-printf.html">LAUNCHXL-F28379D自定义数据格式打印</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/">开源库</a></div><div class="sitemap-group"><span class="fs15">社交</span><a href="/">友链</a><a href="/">留言板</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/hywing">GitHub</a></div></div><div class="text"><center>
+<span>
+© 2025
+<a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/hywing">hywing</a>
+使用 <a style="font-weight: bold;  auto;" target="_blank" rel="noopener" href="https://github.com/hywing/hexo-theme-stellar">Stellar</a>
+创建
+</span>
+<br>
+<!--不蒜子计数器-->
+<script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--添加一个访问量-->
+<span>总访问 <span id="busuanzi_value_site_pv" style="font-weight: bold;">113701</span> 次 | 本页访问 <span id="busuanzi_value_page_pv" style="font-weight: bold;">326</span> 次</span>
+</br>
+<span id="runtime_span"></span>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var runtime_span = document.getElementById('runtime_span');
+
+    function show_runtime() {
+      // 调用定时器
+      setTimeout(show_runtime, 1000);
+
+      var seconds = 1000;
+      var minutes = seconds * 60;
+      var hours = minutes * 60;
+      var days = hours * 24;
+      var years = days * 365;
+
+      var today = new Date();
+      var todayYear = today.getFullYear();
+      var todayMonth = today.getMonth();
+      var todayDate = today.getDate();
+      var todayHour = today.getHours();
+      var todayMinute = today.getMinutes();
+      var todaySecond = today.getSeconds();
+
+      var t1 = Date.UTC(2025, 0, 5, 0, 0, 0); // UTC时间，月份从0开始
+      var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+      var diff = t2 - t1;
+
+      var diffYears = Math.floor(diff / years);
+      var diffDays = Math.floor((diff / days) - diffYears * 365);
+      var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+      var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+      var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+
+      // 更新显示时间的span元素内容
+      runtime_span.innerHTML = "本网站已经稳定运行：" + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒🦉";
+    }
+
+    show_runtime(); // 初次调用函数以启动定时器
+
+    
+  });
+</script>
+</center>
+</div></footer>
+<div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CMD%E6%96%87%E4%BB%B6"><span class="toc-text">CMD文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FLASH"><span class="toc-text">FLASH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RAM"><span class="toc-text">RAM</span></a></li></ol></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
+  <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
+  </button>
+  <button type='button' style='display:none' class='mobile-only leftbar-toggle mobile' onclick='sidebar.leftbar()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+</div><div class="scripts">
+<script type="text/javascript">
+  const ctx = {
+    date_suffix: {
+      just: `刚刚`,
+      min: `分钟前`,
+      hour: `小时前`,
+      day: `天前`,
+    },
+    root : `/`,
+  };
+
+  // required plugins (only load if needs)
+  if (`local_search`) {
+    ctx.search = {};
+    ctx.search.service = `local_search`;
+    if (ctx.search.service == 'local_search') {
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"skip_search":null,"sort":"-date"}`);
+      ctx.search[ctx.search.service] = service_obj;
+    }
+  }
+  const def = {
+    avatar: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/3442075.svg`,
+    cover: `https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/cover/76b86c0226ffd.svg`,
+  };
+  const deps = {
+    jquery: `https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js`,
+    marked: `https://cdn.jsdelivr.net/npm/marked@13.0.1/lib/marked.umd.min.js`
+  }
+  
+
+</script>
+
+<script type="text/javascript">
+  const utils = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    css: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    js: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = ctx.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    jq: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        utils.js(deps.jquery).then(fn)
+      } else {
+        fn()
+      }
+    },
+    
+    onLoading: (el) => {
+      if (el) {
+        $(el).append('<div class="loading-wrap"><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" stroke-opacity=".3" d="M12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="1.3s" values="60;0"/></path><path stroke-dasharray="15" stroke-dashoffset="15" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></g></svg></div>');
+      }
+    },
+    onLoadSuccess: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap').remove();
+      }
+    },
+    onLoadFailure: (el) => {
+      if (el) {
+        $(el).find('.loading-wrap svg').remove();
+        $(el).find('.loading-wrap').append('<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="60" stroke-dashoffset="60" d="M12 3L21 20H3L12 3Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="60;0"/></path><path stroke-dasharray="6" stroke-dashoffset="6" d="M12 10V14"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.6s" dur="0.2s" values="6;0"/></path></g><circle cx="12" cy="17" r="1" fill="currentColor" fill-opacity="0"><animate fill="freeze" attributeName="fill-opacity" begin="0.8s" dur="0.4s" values="0;1"/></circle></svg>');
+        $(el).find('.loading-wrap').addClass('error');
+      }
+    },
+    request: (el, url, callback, onFailure) => {
+      let retryTimes = 3;
+      utils.onLoading(el);
+      function req() {
+        return new Promise((resolve, reject) => {
+          let status = 0; // 0 等待 1 完成 2 超时
+          let timer = setTimeout(() => {
+            if (status === 0) {
+              status = 2;
+              timer = null;
+              reject('请求超时');
+              if (retryTimes == 0) {
+                onFailure();
+              }
+            }
+          }, 5000);
+          fetch(url).then(function(response) {
+            if (status !== 2) {
+              clearTimeout(timer);
+              resolve(response);
+              timer = null;
+              status = 1;
+            }
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error('Network response was not ok.');
+          }).then(function(data) {
+            retryTimes = 0;
+            utils.onLoadSuccess(el);
+            callback(data);
+          }).catch(function(error) {
+            if (retryTimes > 0) {
+              retryTimes -= 1;
+              setTimeout(() => {
+                req();
+              }, 5000);
+            } else {
+              utils.onLoadFailure(el);
+              onFailure();
+            }
+          });
+        });
+      }
+      req();
+    },
+  };
+</script>
+
+<script>
+  const sidebar = {
+    leftbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    rightbar: () => {
+      if (l_body) {
+        l_body.toggleAttribute('rightbar');
+        l_body.removeAttribute('leftbar');
+      }
+    },
+    dismiss: () => {
+      if (l_body) {
+        l_body.removeAttribute('leftbar');
+        l_body.removeAttribute('rightbar');
+      }
+    },
+    toggleTOC: () => {
+      document.querySelector('#data-toc').classList.toggle('collapse');
+    }
+  }
+</script>
+<script type="text/javascript">
+  (() => {
+    const tagSwitchers = document.querySelectorAll('.tag-subtree.parent-tag > a > .tag-switcher-wrapper')
+    for (const tagSwitcher of tagSwitchers) {
+      tagSwitcher.addEventListener('click', (e) => {
+        const parent = e.target.closest('.tag-subtree.parent-tag')
+        parent.classList.toggle('expanded')
+        e.preventDefault()
+      })
+    }
+
+    // Get active tag from query string, then activate it.
+    const urlParams = new URLSearchParams(window.location.search)
+    const activeTag = urlParams.get('tag')
+    if (activeTag) {
+      let tag = document.querySelector(`.tag-subtree[data-tag="${activeTag}"]`)
+      if (tag) {
+        tag.querySelector('a').classList.add('active')
+        
+        while (tag) {
+          tag.classList.add('expanded')
+          tag = tag.parentElement.closest('.tag-subtree.parent-tag')
+        }
+      }
+    }
+  })()
+</script>
+
+
+<!-- required -->
+<script src="/js/main.js?v=1.29.1" defer></script>
+
+<script type="text/javascript">
+  const applyTheme = (theme) => {
+    if (theme === 'auto') {
+      document.documentElement.removeAttribute('data-theme')
+    } else {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+
+    applyThemeToGiscus(theme)
+  }
+
+  const applyThemeToGiscus = (theme) => {
+    theme = theme === 'auto' ? 'preferred_color_scheme' : theme
+
+    const cmt = document.getElementById('giscus')
+    if (cmt) {
+      // This works before giscus load.
+      cmt.setAttribute('data-theme', theme)
+    }
+
+    const iframe = document.querySelector('#comments > section.giscus > iframe')
+    if (iframe) {
+      // This works after giscus loaded.
+      const src = iframe.src
+      const newSrc = src.replace(/theme=[\w]+/, `theme=${theme}`)
+      iframe.src = newSrc
+    }
+  }
+
+  const switchTheme = () => {
+    // light -> dark -> auto -> light -> ...
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    let newTheme;
+    switch (currentTheme) {
+      case 'light':
+        newTheme = 'dark'
+        break
+      case 'dark':
+        newTheme = 'auto'
+        break
+      default:
+        newTheme = 'light'
+    }
+    applyTheme(newTheme)
+    window.localStorage.setItem('Stellar.theme', newTheme)
+
+    const messages = {
+      light: `切换到浅色模式`,
+      dark: `切换到深色模式`,
+      auto: `切换到跟随系统配色`,
+    }
+    hud?.toast?.(messages[newTheme])
+  }
+
+  (() => {
+    // Apply user's preferred theme, if any.
+    const theme = window.localStorage.getItem('Stellar.theme')
+    if (theme !== null) {
+      applyTheme(theme)
+    }
+  })()
+</script>
+
+
+<!-- optional -->
+
+
+
+<script defer>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.services = Object.assign({}, JSON.parse(`{"mdrender":{"js":"/js/services/mdrender.js"},"siteinfo":{"js":"/js/services/siteinfo.js","api":null},"ghinfo":{"js":"/js/services/ghinfo.js"},"sites":{"js":"/js/services/sites.js"},"friends":{"js":"/js/services/friends.js"},"timeline":{"js":"/js/services/timeline.js"},"fcircle":{"js":"/js/services/fcircle.js"},"weibo":{"js":"/js/services/weibo.js"},"memos":{"js":"/js/services/memos.js"},"voice":{"js":"/js/plugins/voice.js"},"video":{"js":"/js/plugins/video.js"},"download-file":{"js":"/js/plugins/download-file.js"},"twikoo":{"js":"/js/services/twikoo_latest_comment.js"},"waline":{"js":"/js/services/waline_latest_comment.js"},"artalk":{"js":"/js/services/artalk_latest_comment.js"},"giscus":{"js":"/js/services/giscus_latest_comment.js"}}`));
+    for (let id of Object.keys(ctx.services)) {
+      const js = ctx.services[id].js;
+      if (id == 'siteinfo') {
+        ctx.cardlinks = document.querySelectorAll('a.link-card[cardlink]');
+        if (ctx.cardlinks?.length > 0) {
+          utils.js(js, { defer: true }).then(function () {
+            setCardLink(ctx.cardlinks);
+          });
+        }
+      } else {
+        const els = document.getElementsByClassName(`ds-${id}`);
+        if (els?.length > 0) {
+          utils.jq(() => {
+            if (id == 'timeline' || 'memos' || 'marked') {
+              utils.js(deps.marked).then(function () {
+                utils.js(js, { defer: true });
+              });
+            } else {
+              utils.js(js, { defer: true });
+            }
+          });
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    ctx.search = {
+      path: `/search.json`,
+    }
+    utils.js('/js/search/local-search.js', { defer: true });
+  });
+</script><script>
+  window.FPConfig = {
+    delay: 0,
+    ignoreKeywords: [],
+    maxRPS: 5,
+    hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/flying-pages@2/flying-pages.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+<script>
+  // https://www.npmjs.com/package/vanilla-lazyload
+  // Set the options globally
+  // to make LazyLoad self-initialize
+  window.lazyLoadOptions = {
+    elements_selector: ".lazy",
+  };
+  // Listen to the initialization event
+  // and get the instance of LazyLoad
+  window.addEventListener(
+    "LazyLoad::Initialized",
+    function (event) {
+      window.lazyLoadInstance = event.detail.instance;
+    },
+    false
+  );
+  document.addEventListener('DOMContentLoaded', function () {
+    window.lazyLoadInstance?.update();
+  });
+</script><script>
+  ctx.fancybox = {
+    selector: `.timenode p>img`,
+    css: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css`,
+    js: `https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js`
+  };
+  var selector = '[data-fancybox]:not(.error)';
+  if (ctx.fancybox.selector) {
+    selector += `, ${ctx.fancybox.selector}`
+  }
+  var needFancybox = document.querySelectorAll(selector).length !== 0;
+  if (!needFancybox) {
+    const els = document.getElementsByClassName('ds-memos');
+    if (els != undefined && els.length > 0) {
+      needFancybox = true;
+    }
+  }
+  if (needFancybox) {
+    utils.css(ctx.fancybox.css);
+    utils.js(ctx.fancybox.js, { defer: true }).then(function () {
+      Fancybox.bind(selector, {
+        hideScrollbar: false,
+        Thumbs: {
+          autoStart: false,
+        },
+        caption: (fancybox, slide) => {
+          return slide.triggerEl.alt || slide.triggerEl.dataset.caption || null
+        }
+      });
+    })
+  }
+</script>
+<script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    const swiper_api = document.getElementById('swiper-api');
+    if (swiper_api != undefined) {
+      utils.css(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.css`);
+      utils.js(`https://unpkg.com/swiper@10.3.1/swiper-bundle.min.js`, { defer: true }).then(function () {
+        const effect = swiper_api.getAttribute('effect') || '';
+        var swiper = new Swiper('.swiper#swiper-api', {
+          slidesPerView: 'auto',
+          spaceBetween: 8,
+          centeredSlides: true,
+          effect: effect,
+          rewind: true,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+      })
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.codeElements = document.querySelectorAll('.code');
+    if (window.codeElements.length > 0) {
+      ctx.copycode = {
+        default_text: `Copy`,
+        success_text: `Copied`,
+        toast: `复制成功`,
+      };
+      utils.js('/js/plugins/copycode.js');
+    }
+  });
+</script>
+
+
+<!-- inject -->
+
+</div></body></html>
