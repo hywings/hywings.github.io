@@ -20,12 +20,12 @@
   <title>VS2019离线安装镜像制作 - hywing's blog</title>
 
   
-    <meta name="description" content="ISO安装包制作">
+    <meta name="description" content="倍福IPC上制作ISO安装包">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VS2019离线安装镜像制作">
 <meta property="og:url" content="https://blog.hywing.cn/vs2019-offline-iso.html">
 <meta property="og:site_name" content="hywing&#39;s blog">
-<meta property="og:description" content="ISO安装包制作">
+<meta property="og:description" content="倍福IPC上制作ISO安装包">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.hywing.cn/img/blog/VS2019%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85%E5%88%B6%E4%BD%9C-1.png">
 <meta property="og:image" content="https://blog.hywing.cn/img/blog/VS2019%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85%E5%88%B6%E4%BD%9C-2.png">
@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://blog.hywing.cn/img/blog/VS2019%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85%E5%88%B6%E4%BD%9C-5.png">
 <meta property="og:image" content="https://blog.hywing.cn/img/blog/VS2019%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85%E5%88%B6%E4%BD%9C-6.png">
 <meta property="article:published_time" content="2025-05-29T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-04T06:22:16.226Z">
+<meta property="article:modified_time" content="2025-06-04T06:28:33.144Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="VS2019">
 <meta property="article:tag" content="ISO">
@@ -87,7 +87,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-05-29T16:00:00.000Z">2025-05-30</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-04T06:22:16.226Z">2025-06-04</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-05-29T16:00:00.000Z">2025-05-30</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-04T06:28:33.144Z">2025-06-04</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -98,7 +98,7 @@
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在VS（Visual Studio）默认都是在线安装的方式，虽然是方便、简单了很多，但对于一些封闭的局域网环境极为不友好（至于为什么要用局域网，所以这篇文章主要介绍离线包如何制作</p>
+  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>现在VS（Visual Studio）默认都是在线安装的方式，虽然是方便、简单了很多，但对于一些封闭的局域网环境极为不友好（至于为什么要用局域网这个很难讲得清楚），所以这篇文章主要介绍离线包如何制作</p>
 <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>Visual Studio是微软出品的一款强大的IDE，可以开发c、c++、c#、python等各种语言的各类应用程序，包括桌面程序、WEB、移动端app、游戏、甚至是PLC（被Windows程序员戏称为全家桶、宇宙第一IDE）；微软提供了极为方便的开发工具（编辑器、调试器、内存分析工具等），使用它你可以很快速的进行编码、测试、部署工作</p>
 <h2 id="下载链接"><a href="#下载链接" class="headerlink" title="下载链接"></a>下载链接</h2><p>以<code>Windows10</code>为例，先根据自己的需求选择对应的版本，比如我这里选择<code>社区版</code></p>
 <p>社区版：<a target="_blank" href="https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=16">Thank You for Downloading Visual Studio Community Edition (microsoft.com)</a></p>
@@ -176,7 +176,7 @@
 <p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/VS2019%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85%E5%88%B6%E4%BD%9C-4.png"></p>
 <p>制作iso，推荐使用<a target="_blank" rel="noopener" href="https://cn.ultraiso.net/uiso9_cn.exe">UltraISO软碟通</a>进行压缩</p>
 <p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/VS2019%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85%E5%88%B6%E4%BD%9C-5.png"></p>
-<p>装载光盘镜像后体积大概有2.39G，这样后面你就可以拿这个安装包去别的机器做自动化部署了</p>
+<p>装载光盘镜像后体积大概有2.39G，这样后面你就可以拿这个安装包去别的机器做自动化部署了（下面这台机器是倍福的工控机IPC-Windows10）</p>
 <p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/VS2019%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%E5%8C%85%E5%88%B6%E4%BD%9C-6.png"></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/visualstudio/install/workload-component-id-vs-community?view=vs-2019">Visual Studio Community 工作负载和组件 ID | Microsoft Learn</a></p>
 
@@ -191,7 +191,7 @@
       <div class="header"><span>分享文章</span></div>
       <div class="body">
         <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://blog.hywing.cn/vs2019-offline-iso.html" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/vs2019-offline-iso.html&title=VS2019离线安装镜像制作 - hywing's blog&summary=ISO安装包制作"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=VS2019离线安装镜像制作 - hywing's blog&amp;body=https://blog.hywing.cn/vs2019-offline-iso.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://blog.hywing.cn/vs2019-offline-iso.html&title=VS2019离线安装镜像制作 - hywing's blog&summary=倍福IPC上制作ISO安装包"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=VS2019离线安装镜像制作 - hywing's blog&amp;body=https://blog.hywing.cn/vs2019-offline-iso.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
           <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://blog.hywing.cn/vs2019-offline-iso.html"/>
