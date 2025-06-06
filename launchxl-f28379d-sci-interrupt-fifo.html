@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.hywing.cn/img/blog/LAUNCHXL-F28379D-SCI%E4%B8%AD%E6%96%AD%E9%85%8D%E7%BD%AE.png">
 <meta property="article:published_time" content="2025-06-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-05T09:53:03.869Z">
+<meta property="article:modified_time" content="2025-06-06T08:06:06.874Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="LAUNCHXL-F28379D">
 <meta property="article:tag" content="SCI">
@@ -84,7 +84,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-06T16:00:00.000Z">2025-06-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-05T09:53:03.869Z">2025-06-05</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-06T16:00:00.000Z">2025-06-07</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-06T08:06:06.874Z">2025-06-06</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -150,6 +150,53 @@
 <h2 id="FIFO"><a href="#FIFO" class="headerlink" title="FIFO"></a>FIFO</h2><p>SCIA FIFO配置</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">SCI_enableModule(SCIA_BASE);</span><br><span class="line">SCI_resetChannels(SCIA_BASE);</span><br><span class="line">SCI_enableFIFO(SCIA_BASE);</span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// RX and TX FIFO Interrupts Enabled</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">SCI_enableInterrupt(SCIA_BASE, (SCI_INT_RXFF | SCI_INT_TXFF));</span><br><span class="line">SCI_disableInterrupt(SCIA_BASE, SCI_INT_RXERR);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Set FIFO interrupt levels to 32 characters</span></span><br><span class="line">SCI_setFIFOInterruptLevel(SCIA_BASE, SCI_FIFO_TX16, SCI_FIFO_RX16);</span><br><span class="line">SCI_performSoftwareReset(SCIA_BASE);</span><br><span class="line"></span><br><span class="line">SCI_resetTxFIFO(SCIA_BASE);</span><br><span class="line">SCI_resetRxFIFO(SCIA_BASE);</span><br></pre></td></tr></table></figure>
 
+<p>枚举类型 <code>SCI_TxFIFOLevel</code> 定义了 SCI（串行通信接口）模块发送 FIFO 的中断触发水位线级别，用于配置何时触发发送 FIFO 中断</p>
+<table>
+<thead>
+<tr>
+<th>枚举值</th>
+<th>值（十六进制）</th>
+<th>含义</th>
+<th>典型应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SCI_FIFO_TX0</code></td>
+<td><code>0x0000</code></td>
+<td><strong>FIFO 完全空</strong>时触发中断</td>
+<td>高实时性要求，需立即补充数据</td>
+</tr>
+<tr>
+<td><code>SCI_FIFO_TX1</code></td>
+<td><code>0x0001</code></td>
+<td>FIFO 剩余 <strong>15&#x2F;16 满</strong>（即已发送1个字节）时触发</td>
+<td>低延迟传输</td>
+</tr>
+<tr>
+<td><code>SCI_FIFO_TX2</code></td>
+<td><code>0x0002</code></td>
+<td>FIFO 剩余 <strong>14&#x2F;16 满</strong>时触发</td>
+<td></td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SCI_FIFO_TX15</code></td>
+<td><code>0x000F</code></td>
+<td>FIFO 剩余 <strong>1&#x2F;16 满</strong>（即已发送15个字节）时触发</td>
+<td>平衡中断频率和响应速度</td>
+</tr>
+<tr>
+<td><code>SCI_FIFO_TX16</code></td>
+<td><code>0x0010</code></td>
+<td><strong>FIFO 完全满</strong>时触发中断</td>
+<td>错误检测（通常避免使用）</td>
+</tr>
+</tbody></table>
 <p>FIFO配置流程：</p>
 <ol>
 <li><code>SCI_enableModule(SCIA_BASE)</code></li>
@@ -216,11 +263,14 @@
 <li>清空FIFO缓冲区</li>
 <li>确保没有残留的旧数据</li>
 </ul>
-<h2 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h2><p>发送和接收中断服务函数</p>
+<h2 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h2><p>发送和接收中断服务函数：SCI_clearInterruptStatus和Interrupt_clearACKGroup两个步骤是必要的</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// sciaTXFIFOISR - SCIA Transmit FIFO ISR</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="function">__interrupt <span class="type">void</span> <span class="title">sciaTXFIFOISR</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">SCI_clearInterruptStatus</span>(SCIA_BASE, SCI_INT_TXFF);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Issue PIE ACK</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="built_in">Interrupt_clearACKGroup</span>(INTERRUPT_ACK_GROUP9);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// sciaRXFIFOISR - SCIA Receive FIFO ISR</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="function">__interrupt <span class="type">void</span> <span class="title">sciaRXFIFOISR</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">uint16_t</span> i;</span><br><span class="line">    <span class="type">uint16_t</span> rxCount;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Read received data</span></span><br><span class="line">    rxCount = <span class="built_in">SCI_getRxFIFOStatus</span>(SCIA_BASE) &amp; <span class="number">0x7F</span>;  <span class="comment">// Get number of words in RX FIFO</span></span><br><span class="line">    <span class="keyword">if</span>(rxCount &gt; <span class="number">32</span>) rxCount = <span class="number">32</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Read all received data</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; rxCount; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        rDataA[i] = <span class="built_in">SCI_readCharNonBlocking</span>(SCIA_BASE);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Echo back all received data</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; rxCount; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">SCI_writeCharNonBlocking</span>(SCIA_BASE, rDataA[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">SCI_clearOverflowStatus</span>(SCIA_BASE);</span><br><span class="line">    <span class="built_in">SCI_clearInterruptStatus</span>(SCIA_BASE, SCI_INT_RXFF);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="comment">// Issue PIE ack</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="built_in">Interrupt_clearACKGroup</span>(INTERRUPT_ACK_GROUP9);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>发送和接收中断使能</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Initialize PIE and clear PIE registers. Disables CPU interrupts.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">Interrupt_initModule();</span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Initialize the PIE vector table with pointers to the shell Interrupt</span></span><br><span class="line"><span class="comment">// Service Routines (ISR).</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">Interrupt_initVectorTable();</span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Interrupts that are used in this example are re-mapped to</span></span><br><span class="line"><span class="comment">// ISR functions found within this file.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">Interrupt_register(INT_SCIA_RX, sciaRXFIFOISR);</span><br><span class="line">Interrupt_register(INT_SCIA_TX, sciaTXFIFOISR);</span><br><span class="line">    </span><br><span class="line">Interrupt_enable(INT_SCIA_RX);</span><br><span class="line">Interrupt_enable(INT_SCIA_TX);</span><br><span class="line"></span><br><span class="line">Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP9);</span><br></pre></td></tr></table></figure>
+
+<p>第一次发送传输时记得手动使能中断函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Interrupt_enable(INT_SCIA_TX);</span><br></pre></td></tr></table></figure>
 
 <p>中断的配置流程：</p>
 <ol>
@@ -244,7 +294,7 @@
 <li><code>Interrupt_register(INT_SCIA_RX, sciaRXFIFOISR)</code> 和 <code>Interrupt_register(INT_SCIA_TX, sciaTXFIFOISR)</code></li>
 </ol>
 <ul>
-<li>将特定的中断与对应的中断服务程序(ISR)关联起来</li>
+<li>将特定的中断与对应的中断服务程序（sciaRXFIFOISR和sciaTXFIFOISR）关联起来</li>
 <li><code>INT_SCIA_RX</code> 是SCI接收中断，关联到 <code>sciaRXFIFOISR</code> 函数</li>
 <li><code>INT_SCIA_TX</code> 是SCI发送中断，关联到 <code>sciaTXFIFOISR</code> 函数</li>
 <li>这样当这些中断发生时，系统就知道该调用哪个函数来处理</li>
@@ -265,6 +315,9 @@
 <li>这确保之前可能存在的未处理中断不会立即触发</li>
 <li>中断组9通常包含SCI相关的中断</li>
 </ul>
+<ol start="6">
+<li>第一次发送传输需要手动使能中断服务函数，如<code>Interrupt_enable(INT_SCIA_TX)</code></li>
+</ol>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>controlSuite里边的SCI loopback例程不大靠谱，导入CCS里边后编译不成功，即使你折腾好运行也是有问题的，建议使用C2000里边的example</p>
 
 <div class="article-footer fs14">
