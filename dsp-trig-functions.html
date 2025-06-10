@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://hywing.tech/img/blog/DSP%E4%BD%BF%E7%94%A8%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0%E9%97%AE%E9%A2%98-3.png">
 <meta property="og:image" content="https://hywing.tech/img/blog/DSP%E4%BD%BF%E7%94%A8%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0%E9%97%AE%E9%A2%98-2.png">
 <meta property="article:published_time" content="2025-06-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-10T09:27:58.608Z">
+<meta property="article:modified_time" content="2025-06-10T09:29:52.039Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="DSP">
 <meta property="article:tag" content="三角函数">
@@ -84,7 +84,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-09T16:00:00.000Z">2025-06-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-10T09:27:58.608Z">2025-06-10</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-09T16:00:00.000Z">2025-06-10</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-10T09:29:52.039Z">2025-06-10</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -97,11 +97,11 @@
   </div>
   </div><article class="md-text content"><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>当浮点数很大时，作为三角函数的入参，计算出来的结果会让人大跌眼镜！</p>
 <p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/DSP%E4%BD%BF%E7%94%A8%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0%E9%97%AE%E9%A2%98-1.png" alt="img"></p>
+<p>X64 Windows计算器计算的sin(110000)，上面那个数值明显是不对的</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/DSP%E4%BD%BF%E7%94%A8%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0%E9%97%AE%E9%A2%98-3.png" alt="image-20250610172600698"></p>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>查看<code>sinf</code>函数原型，是通过查表法来实现的，也就说芯片内部不可能维护一个巨大的表格，入参很大会有误差</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//! \brief Single-Precision Floating-Point Sine (radians)</span></span><br><span class="line"><span class="comment">//! \param[in] X single precision floating point argument</span></span><br><span class="line"><span class="comment">//! \return the sine of a floating-point argument X (in radians) using table</span></span><br><span class="line"><span class="comment">//! look-up and Taylor series expansion between the look-up table entries.</span></span><br><span class="line"><span class="comment">//!</span></span><br><span class="line"><span class="comment">//! \note </span></span><br><span class="line"><span class="comment">//! -# This is a standard C math function and requires &quot;math.h&quot; to be </span></span><br><span class="line"><span class="comment">//! included</span></span><br><span class="line"><span class="comment">//! -# For COFF executables float and double are both single precision</span></span><br><span class="line"><span class="comment">//! 32-bit floating point types, therefore, the double and float variant of </span></span><br><span class="line"><span class="comment">//! this function may be used interchangeably.</span></span><br><span class="line"><span class="comment">//!</span></span><br><span class="line"><span class="comment">//! &lt;table&gt;</span></span><br><span class="line"><span class="comment">//! &lt;caption id=&quot;multi_row&quot;&gt;Performance Data&lt;/caption&gt;</span></span><br><span class="line"><span class="comment">//! &lt;tr&gt;&lt;th&gt;Cycles &lt;th&gt; Comment </span></span><br><span class="line"><span class="comment">//! &lt;tr&gt;&lt;td&gt; 38 &lt;td&gt; Cycle count includes the call and return</span></span><br><span class="line"><span class="comment">//! &lt;/table&gt;</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="function"><span class="type">float32_t</span> <span class="title">sinf</span> <span class="params">(<span class="type">float32_t</span> X)</span></span>;</span><br></pre></td></tr></table></figure>
 
-<p>X64 Windows计算器计算的sin(110000)，上面那个数值明显是不对的</p>
-<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/DSP%E4%BD%BF%E7%94%A8%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0%E9%97%AE%E9%A2%98-3.png" alt="image-20250610172600698"></p>
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>需要将角度值限制在±2π范围内（理论上说这个范围内的精度是最好的）</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 将角度归一化到[-2π, 2π]范围内</span><br><span class="line">float normalize_angle(float angle)</span><br><span class="line">&#123;</span><br><span class="line">    const float two_pi = 2.0f * PI;</span><br><span class="line">    float normalized = fmodf(angle, two_pi);</span><br><span class="line">    if(normalized &lt; -PI) normalized += two_pi;</span><br><span class="line">    if(normalized &gt; PI) normalized -= two_pi;</span><br><span class="line">    return normalized;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -129,7 +129,7 @@
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/ccs-shortcuts.html">Code Composer Studio快捷键</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/ccs-shortcuts.html">Code Composer Studio快捷键</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/dsp-data-size.html">关于DSP数据类型长度和数据转换的思考</a></div></section></div>
 
 
 
