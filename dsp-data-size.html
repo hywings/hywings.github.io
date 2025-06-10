@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://hywing.tech/img/blog/DSP%E6%95%B0%E6%8D%AE%E9%95%BF%E5%BA%A6%E9%97%AE%E9%A2%98-2.png">
 <meta property="og:image" content="https://hywing.tech/img/blog/DSP%E6%95%B0%E6%8D%AE%E9%95%BF%E5%BA%A6%E9%97%AE%E9%A2%98-3.png">
 <meta property="article:published_time" content="2025-06-07T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-10T06:39:06.840Z">
+<meta property="article:modified_time" content="2025-06-10T06:42:36.234Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="DSP">
 <meta property="article:tag" content="LAUNCHXL-F28379D">
@@ -85,7 +85,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-07T16:00:00.000Z">2025-06-08</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-10T06:39:06.840Z">2025-06-10</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-07T16:00:00.000Z">2025-06-08</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-10T06:42:36.234Z">2025-06-10</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -114,7 +114,7 @@
 <p>注意：int32_t也是有范围的：-2,147,483,648 ~ 2,147,483,647，当value大到一定程度时<code>(int32_t)(value * 100 + 0.5f)</code>会得到一个越界的数值，正确的做法如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保留2位小数的函数</span></span><br><span class="line"><span class="type">float</span> <span class="title function_">round_to_2_decimal</span><span class="params">(<span class="type">float</span> value)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 使用更稳定的舍入方法，避免大数精度问题</span></span><br><span class="line">    <span class="type">float</span> temp = value * <span class="number">100.0f</span>;</span><br><span class="line">    <span class="keyword">if</span>(temp &gt;= <span class="number">0.0f</span>) &#123;</span><br><span class="line">        temp = floorf(temp + <span class="number">0.5f</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        temp = ceilf(temp - <span class="number">0.5f</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> temp / <span class="number">100.0f</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>为了程序的兼容性和跨平台，建议统一使用stdint.h里边的类型</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>为了程序的兼容性和跨平台，建议统一使用<code>stdint.h</code>里边的类型</p>
 
 <div class="article-footer fs14">
     <section id="license">
