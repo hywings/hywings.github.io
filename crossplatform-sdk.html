@@ -28,7 +28,7 @@
 <meta property="og:description" content="实战经验总结">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-16T02:40:45.614Z">
+<meta property="article:modified_time" content="2025-06-16T02:51:23.014Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="跨平台">
 <meta property="article:tag" content="SDK">
@@ -80,7 +80,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">程序设计</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-13T16:00:00.000Z">2025-06-14</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-16T02:40:45.614Z">2025-06-16</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-13T16:00:00.000Z">2025-06-14</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-16T02:51:23.014Z">2025-06-16</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -99,13 +99,13 @@
 <p>3.有些硬件并不支持双精度浮点数，例如全志T3芯片，如果没有精度要求建议浮点数默认float而非double</p>
 <p>4.管理内存推荐使用智能指针，减少深拷贝</p>
 <p>5.性能不行可以使用数据表，用空间换时间，比如三角函数的计算，避免重复计算开销很大的数据对象</p>
-<h2 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h2><p>1.版本号，考虑到变更风险</p>
-<p>2.数据校验，防止数据丢失，可以参考modus的协议设计</p>
+<h2 id="通信协议"><a href="#通信协议" class="headerlink" title="通信协议"></a>通信协议</h2><p>1.版本号，这个字段是考虑到变更风险，嵌入式领域硬件的变更代价是很大的，往往需要软件来买单（擦屁股）</p>
+<p>2.数据校验，防止数据丢失（很多时候不清楚用户在什么样的电磁环境下测试），可以参考modus的协议设计</p>
 <p>3.尽量不要依赖配置文件，协议应该能够充分解决依赖</p>
-<h2 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h2><p>1.单一接口原则，高内聚，隔离实现，头文件不暴露无关的细节</p>
-<p>2.流程尽量简单高效，不给使用者带来额外消耗</p>
+<h2 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h2><p>1.单一接口原则，高内聚，隔离实现，头文件不暴露无关的细节，不想给源码就要剥离你的实现</p>
+<p>2.流程尽量简单高效，不给使用者带来额外消耗，比如吃别人的算力（这个是道德底线）</p>
 <p>3.代码可读性良好，尽量少用模板，枚举优于宏定义，typedef优于宏替换</p>
-<p>4.做好防御性编程，SDK应该在调试阶段尽量多的发现自身的问题</p>
+<p>4.做好防御性编程（assert、数组边界判断、杜绝空指针悬指针），SDK应该在调试阶段尽量多的发现自身的问题</p>
 <p>5.传感器（LiDAR、IMU、Camera、GNSS等）的数据处理都可以理解为一个数据驱动的模型：生产者+消费者</p>
 
 <div class="article-footer fs14">
