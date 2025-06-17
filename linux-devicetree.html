@@ -17,26 +17,26 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>开发板硬件测试 - hywing techzone</title>
+  <title>Linux设备树详解 - hywing techzone</title>
 
   
-    <meta name="description" content="示波器检测开发板">
+    <meta name="description" content="解读RK3399设备树">
 <meta property="og:type" content="article">
-<meta property="og:title" content="开发板硬件测试">
-<meta property="og:url" content="https://hywing.tech/board-test.html">
+<meta property="og:title" content="Linux设备树详解">
+<meta property="og:url" content="https://hywing.tech/linux-devicetree.html">
 <meta property="og:site_name" content="hywing techzone">
-<meta property="og:description" content="示波器检测开发板">
+<meta property="og:description" content="解读RK3399设备树">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-17T02:59:37.515Z">
+<meta property="article:published_time" content="2025-06-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-17T02:59:37.580Z">
 <meta property="article:author" content="hywing">
-<meta property="article:tag" content="开发板">
-<meta property="article:tag" content="示波器">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="设备树">
 <meta name="twitter:card" content="summary">
   
   
   
-  <meta name="keywords" content="开发板,示波器">
+  <meta name="keywords" content="Linux,设备树">
 
   <!-- feed -->
   
@@ -80,33 +80,155 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-03-16T16:00:00.000Z">2025-03-17</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-17T02:59:37.515Z">2025-06-17</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-16T16:00:00.000Z">2025-06-17</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-17T02:59:37.580Z">2025-06-17</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>开发板硬件测试</span></h1>
+        <h1 class="text title"><span>Linux设备树详解</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>作为一名电子工程师，你可以不懂嵌入式，但你绝对不能不懂示波器！</p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>嵌入式工程师拿到开发板第一时间需要检查开发板功能是否正常，示波器用来做硬件测试最好不过了，这里以数字电路为例列举一些常见的测试方法</p>
-<h2 id="电源"><a href="#电源" class="headerlink" title="电源"></a>电源</h2><p>电源失稳有可能导致芯片无法正常工作，电源测试主要是针对USB电源、三端稳压器（线性电源）、GPIO电平、LED电源指示灯等</p>
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114176236199532&bvid=BV1WiQiY1Efe&cid=28909371439&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0"  width="100%" height="500" allowfullscreen="true"></iframe>
+  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>曾经有大神刚跟我说Linux驱动的本质是读写寄存器，我不以为然的，直到我认真了解了Linux的设备树机制</p>
+<h2 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h2><p>根节点的定义，以<code>/</code>开头，它可以跨多个文件定义</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/ &#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="时钟"><a href="#时钟" class="headerlink" title="时钟"></a>时钟</h2><p>晶振不起振可能会导致芯片无法工作，不过像stm32这样的芯片都内置晶振，这个可以帮忙判断检查外置晶振或RTC是否起振，但不能作为芯片不能工作的唯一依据</p>
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114175682550916&bvid=BV1wnQqY1EfV&cid=28907474762&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0"  width="100%" height="500" allowfullscreen="true"></iframe>
+<p>SOC信息描述，以RK3399 SOC为例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">model = <span class="string">&quot;Rockchip RK3399 Excavator Board (Linux Opensource)&quot;</span>;</span><br><span class="line">compatible = <span class="string">&quot;rockchip,rk3399-excavator-v10-linux&quot;</span>, <span class="string">&quot;rockchip,rk3399&quot;</span>;</span><br></pre></td></tr></table></figure>
 
-<h2 id="按键"><a href="#按键" class="headerlink" title="按键"></a>按键</h2><p>主要是复位按键以及用户按键的工作状况（是否能稳定输出脉冲）</p>
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=114175934209582&bvid=BV1VZQiYhEot&cid=28908389221&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0"  width="100%" height="500" allowfullscreen="true"></iframe>
+<p>普通的节点定义，不带标签意味着它不需要在别处引用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gpio-keys &#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<h2 id="外设"><a href="#外设" class="headerlink" title="外设"></a>外设</h2><p>比如i2c主从设备通信是否正常（如硬件忘了给SDA、SCL上拉电阻），国产示波器通常自带<code>协议解码</code>的功能，推荐用国产示波器来测试</p>
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=1604589622&bvid=BV1rm421T7zx&cid=1549494644&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0"  width="100%" height="500" allowfullscreen="true"></iframe>
+<p>带标签是为了在别处能够访问，格式：<code>标签名: 节点名</code>，后面跟一个括号{ … }；</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/* 标签名: 节点名 */</span><br><span class="line">gpio_keys: gpio-keys &#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>PWM波形也不例外</p>
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112901251665332&bvid=BV1hUvoeFEST&cid=500001637612977&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0"  width="100%" height="500" allowfullscreen="true"></iframe>
+<p>通常使用<code>&amp;标签名</code>来引用一个节点，引用一个节点意味着追加、补充这个节点的配置信息</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 追加、补充这个节点的配置信息 */</span></span><br><span class="line">&amp;gpio_keys &#123;</span><br><span class="line">    ......</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>匹配信息，用<code>compatible</code>表示，这个相当于节点的身份信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compatible = <span class="string">&quot;gpio-keys&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><p>寄存器定义格式：&lt;高32位地址 低32位地址 高32位长度 低32位长度&gt;，由于RK3399是64位处理器的缘故，<code>address-cells</code>为1代表4个字节</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">i2c0: i2c@ff3c0000 &#123;</span><br><span class="line">    compatible = <span class="string">&quot;rockchip,rk3399-i2c&quot;</span>;</span><br><span class="line">    reg = &lt;<span class="number">0x0</span> <span class="number">0xff3c0000</span> <span class="number">0x0</span> <span class="number">0x1000</span>&gt;;</span><br><span class="line">    <span class="meta">#address-cells = <span class="string">&lt;1&gt;</span>;</span></span><br><span class="line">    <span class="meta">#size-cells = <span class="string">&lt;0&gt;</span>;</span></span><br><span class="line">    status = <span class="string">&quot;disabled&quot;</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="时钟源"><a href="#时钟源" class="headerlink" title="时钟源"></a>时钟源</h2><p>一般可选多个时钟源，看外设的需要，i2c需要2个时钟源：一个给SCL，一个提供寄存器访问，时钟源信息一般在<code>./include/dt-bindings/clock/rk3399-cru.h</code>里边给出，<code>clocks</code>和<code>clock-names</code>是按顺序匹配的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clocks =  &lt;&amp;pmucru SCLK_I2C0_PMU&gt;, &lt;&amp;pmucru PCLK_I2C0_PMU&gt;;</span><br><span class="line">clock-names = <span class="string">&quot;i2c&quot;</span>, <span class="string">&quot;pclk&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h2><p>中断配置存在头文件当中：include&#x2F;dt-bindings&#x2F;interrupt-controller&#x2F;arm-gic.h和include&#x2F;dt-bindings&#x2F;interrupt-controller&#x2F;irq.h</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">interrupts = &lt;GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH 0&gt;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="GPIO"><a href="#GPIO" class="headerlink" title="GPIO"></a>GPIO</h2><p>RK3399 GPIO0表示第0个bank的GPIO，第0个bank的GPIO索引：0-31，分为A、B、C、D四组，以下对应的是<code>GPIO0_B4</code>管脚：B代表1，1x8+4&#x3D;12</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpios = &lt;&amp;gpio0 <span class="number">12</span> GPIO_ACTIVE_LOW&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>以下对应的是<code>GPIO4_C6</code>管脚：C代表2，2x8+6&#x3D;22</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gpios = &lt;&amp;gpio4 <span class="number">22</span> GPIO_ACTIVE_HIGH&gt;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="引脚"><a href="#引脚" class="headerlink" title="引脚"></a>引脚</h2><p>引脚复用（也就是说一个引脚它可能是GPIO，也可以是USART_RXD，或者是I2C_SCL）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pinctrl-names = <span class="string">&quot;default&quot;</span>;</span><br><span class="line">pinctrl-0 = &lt;&amp;i2c0_xfer&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>补充定义pinctrl</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">&amp;pinctrl &#123;</span><br><span class="line"><span class="code">        sdmmc-pwrseq &#123;</span></span><br><span class="line"><span class="code">                sdcard_enable_h: sdcard-enable-h &#123;</span></span><br><span class="line"><span class="code">                        rockchip,pins =</span></span><br><span class="line"><span class="code">                                &lt;1 20 RK_FUNC_GPIO &amp;pcfg_pull_none&gt;;</span></span><br><span class="line"><span class="code">                &#125;;</span></span><br><span class="line"><span class="code">        &#125;;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">        /* add by cym 20190508 */</span></span><br><span class="line"><span class="code">        lsm330_a &#123;</span></span><br><span class="line"><span class="code">                lsm330a_irq_gpio: lsm330a-irq-gpio &#123;</span></span><br><span class="line"><span class="code">                        rockchip,pins = &lt;1 22 RK_FUNC_GPIO &amp;pcfg_pull_none&gt;;</span></span><br><span class="line"><span class="code">                &#125;;</span></span><br><span class="line"><span class="code">        &#125;;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">        lsm330_g &#123;</span></span><br><span class="line"><span class="code">                lsm330g_irq_gpio: lsm330g-irq-gpio &#123;</span></span><br><span class="line"><span class="code">                        rockchip,pins = &lt;1 24 RK_FUNC_GPIO &amp;pcfg_pull_none&gt;;</span></span><br><span class="line"><span class="code">                &#125;;</span></span><br><span class="line"><span class="code">        &#125;;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">        ak8963 &#123;</span></span><br><span class="line"><span class="code">                ak8963_irq_gpio: ak8963-irq-gpio &#123;</span></span><br><span class="line"><span class="code">                        rockchip,pins = &lt;1 0 RK_FUNC_GPIO &amp;pcfg_pull_none&gt;;</span></span><br><span class="line"><span class="code">                &#125;;</span></span><br><span class="line"><span class="code">        &#125;;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">        cm3218 &#123;</span></span><br><span class="line"><span class="code">                cm3218_irq_gpio: cm3218-irq-gpio &#123;</span></span><br><span class="line"><span class="code">                        rockchip,pins = &lt;4 24 RK_FUNC_GPIO &amp;pcfg_pull_up&gt;;</span></span><br><span class="line"><span class="code">                &#125;;</span></span><br><span class="line"><span class="code">        &#125;;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">        leds &#123;</span></span><br><span class="line"><span class="code">                led1_ctl: led1-ctl &#123;</span></span><br><span class="line"><span class="code">                        rockchip,pins = &lt;0 12 RK_FUNC_GPIO &amp;pcfg_pull_up&gt;;</span></span><br><span class="line"><span class="code">                &#125;;</span></span><br><span class="line"><span class="code">        &#125;;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">        buzzer &#123;</span></span><br><span class="line"><span class="code">                beep_gpio: beep-gpio &#123;</span></span><br><span class="line"><span class="code">                        rockchip,pins = &lt;4 22 RK_FUNC_GPIO &amp;pcfg_pull_up&gt;;</span></span><br><span class="line"><span class="code">                &#125;;</span></span><br><span class="line"><span class="code">        &#125;;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">        gt911 &#123;</span></span><br><span class="line"><span class="code">                gt911_gpio: gt911-gpio &#123;</span></span><br><span class="line"><span class="code">                        rockchip,pins = &lt;1 9 RK_FUNC_GPIO &amp;pcfg_pull_up&gt;,&lt;1 20 RK_FUNC_GPIO &amp;pcfg_pull_up&gt;;</span></span><br><span class="line"><span class="code">                &#125;;</span></span><br><span class="line"><span class="code">        &#125;;</span></span><br><span class="line"><span class="code">        /* end add */</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">        lcd-panel &#123;</span></span><br><span class="line"><span class="code">                lcd_panel_reset: lcd-panel-reset &#123;</span></span><br><span class="line"><span class="code">                        /*rockchip,pins = &lt;2 27 RK_FUNC_GPIO &amp;pcfg_pull_down&gt;;*/</span></span><br><span class="line"><span class="code">                        rockchip,pins = &lt;4 RK_PD6 RK_FUNC_GPIO &amp;pcfg_pull_none&gt;;</span></span><br><span class="line"><span class="code">                &#125;;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">                lcd_panel_pwr_en: lcd-panel-pwr-en &#123;</span></span><br><span class="line"><span class="code">                        rockchip,pins = &lt;3 16 RK_FUNC_GPIO &amp;pcfg_pull_down&gt;;</span></span><br><span class="line"><span class="code">                        lcd_panel_lcd_en:lcd-panel-lcd-en &#123;</span></span><br><span class="line"><span class="code">                                rockchip,pins = &lt;1 4 RK_FUNC_GPIO &amp;pcfg_pull_down&gt;;</span></span><br><span class="line"><span class="code">                        &#125;;</span></span><br><span class="line"><span class="code">                &#125;;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line"><span class="code">        &#125;;</span></span><br><span class="line"><span class="code"></span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>IO复用需要通过标签名方式来引用，以下代码的sdmmc-pwrseq、lsm330_a、lsm330_g … 是分类的作用</p>
+<table>
+<thead>
+<tr>
+<th><strong>功能模块</strong></th>
+<th><strong>节点标签</strong></th>
+<th><strong>引脚位置</strong></th>
+<th><strong>复用功能</strong></th>
+<th><strong>电气属性</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>SD卡电源控制</strong></td>
+<td><code>sdcard_enable_h</code></td>
+<td>GPIO1_B4 (Bank1, Pin20)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>无上下拉 (<code>none</code>)</td>
+</tr>
+<tr>
+<td><strong>加速度计</strong></td>
+<td><code>lsm330a_irq_gpio</code></td>
+<td>GPIO1_B6 (Bank1, Pin22)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>无上下拉 (<code>none</code>)</td>
+</tr>
+<tr>
+<td><strong>陀螺仪</strong></td>
+<td><code>lsm330g_irq_gpio</code></td>
+<td>GPIO1_B8 (Bank1, Pin24)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>无上下拉 (<code>none</code>)</td>
+</tr>
+<tr>
+<td><strong>磁力计</strong></td>
+<td><code>ak8963_irq_gpio</code></td>
+<td>GPIO1_A0 (Bank1, Pin0)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>无上下拉 (<code>none</code>)</td>
+</tr>
+<tr>
+<td><strong>光传感器</strong></td>
+<td><code>cm3218_irq_gpio</code></td>
+<td>GPIO4_D0 (Bank4, Pin24)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>上拉 (<code>pull_up</code>)</td>
+</tr>
+<tr>
+<td><strong>LED控制</strong></td>
+<td><code>led1_ctl</code></td>
+<td>GPIO0_B4 (Bank0, Pin12)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>上拉 (<code>pull_up</code>)</td>
+</tr>
+<tr>
+<td><strong>蜂鸣器</strong></td>
+<td><code>beep_gpio</code></td>
+<td>GPIO4_C6 (Bank4, Pin22)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>上拉 (<code>pull_up</code>)</td>
+</tr>
+<tr>
+<td><strong>触摸屏</strong></td>
+<td><code>gt911_gpio</code></td>
+<td>GPIO1_A9 (Bank1, Pin9)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>上拉 (<code>pull_up</code>)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>GPIO1_B4 (Bank1, Pin20)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>上拉 (<code>pull_up</code>)</td>
+</tr>
+<tr>
+<td><strong>LCD面板</strong></td>
+<td><code>lcd_panel_reset</code></td>
+<td>GPIO4_D6 (Bank4, Pin30)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>无上下拉 (<code>none</code>)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>lcd_panel_pwr_en</code></td>
+<td>GPIO3_D0 (Bank3, Pin16)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>下拉 (<code>pull_down</code>)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>lcd_panel_lcd_en</code></td>
+<td>GPIO1_A4 (Bank1, Pin4)</td>
+<td><code>RK_FUNC_GPIO</code></td>
+<td>下拉 (<code>pull_down</code>)</td>
+</tr>
+</tbody></table>
+<h2 id="节点状态"><a href="#节点状态" class="headerlink" title="节点状态"></a>节点状态</h2><p>用status字段表示：一般有okay和disabled两种状态</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">status = <span class="string">&quot;disabled&quot;</span>;</span><br></pre></td></tr></table></figure>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -118,18 +240,18 @@
     <section id="share">
       <div class="header"><span>分享文章</span></div>
       <div class="body">
-        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://hywing.tech/board-test.html" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://hywing.tech/board-test.html&title=开发板硬件测试 - hywing techzone&summary=示波器检测开发板"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=开发板硬件测试 - hywing techzone&amp;body=https://hywing.tech/board-test.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://hywing.tech/linux-devicetree.html" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://hywing.tech/linux-devicetree.html&title=Linux设备树详解 - hywing techzone&summary=解读RK3399设备树"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=Linux设备树详解 - hywing techzone&amp;body=https://hywing.tech/linux-devicetree.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
-          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://hywing.tech/board-test.html"/>
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://hywing.tech/linux-devicetree.html"/>
         </div>
         
       </div>
     </section>
     </div>
 </article>
-<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/beckhoff-ads-usage.html">倍福官方ADS组件使用</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/qt-charts-design.html">上位机数据可视化：使用QtCharts绘制波形图</a></div></section></div>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/crossplatform-sdk.html">跨平台SDK设计原则</a></div></section></div>
 
 
 
@@ -199,7 +321,7 @@
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E6%BA%90"><span class="toc-text">电源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%92%9F"><span class="toc-text">时钟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E9%94%AE"><span class="toc-text">按键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E8%AE%BE"><span class="toc-text">外设</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%82%E7%82%B9"><span class="toc-text">节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%92%9F%E6%BA%90"><span class="toc-text">时钟源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD"><span class="toc-text">中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GPIO"><span class="toc-text">GPIO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%84%9A"><span class="toc-text">引脚</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E7%8A%B6%E6%80%81"><span class="toc-text">节点状态</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
