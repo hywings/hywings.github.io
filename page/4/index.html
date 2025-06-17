@@ -161,11 +161,23 @@
 <div class="widgets">
 <widget class="widget-wrapper markdown"><div class="widget-header dis-select"><span class="name">🎉欢迎</span></div><div class="widget-body fs14"><p>每日诗词</p>
 <hr style="border: 1px solid black; background-color: black;">
-<div>
-<span id="jinrishici-sentence"></span>
-</div>
-<hr></hr>
+<div class="poem-wrap">
+<div class="poem-border poem-left"></div>
+<div class="poem-border poem-right"></div>
+  <p id="poem">挑选中...</p>
+  <p id="info">
+
 <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+<script type="text/javascript">
+  jinrishici.load(function(result) {
+    poem.innerHTML = result.data.content
+    info.innerHTML = '【' + result.data.origin.dynasty + '】' + result.data.origin.author + '《' + result.data.origin.title + '》'
+    document.getElementById("poem").value(poem);
+    document.getElementById("info").value(info);  
+});
+</script>
+</div>
+
 <div>
   <marquee direction="left" bgcolor="#86a9ff" scrollamount="30" scrolldelay="450" width="100%" height="30" style="line-height: 30px; color: #fff">Stay hungry，Stay foolish!
   </marquee>
