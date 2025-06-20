@@ -112,7 +112,7 @@
       var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
 
       // 更新显示时间的span元素内容
-      runtime_span.innerHTML = "本网站已经稳定运行：" + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒🦉";
+      runtime_span.innerHTML = "本网站已经稳定运行：" + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
     }
 
     show_runtime(); // 初次调用函数以启动定时器
