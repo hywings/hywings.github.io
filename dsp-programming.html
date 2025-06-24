@@ -28,7 +28,7 @@
 <meta property="og:description" content="DSP VS STM32">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-23T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-24T06:46:59.035Z">
+<meta property="article:modified_time" content="2025-06-24T06:49:13.256Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="DSP">
 <meta name="twitter:card" content="summary">
@@ -79,7 +79,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-23T16:00:00.000Z">2025-06-24</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-24T06:46:59.035Z">2025-06-24</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-23T16:00:00.000Z">2025-06-24</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-24T06:49:13.256Z">2025-06-24</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -93,7 +93,7 @@
   </div><article class="md-text content"><h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>DSP使用Code Compose Studio，stm32使用MDK Keil或者stm32CubeIDE</p>
 <h2 id="芯片"><a href="#芯片" class="headerlink" title="芯片"></a>芯片</h2><p>DSP一般是32位的（最小可寻址内存单元通常不支持单字节（8 位 char）访问，而是以 16 位或 32 位 为单位操作，数据总线是32位或者16位的），DSP尤其擅长浮点数的处理；stm32是32位的，它支持的数据类型也比较广（最小寻址支持8位）</p>
 <h2 id="链接文件"><a href="#链接文件" class="headerlink" title="链接文件"></a>链接文件</h2><p>CMD文件相当于stm32里边的链接文件（*.sct），这个文件告诉编译器程序怎么链接，不过DSP支持RAM的烧录模式，stm32只能烧到FLASH里边</p>
-<h2 id="开发库"><a href="#开发库" class="headerlink" title="开发库"></a>开发库</h2><p>跟stm32很像，也有寄存器和库函数两个版本，其中所有外设的寄存器对象会放在<code>xxx_globalvariabledefs.c</code>里边，如：f2837xS_globalvariabledefs.c、F28M35x_GlobalVariableDefs.c；库函数接口则放在<code>driverlib</code>里边</p>
+<h2 id="开发库"><a href="#开发库" class="headerlink" title="开发库"></a>开发库</h2><p>跟stm32很像，也有寄存器和库函数两个版本，其中所有外设的寄存器对象会放在xxx_globalvariabledefs.c里边，如：f2837xS_globalvariabledefs.c、F28M35x_GlobalVariableDefs.c；库函数接口则放在<code>driverlib</code>里边</p>
 <h2 id="图形化"><a href="#图形化" class="headerlink" title="图形化"></a>图形化</h2><p>DSP使用sysconfig工具，相当于stm32CubeMX，可以使用图形化的方式配置外设功能</p>
 <h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>DSP使用XDS xxx &#x2F; JTAG调试工具，DSP的调试器大部分都支持两个Serial Port（虚拟一个串口，一个调试一个用作串口通信）；而stm32使用ST-Link或者JTAG</p>
 <h2 id="多核"><a href="#多核" class="headerlink" title="多核"></a>多核</h2><p>DSP支持多核编程，每个核心可以并行跑不一样的程序，如TMS320F28377S 的双核（CPU1 和 CPU2）可以独立运行不同的程序，而stm32不支持多核编程</p>
