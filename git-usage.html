@@ -28,7 +28,7 @@
 <meta property="og:description" content="基本操作示范">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-23T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-26T07:54:06.434Z">
+<meta property="article:modified_time" content="2025-06-26T08:29:57.696Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
@@ -79,7 +79,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-23T16:00:00.000Z">2025-01-24</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-26T07:54:06.434Z">2025-06-26</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-01-23T16:00:00.000Z">2025-01-24</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-26T08:29:57.696Z">2025-06-26</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -239,6 +239,130 @@
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 
 <widget class="widget-wrapper markdown"><div class="widget-header dis-select"><span class="name">每日天气</span></div><div class="widget-body fs14"><div id="ww_9ae4bc479786e" v='1.3' loc='auto' a='{"t":"responsive","lang":"zh","sl_lpl":1,"ids":[],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"image","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","sl_tof":"3"}'><a href="https://weatherwidget.org/zh/" id="ww_9ae4bc479786e_u" target="_blank">天气插件</a></div><script async src="https://app3.weatherwidget.org/js/?id=ww_9ae4bc479786e"></script>
+</div></widget>
+
+<widget class="widget-wrapper markdown"><div class="widget-header dis-select"><span class="name">本月日历</span></div><div class="widget-body fs14"><div class="hexo-calendar-container">
+  <div class="hexo-calendar">
+    <div class="calendar-header">
+      <div class="month-year" id="hexo-month-year"></div>
+    </div>
+    <div class="days-header">
+      <div class="day day-header">日</div>
+      <div class="day day-header">一</div>
+      <div class="day day-header">二</div>
+      <div class="day day-header">三</div>
+      <div class="day day-header">四</div>
+      <div class="day day-header">五</div>
+      <div class="day day-header">六</div>
+    </div>
+    <div class="days" id="hexo-days"></div>
+  </div>
+</div>
+
+<style>
+  .hexo-calendar-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .hexo-calendar {
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    max-width: 350px;
+  }
+  .calendar-header {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  .month-year {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  .days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #666;
+  }
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+  }
+  .day {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+  }
+  .day-header {
+    height: 30px;
+  }
+  .other-month {
+    color: #ccc;
+  }
+  .today {
+    background-color: #4285f4;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    const today = now.getDate();
+    
+    const monthNames = ["一月", "二月", "三月", "四月", "五月", "六月", 
+                      "七月", "八月", "九月", "十月", "十一月", "十二月"];
+    document.getElementById('hexo-month-year').textContent = 
+      `${currentYear}年 ${monthNames[currentMonth]}`;
+    
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const prevMonthDays = new Date(currentYear, currentMonth, 0).getDate();
+    
+    const daysContainer = document.getElementById('hexo-days');
+    let dayCount = 1;
+    let nextMonthDay = 1;
+    
+    for (let i = 0; i < 42; i++) {
+      const dayElement = document.createElement('div');
+      dayElement.className = 'day';
+      
+      if (i < firstDay) {
+        dayElement.textContent = prevMonthDays - firstDay + i + 1;
+        dayElement.classList.add('other-month');
+      } else if (dayCount <= daysInMonth) {
+        dayElement.textContent = dayCount;
+        if (dayCount === today) {
+          dayElement.classList.add('today');
+        }
+        dayCount++;
+      } else {
+        dayElement.textContent = nextMonthDay;
+        dayElement.classList.add('other-month');
+        nextMonthDay++;
+      }
+      
+      daysContainer.appendChild(dayElement);
+    }
+  });
+</script>
 </div></widget>
 
 <widget class="widget-wrapper markdown"><div class="widget-header dis-select"><span class="name">🎉🎉🎉🎉 欢迎光临！👋👋👋👋</span></div><div class="widget-body fs14"><p>每日诗词</p>
