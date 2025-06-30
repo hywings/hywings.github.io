@@ -28,7 +28,7 @@
 <meta property="og:description" content="嵌入式开发、调试、运维用到的命令">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-29T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-06-30T09:56:14.288Z">
+<meta property="article:modified_time" content="2025-06-30T09:57:40.419Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
@@ -79,7 +79,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-29T16:00:00.000Z">2025-06-30</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-30T09:56:14.288Z">2025-06-30</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-29T16:00:00.000Z">2025-06-30</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-06-30T09:57:40.419Z">2025-06-30</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -91,7 +91,7 @@
     
   </div>
   </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>以下命令在开发中经常用到，限于篇幅，只详细介绍部分命令的使用（常见用法），未完待续</p>
-<h2 id="1-文件目录"><a href="#1-文件目录" class="headerlink" title="1 文件目录"></a>1 文件目录</h2><p>创建文件</p>
+<h2 id="文件目录"><a href="#文件目录" class="headerlink" title="文件目录"></a>文件目录</h2><p>创建文件</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> xxx.txt</span><br></pre></td></tr></table></figure>
 
 <p>删除文件</p>
@@ -127,7 +127,7 @@
 <p>创建软链接</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s 源文件路径 软链接生成路径</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-用户管理"><a href="#2-用户管理" class="headerlink" title="2 用户管理"></a>2 用户管理</h2><p>创建新用户</p>
+<h2 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h2><p>创建新用户</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> useradd -d <span class="string">&quot;/home/hywing&quot;</span> -m -s <span class="string">&quot;/bin/bash&quot;</span> hywing</span><br><span class="line"><span class="comment"># -d 指定home目录</span></span><br><span class="line"><span class="comment"># -s 指定默认shell类型</span></span><br><span class="line"><span class="comment"># -m 若不存在家目录，则创建，否则不创建</span></span><br><span class="line">su hywing	<span class="comment"># 切换用户</span></span><br></pre></td></tr></table></figure>
 
 <p>删除用户的所有目录、配置</p>
@@ -142,7 +142,7 @@
 <p>ssh端口转发登录</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh hywing@110.24.115.124 -p 10001</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-文本处理"><a href="#3-文本处理" class="headerlink" title="3 文本处理"></a>3 文本处理</h2><p>实时查看文件写入内容</p>
+<h2 id="文本处理"><a href="#文本处理" class="headerlink" title="文本处理"></a>文本处理</h2><p>实时查看文件写入内容</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">tail</span> -f /var/log/syslog</span><br></pre></td></tr></table></figure>
 
 <p>常见的文本编辑工具（命令行下）</p>
@@ -154,7 +154,7 @@
 <p>根据关键字查找</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep -lr <span class="string">&quot;xxx&quot;</span> 指定目录		<span class="comment"># 列出一个匹配的文件列表</span></span><br><span class="line">grep -iRn <span class="string">&quot;xxx&quot;</span> 指定目录	<span class="comment"># 列出所有匹配结果（包括有文件列表、详细结果）</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="4-系统运维"><a href="#4-系统运维" class="headerlink" title="4 系统运维"></a>4 系统运维</h2><p>查看进程id</p>
+<h2 id="系统运维"><a href="#系统运维" class="headerlink" title="系统运维"></a>系统运维</h2><p>查看进程id</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pidof webserver</span><br></pre></td></tr></table></figure>
 
 <p>杀掉指定进程</p>
@@ -229,7 +229,7 @@
 <p>CPU平均负载</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uptime</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="5-工具使用"><a href="#5-工具使用" class="headerlink" title="5 工具使用"></a>5 工具使用</h2><p>声明环境变量</p>
+<h2 id="工具使用"><a href="#工具使用" class="headerlink" title="工具使用"></a>工具使用</h2><p>声明环境变量</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/Qt5.12.9/5.12.9/gcc_64/lib</span><br></pre></td></tr></table></figure>
 
 <p>cmake</p>
@@ -250,7 +250,7 @@
 <p>vim</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install vim			<span class="comment"># 安装vim</span></span><br><span class="line">vim xxx					<span class="comment"># 编辑文本：Esc进入命令模式，i进入插入模式</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="6-设备管理"><a href="#6-设备管理" class="headerlink" title="6 设备管理"></a>6 设备管理</h2><p>can</p>
+<h2 id="设备管理"><a href="#设备管理" class="headerlink" title="设备管理"></a>设备管理</h2><p>can</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cansend can0 100#10203040					<span class="comment"># 发送指定格式的can帧</span></span><br><span class="line">candump can0								<span class="comment"># 打印can0接口上面的所有can帧</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> can0 <span class="built_in">type</span> can bitrate 500000	<span class="comment"># 波特率配置</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> can0 <span class="built_in">type</span> can loopback on		<span class="comment"># 开启回环模式</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> up can0							<span class="comment"># 开启can0设备</span></span><br></pre></td></tr></table></figure>
 
 <p>tty</p>
@@ -268,7 +268,7 @@
 <p>i2c</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i2cdetect -y 0</span><br><span class="line">i2cget</span><br><span class="line">i2cset</span><br></pre></td></tr></table></figure>
 
-<h2 id="7-驱动调试"><a href="#7-驱动调试" class="headerlink" title="7 驱动调试"></a>7 驱动调试</h2><p>查看kernel日志</p>
+<h2 id="驱动调试"><a href="#驱动调试" class="headerlink" title="驱动调试"></a>驱动调试</h2><p>查看kernel日志</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dmesg										<span class="comment"># 查看内核日志</span></span><br><span class="line">dmesg -c 									<span class="comment"># 查看日志并清理</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; dmesg -c; clear; <span class="built_in">sleep</span> 1; <span class="keyword">done</span>; <span class="comment"># 隔1s查看一次</span></span><br><span class="line"><span class="built_in">tail</span> -f /var/log/kernel.log					<span class="comment"># 查看内核新增的log</span></span><br></pre></td></tr></table></figure>
 
 <p>驱动模块</p>
@@ -362,7 +362,7 @@
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
 <div class="widgets">
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95"><span class="toc-text">1 文件目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86"><span class="toc-text">2 用户管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86"><span class="toc-text">3 文本处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4"><span class="toc-text">4 系统运维</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8"><span class="toc-text">5 工具使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86"><span class="toc-text">6 设备管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E9%A9%B1%E5%8A%A8%E8%B0%83%E8%AF%95"><span class="toc-text">7 驱动调试</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95"><span class="toc-text">文件目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86"><span class="toc-text">用户管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86"><span class="toc-text">文本处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4"><span class="toc-text">系统运维</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8"><span class="toc-text">工具使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86"><span class="toc-text">设备管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8%E8%B0%83%E8%AF%95"><span class="toc-text">驱动调试</span></a></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 
