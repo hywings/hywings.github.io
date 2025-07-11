@@ -17,18 +17,18 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>markdown高级技巧：绘制各种图例 - hywing techzone</title>
+  <title>markdown高级技巧：绘制各种图例和数学公式 - hywing techzone</title>
 
   
     <meta name="description" content="解锁文档新技能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="markdown高级技巧：绘制各种图例">
-<meta property="og:url" content="https://hywing.tech/markdown-sequence-diagram.html">
+<meta property="og:title" content="markdown高级技巧：绘制各种图例和数学公式">
+<meta property="og:url" content="https://hywing.tech/markdown-advanced-technique.html">
 <meta property="og:site_name" content="hywing techzone">
 <meta property="og:description" content="解锁文档新技能">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-30T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-10T09:59:35.923Z">
+<meta property="article:modified_time" content="2025-07-11T02:21:54.021Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="markdown">
 <meta name="twitter:card" content="summary">
@@ -57,7 +57,22 @@
     startOnLoad: true,
     theme: 'default'  // 可选：default / dark / forest / neutral
   });
-</script><body>
+</script>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  chtml: {
+    scale: 1.2  // 放大 1.2 倍（默认 1.0）
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script><body>
 
 <div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
 
@@ -86,25 +101,29 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-30T16:00:00.000Z">2025-07-01</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-10T09:59:35.923Z">2025-07-10</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-30T16:00:00.000Z">2025-07-01</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-11T02:21:54.021Z">2025-07-11</time></span></div></div></div>
     
     <div class="bottom only-title">
       
       <div class="text-area">
-        <h1 class="text title"><span>markdown高级技巧：绘制各种图例</span></h1>
+        <h1 class="text title"><span>markdown高级技巧：绘制各种图例和数学公式</span></h1>
         
       </div>
     </div>
     
   </div>
-  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><a target="_blank" rel="noopener" href="https://mermaidjs.github.io/">mermaid</a>这个工具可以用来绘制流程图、时序图，十分简单、高效！是广大软件工程师的必会神器👍👍👍</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装<code>hexo-filter-mermaid</code>插件，安装前切换源下载更快一些</p>
+  </div><article class="md-text content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>做工程的人经常会有绘制图例和数学公式的需求，现在是数字化办公的时代，用笔和纸书写已经不是潮流，那么有没有好的工具方便我们在电脑撰写文档时把图例和公式又快又好的书写呢？</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>答案时有的，<a target="_blank" rel="noopener" href="https://mermaidjs.github.io/">mermaid</a>这个工具可以用来绘制流程图、时序图，十分简单、高效！而<a target="_blank" rel="noopener" href="https://www.mathjax.org/">mathjax</a>可以用来书写各种各样的的数学公式，在网页端通过简单文本的方法把图例和公式渲染出来，是广大软件工程师的必会神器👍👍👍</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="mermaid"><a href="#mermaid" class="headerlink" title="mermaid"></a>mermaid</h3><p>安装<code>hexo-filter-mermaid</code>插件，安装前切换源下载更快一些</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config set registry https://registry.npmmirror.com</span><br><span class="line">npm install hexo-filter-mermaid --save</span><br></pre></td></tr></table></figure>
 
 <p>替换markdown渲染器，默认的不能正常渲染</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save</span><br><span class="line">npm install hexo-renderer-markdown-it markdown-it-mermaid --save</span><br></pre></td></tr></table></figure>
 
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>配置<code>_config.yml</code>文件</p>
+<h3 id="mathjax"><a href="#mathjax" class="headerlink" title="mathjax"></a>mathjax</h3><p>安装<code>hexo-filter-mathjax</code>插件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-filter-mathjax --save</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="mermaid-1"><a href="#mermaid-1" class="headerlink" title="mermaid"></a>mermaid</h3><p>配置<code>_config.yml</code>文件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mermaid:</span><br><span class="line">  enable: true</span><br><span class="line">  theme: default</span><br><span class="line">  cdn: https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js</span><br><span class="line"></span><br><span class="line">markdown:</span><br><span class="line">  plugins:</span><br><span class="line">    - markdown-it-mermaid  # 启用 Mermaid 支持</span><br><span class="line">  anchors:</span><br><span class="line">    level: 2</span><br><span class="line">    permalink: true</span><br><span class="line">    separator: &#x27;-&#x27;</span><br></pre></td></tr></table></figure>
 
 <p>禁止<code>mermaid</code>高亮，否则渲染不出来</p>
@@ -113,7 +132,16 @@
 <p>在<code>node_modules\主题名\layout\_partial\head.ejs</code>文件下加入以下内容</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  mermaid.initialize(&#123; </span><br><span class="line">    startOnLoad: true,</span><br><span class="line">    theme: &#x27;default&#x27;  // 可选：default / dark / forest / neutral</span><br><span class="line">  &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
 
-<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p>简单的流程图示范（横向）代码</p>
+<h3 id="mathjax-1"><a href="#mathjax-1" class="headerlink" title="mathjax"></a>mathjax</h3><p>配置<code>_config.yml</code>文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  cdn: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js</span><br></pre></td></tr></table></figure>
+
+<p>在<code>node_modules\主题名\layout\_partial\head.ejs</code>文件下加入以下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">MathJax = &#123;</span><br><span class="line">  tex: &#123;</span><br><span class="line">    inlineMath: [[&#x27;$&#x27;, &#x27;$&#x27;], [&#x27;\\(&#x27;, &#x27;\\)&#x27;]],</span><br><span class="line">    displayMath: [[&#x27;$$&#x27;, &#x27;$$&#x27;], [&#x27;\\[&#x27;, &#x27;\\]&#x27;]]</span><br><span class="line">  &#125;,</span><br><span class="line">  chtml: &#123;</span><br><span class="line">    scale: 1.2  // 放大 1.2 倍（默认 1.0）</span><br><span class="line">  &#125;,</span><br><span class="line">  svg: &#123;</span><br><span class="line">    fontCache: &#x27;global&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js&quot; async&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>主题配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  per_page: false  # 或 true（按需加载）</span><br></pre></td></tr></table></figure>
+
+<h2 id="图例"><a href="#图例" class="headerlink" title="图例"></a>图例</h2><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p>简单的流程图示范（横向）代码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flowchart LR</span><br><span class="line">A[hexo] --&gt; B[mermaid]</span><br><span class="line">A --&gt; C[latex]</span><br></pre></td></tr></table></figure>
 
 <p>简单的流程图示范（横向）效果</p>
@@ -134,7 +162,7 @@ A --&gt; C[latex]
     D --&gt; F[显示2D/3D视图]
     F --&gt; G[持续更新位置]</code></pre>
 
-<h2 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h2><p>时序图示范代码</p>
+<h3 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h3><p>时序图示范代码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant 用户</span><br><span class="line">    participant 系统</span><br><span class="line">    participant 定位模块</span><br><span class="line">    participant 作业规划模块</span><br><span class="line">    participant 显示模块</span><br><span class="line"></span><br><span class="line">    用户-&gt;&gt;系统: 启动农机导航</span><br><span class="line">    系统-&gt;&gt;定位模块: 请求定位数据</span><br><span class="line">    定位模块-&gt;&gt;系统: 返回多模定位数据</span><br><span class="line">    系统-&gt;&gt;系统: 卡尔曼滤波处理定位数据</span><br><span class="line">    系统-&gt;&gt;作业规划模块: 输入定位数据和作业模式</span><br><span class="line">    作业规划模块-&gt;&gt;系统: 生成作业路径</span><br><span class="line">    系统-&gt;&gt;显示模块: 渲染2D/3D作业图</span><br><span class="line">    显示模块-&gt;&gt;用户: 显示作业路径和农机位置</span><br><span class="line">    loop 实时更新</span><br><span class="line">        定位模块-&gt;&gt;系统: 实时定位数据</span><br><span class="line">        系统-&gt;&gt;显示模块: 更新作业图</span><br><span class="line">    end</span><br><span class="line">    用户-&gt;&gt;系统: 选择智能辅助功能</span><br><span class="line">    系统-&gt;&gt;系统: 执行避障/断点续航等功能</span><br></pre></td></tr></table></figure>
 
 <p>时序图示范效果</p>
@@ -160,7 +188,7 @@ A --&gt; C[latex]
     用户-&gt;&gt;系统: 选择智能辅助功能
     系统-&gt;&gt;系统: 执行避障/断点续航等功能</code></pre>
 
-<h2 id="饼图"><a href="#饼图" class="headerlink" title="饼图"></a>饼图</h2><p>画一个比例饼代码</p>
+<h3 id="饼图"><a href="#饼图" class="headerlink" title="饼图"></a>饼图</h3><p>画一个比例饼代码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pie</span><br><span class="line">    title 研发人员</span><br><span class="line">    &quot;硬件&quot; : 45</span><br><span class="line">    &quot;软件&quot; : 30</span><br><span class="line">    &quot;测试&quot; : 25</span><br></pre></td></tr></table></figure>
 
 <p>比例饼效果</p>
@@ -170,7 +198,7 @@ A --&gt; C[latex]
     &quot;软件&quot; : 30
     &quot;测试&quot; : 25</code></pre>
 
-<h2 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h2><p>生成一个类的示意图代码</p>
+<h3 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h3><p>生成一个类的示意图代码</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">classDiagram</span><br><span class="line">    class Human &#123;</span><br><span class="line">        +String name</span><br><span class="line">        +eat()</span><br><span class="line">    &#125;</span><br><span class="line">    class Man &#123;</span><br><span class="line">        +shaving()</span><br><span class="line">    &#125;</span><br><span class="line">    Human &lt;|-- Man</span><br></pre></td></tr></table></figure>
 
 <p>一个类的示意图效果</p>
@@ -184,6 +212,27 @@ A --&gt; C[latex]
     &#125;
     Human &lt;|-- Man</code></pre>
 
+<h2 id="数学公式"><a href="#数学公式" class="headerlink" title="数学公式"></a>数学公式</h2><h3 id="积分"><a href="#积分" class="headerlink" title="积分"></a>积分</h3><p>积分公式代码示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\int_&#123;0&#125;^&#123;\pi/2&#125; \sin x \ dx = 1</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<p>积分公式效果<br>$$<br>\int_{0}^{\pi&#x2F;2} \sin x \ dx &#x3D; 1<br>$$</p>
+<h3 id="求导"><a href="#求导" class="headerlink" title="求导"></a>求导</h3><p>求导代码示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\ f&#x27;(x) = \frac&#123;d&#125;&#123;dx&#125; (\ln x) = \frac&#123;1&#125;&#123;x&#125;</span><br><span class="line">$$</span><br><span class="line">$$</span><br><span class="line">f&#x27;&#x27;(x) = \frac&#123;d&#125;&#123;dx&#125; \left( \frac&#123;1&#125;&#123;x&#125; \right) = -\frac&#123;1&#125;&#123;x^2&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<p>求导公式效果<br>$$<br>\ f’(x) &#x3D; \frac{d}{dx} (\ln x) &#x3D; \frac{1}{x}<br>$$</p>
+<p>$$<br>f’’(x) &#x3D; \frac{d}{dx} \left( \frac{1}{x} \right) &#x3D; -\frac{1}{x^2}<br>$$</p>
+<h3 id="幂函数"><a href="#幂函数" class="headerlink" title="幂函数"></a>幂函数</h3><p>幂函数代码示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\ f(x) = x^3 \</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<p>幂函数公式效果<br>$$<br>\ f(x) &#x3D; x^3 <br>$$</p>
+<h3 id="对数函数"><a href="#对数函数" class="headerlink" title="对数函数"></a>对数函数</h3><p>对数函数代码示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">	f(x) = \log_3 x </span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<p>对数函数公式示例<br>$$<br>f(x) &#x3D; \log_3 x<br>$$</p>
+<h3 id="指数函数"><a href="#指数函数" class="headerlink" title="指数函数"></a>指数函数</h3><p>指数函数代码示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">	f(x) = 2^x</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<p>指数函数公式效果<br>$$<br>f(x) &#x3D; 2^x<br>$$</p>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -195,11 +244,11 @@ A --&gt; C[latex]
     <section id="share">
       <div class="header"><span>分享文章</span></div>
       <div class="body">
-        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://hywing.tech/markdown-sequence-diagram.html" /></div>
-        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://hywing.tech/markdown-sequence-diagram.html&title=markdown高级技巧：绘制各种图例 - hywing techzone&summary=解锁文档新技能"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=markdown高级技巧：绘制各种图例 - hywing techzone&amp;body=https://hywing.tech/markdown-sequence-diagram.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
+        <div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://hywing.tech/markdown-advanced-technique.html" /></div>
+        <div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/b32ef3da1162a.svg" /></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://hywing.tech/markdown-advanced-technique.html&title=markdown高级技巧：绘制各种图例和数学公式 - hywing techzone&summary=解锁文档新技能"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/80c07e4dbb303.svg" /></a><a class="social share-item email" href="mailto:?subject=markdown高级技巧：绘制各种图例和数学公式 - hywing techzone&amp;body=https://hywing.tech/markdown-advanced-technique.html"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/a1b00e20f425d.svg" /></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy"  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/social/8411ed322ced6.svg" /></a></div>
         
         <div class="qrcode" id="qrcode-wechat" style="opacity:0;height:0">
-          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://hywing.tech/markdown-sequence-diagram.html"/>
+          <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://hywing.tech/markdown-advanced-technique.html"/>
         </div>
         
       </div>
@@ -272,7 +321,7 @@ A --&gt; C[latex]
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
 <div class="widgets">
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">流程图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E5%BA%8F%E5%9B%BE"><span class="toc-text">时序图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A5%BC%E5%9B%BE"><span class="toc-text">饼图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9B%BE"><span class="toc-text">类图</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mermaid"><span class="toc-text">mermaid</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mathjax"><span class="toc-text">mathjax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mermaid-1"><span class="toc-text">mermaid</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mathjax-1"><span class="toc-text">mathjax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E4%BE%8B"><span class="toc-text">图例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-text">流程图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E5%BA%8F%E5%9B%BE"><span class="toc-text">时序图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A5%BC%E5%9B%BE"><span class="toc-text">饼图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9B%BE"><span class="toc-text">类图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F"><span class="toc-text">数学公式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%AF%E5%88%86"><span class="toc-text">积分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%82%E5%AF%BC"><span class="toc-text">求导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%82%E5%87%BD%E6%95%B0"><span class="toc-text">幂函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%95%B0%E5%87%BD%E6%95%B0"><span class="toc-text">对数函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E6%95%B0%E5%87%BD%E6%95%B0"><span class="toc-text">指数函数</span></a></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 

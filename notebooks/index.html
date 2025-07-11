@@ -54,7 +54,22 @@
     startOnLoad: true,
     theme: 'default'  // 可选：default / dark / forest / neutral
   });
-</script><body>
+</script>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  chtml: {
+    scale: 1.2  // 放大 1.2 倍（默认 1.0）
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script><body>
 
 <div class="l_body s:aa index tech" id="start" layout="notebooks" ><aside class="l_left"><div class="leftbar-container">
 
