@@ -28,7 +28,7 @@
 <meta property="og:description" content="嵌入式开发、调试、运维用到的命令">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-29T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-20T11:05:46.229Z">
+<meta property="article:modified_time" content="2025-07-21T02:59:21.560Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
@@ -101,7 +101,7 @@ MathJax = {
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-29T16:00:00.000Z">2025-06-30</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-20T11:05:46.229Z">2025-07-20</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-06-29T16:00:00.000Z">2025-06-30</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-21T02:59:21.560Z">2025-07-21</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -272,23 +272,23 @@ MathJax = {
 <p>vim</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install vim			<span class="comment"># 安装vim</span></span><br><span class="line">vim xxx					<span class="comment"># 编辑文本：Esc进入命令模式，i进入插入模式</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="设备管理"><a href="#设备管理" class="headerlink" title="设备管理"></a>设备管理</h2><p>can</p>
+<h2 id="设备管理"><a href="#设备管理" class="headerlink" title="设备管理"></a>设备管理</h2><p>can接口通信</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cansend can0 100#10203040					<span class="comment"># 发送指定格式的can帧</span></span><br><span class="line">candump can0								<span class="comment"># 打印can0接口上面的所有can帧</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> can0 <span class="built_in">type</span> can bitrate 500000	<span class="comment"># 波特率配置</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> can0 <span class="built_in">type</span> can loopback on		<span class="comment"># 开启回环模式</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> up can0							<span class="comment"># 开启can0设备</span></span><br></pre></td></tr></table></figure>
 
-<p>tty</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<p>tty串口设备操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置波特率</span></span><br><span class="line"><span class="built_in">stty</span> -F /dev/ttyLP2 115200 cs8 -parenb -cstopb raw -<span class="built_in">echo</span></span><br><span class="line"><span class="comment"># 查看接收数据</span></span><br><span class="line"><span class="built_in">cat</span> /dev/ttyLP2</span><br><span class="line"><span class="comment"># 发送数据包</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello RS485!\\r\\n&quot;</span> &gt; /dev/ttyLP2</span><br></pre></td></tr></table></figure>
 
-<p>cpu</p>
+<p>cpu型号查看</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lscpu</span><br></pre></td></tr></table></figure>
 
-<p>pci</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci -n</span><br></pre></td></tr></table></figure>
+<p>pci总线设备</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看挂载的pcie设备节点（vendor和device）</span></span><br><span class="line">lspci -n</span><br></pre></td></tr></table></figure>
 
-<p>usb</p>
+<p>usb设备管理</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsusb -tv</span><br></pre></td></tr></table></figure>
 
 <p>i2c</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i2cdetect -y 0</span><br><span class="line">i2cget</span><br><span class="line">i2cset</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># i2c0挂载的从设备</span></span><br><span class="line">i2cdetect -y 0</span><br><span class="line">i2cget</span><br><span class="line">i2cset</span><br></pre></td></tr></table></figure>
 
 <h2 id="驱动调试"><a href="#驱动调试" class="headerlink" title="驱动调试"></a>驱动调试</h2><p>查看kernel日志</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dmesg										<span class="comment"># 查看内核日志</span></span><br><span class="line">dmesg -c 									<span class="comment"># 查看日志并清理</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">true</span>; dmesg -c; clear; <span class="built_in">sleep</span> 1; <span class="keyword">done</span>; <span class="comment"># 隔1s查看一次</span></span><br><span class="line"><span class="built_in">tail</span> -f /var/log/kernel.log					<span class="comment"># 查看内核新增的log</span></span><br></pre></td></tr></table></figure>
