@@ -28,7 +28,7 @@
 <meta property="og:description" content="modbus调试神器">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-07-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-07-29T01:35:13.113Z">
+<meta property="article:modified_time" content="2025-07-29T01:40:16.087Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="modbus">
@@ -104,7 +104,7 @@ MathJax = {
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-28T16:00:00.000Z">2025-07-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-29T01:35:13.113Z">2025-07-29</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-28T16:00:00.000Z">2025-07-29</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-29T01:40:16.087Z">2025-07-29</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -116,8 +116,8 @@ MathJax = {
     
   </div>
   </div><article class="md-text content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a target="_blank" rel="noopener" href="https://www.modbusdriver.com/modpoll.html">modpoll</a>是一款小巧的支持串口以及网口的modbus通信测试工具，无缝衔接Linux &amp;&amp; Windows系统，非常适合命令行调试使用，在工业控制、自动化、物联网领域很受欢迎！</p>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>以在Linux下测试modbus tcp slave为例，先测试跟从机的通信是否正常</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet <span class="number">192.168</span>.<span class="number">55.10</span> <span class="number">502</span></span><br></pre></td></tr></table></figure>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p><strong>以在Linux下测试modbus tcp slave为例</strong>，按照惯例，先测试跟从机的通信是否正常</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">telnet 192.168.55.10 502</span><br></pre></td></tr></table></figure>
 
 <p>命令参数用法</p>
 <ul>
@@ -160,10 +160,10 @@ MathJax = {
 </tr>
 </tbody></table>
 <h2 id="设备信息"><a href="#设备信息" class="headerlink" title="设备信息"></a>设备信息</h2><p>总线上挂载的从站<code>N</code>的设备信息</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modpoll -m tcp -a N -t id xx.xx.xx.xx</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modpoll -m tcp -a N -t <span class="built_in">id</span> xx.xx.xx.xx</span><br></pre></td></tr></table></figure>
 
 <h2 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h2><p>写保持寄存器，怎么读取寄存器的值，<code>value</code>一般放在IP地址后面</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modpoll -m tcp -a <span class="number">1</span> -r <span class="number">11</span> -c <span class="number">1</span> -t <span class="number">4</span> xx.xx.xx.xx value</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modpoll -m tcp -a 1 -r 11 -c 1 -t 4 xx.xx.xx.xx value</span><br></pre></td></tr></table></figure>
 
 <h2 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h2><p>读保持寄存器（IP地址之后不跟参数说明需要读取）</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取单个寄存器</span></span><br><span class="line">modpoll -m tcp -a 1 -r 21 -c 1 -t 4 xx.xx.xx.xx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取两个寄存器</span></span><br><span class="line">modpoll -m tcp -a 1 -r 31 -c 2 -t 4 xx.xx.xx.xx</span><br></pre></td></tr></table></figure>
