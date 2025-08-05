@@ -28,7 +28,7 @@
 <meta property="og:description" content="命令行调试CAN">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-04T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-08-05T08:56:47.554Z">
+<meta property="article:modified_time" content="2025-08-05T09:00:13.847Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="CAN">
@@ -102,7 +102,7 @@ MathJax = {
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">开发工具</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-08-04T16:00:00.000Z">2025-08-05</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-05T08:56:47.554Z">2025-08-05</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-08-04T16:00:00.000Z">2025-08-05</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-05T09:00:13.847Z">2025-08-05</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -122,7 +122,7 @@ MathJax = {
 <h2 id="怎么知道收发器支不支持CANFD"><a href="#怎么知道收发器支不支持CANFD" class="headerlink" title="怎么知道收发器支不支持CANFD"></a>怎么知道收发器支不支持CANFD</h2><p>这个是最可靠的方法，是骡子是马，牵出来遛一遛</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> can0 up <span class="built_in">type</span> can bitrate 1000000 dbitrate 4000000 fd on</span><br></pre></td></tr></table></figure>
 
-<h2 id="CAN通信的筛选"><a href="#CAN通信的筛选" class="headerlink" title="CAN通信的筛选"></a>CAN通信的筛选</h2><p>CAN通信是按紧急程度（优先级）来传输的，数值越小优先级越高，错误帧的优先级最高，通过掩码筛选CAN帧</p>
+<h2 id="CAN通信的筛选"><a href="#CAN通信的筛选" class="headerlink" title="CAN通信的筛选"></a>CAN通信的筛选</h2><p>CAN通信是按紧急程度（优先级）来传输的，数值越小优先级越高，错误帧的优先级最高，可以通过掩码筛选CAN帧</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">candump can0,100:700</span><br><span class="line">(received_id &amp; 0x700) == (0x100 &amp; 0x700)</span><br><span class="line">(received_id &amp; 011100000000) == 000100000000</span><br></pre></td></tr></table></figure>
 
 <div class="article-footer fs14">
