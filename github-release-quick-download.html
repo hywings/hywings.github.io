@@ -28,7 +28,7 @@
 <meta property="og:description" content="利用外网服务器下载文件">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-08-20T02:41:23.794Z">
+<meta property="article:modified_time" content="2025-08-20T05:50:37.914Z">
 <meta property="article:author" content="hywing">
 <meta property="article:tag" content="Github">
 <meta property="article:tag" content="外网">
@@ -104,7 +104,7 @@ MathJax = {
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-08-17T16:00:00.000Z">2025-08-18</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-20T02:41:23.794Z">2025-08-20</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-08-17T16:00:00.000Z">2025-08-18</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-08-20T05:50:37.914Z">2025-08-20</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -116,9 +116,9 @@ MathJax = {
     
   </div>
   </div><article class="md-text content"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>因为某些问题，国内下载GitHub的文件总是特别慢，瑞萨的MCU工具链也都放在<code>GitHub Release</code>页面，如下面链接的<code>setup_fsp_v6_0_0_rasc_v2025-04.1.exe</code>工具，平时拉取开源仓库可以使用GitHub镜像源<code>bgithub.xyz</code>，但Release文件明显不行了</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//release-assets.githubusercontent.com/github-production-release-asset/211325117/618ff624-08be-4b6e-bbd6-2747201882ce?sp=r&amp;sv=2018-11-09&amp;sr=b&amp;spr=https&amp;se=2025-08-17T05%3A21%3A57Z&amp;rscd=attachment%3B+filename%3Dsetup_fsp_v6_0_0_rasc_v2025-04.1.exe&amp;rsct=application%2Foctet-stream&amp;skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&amp;sktid=398a6654-997b-47e9-b12b-9515b896b4de&amp;skt=2025-08-17T04%3A21%3A18Z&amp;ske=2025-08-17T05%3A21%3A57Z&amp;sks=b&amp;skv=2018-11-09&amp;sig=QcDD%2BRKsZ%2BbWzaCfHUMie4bGQ1oMH1DuIrAbph2%2BEyc%3D&amp;jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc1NTQwNDkxNiwibmJmIjoxNzU1NDA0NjE2LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.xPRqjsSH6gRvMKkoO86Zxv6ATYZAQmeu4h2u-XqMD9E&amp;response-content-disposition=attachment%3B%20filename%3Dsetup_fsp_v6_0_0_rasc_v2025-04.1.exe&amp;response-content-type=application%2Foctet-stream</span></span><br></pre></td></tr></table></figure>
-
 <h2 id="简易"><a href="#简易" class="headerlink" title="简易"></a>简易</h2><p>购买外网的可视化服务器（你会发现外网访问GitHub并没有速度限制），远程进去，直接用浏览器下载好，再用FileZilla取回来（利用VSFTP下载文件或者挂个NFS都可以）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://release-assets.githubusercontent.com/github-production-release-asset/211325117/618ff624-08be-4b6e-bbd6-2747201882ce?sp=r&amp;sv=2018-11-09&amp;sr=b&amp;spr=https&amp;se=2025-08-17T05%3A21%3A57Z&amp;rscd=attachment%3B+filename%3Dsetup_fsp_v6_0_0_rasc_v2025-04.1.exe&amp;rsct=application%2Foctet-stream&amp;skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&amp;sktid=398a6654-997b-47e9-b12b-9515b896b4de&amp;skt=2025-08-17T04%3A21%3A18Z&amp;ske=2025-08-17T05%3A21%3A57Z&amp;sks=b&amp;skv=2018-11-09&amp;sig=QcDD%2BRKsZ%2BbWzaCfHUMie4bGQ1oMH1DuIrAbph2%2BEyc%3D&amp;jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc1NTQwNDkxNiwibmJmIjoxNzU1NDA0NjE2LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.xPRqjsSH6gRvMKkoO86Zxv6ATYZAQmeu4h2u-XqMD9E&amp;response-content-disposition=attachment%3B%20filename%3Dsetup_fsp_v6_0_0_rasc_v2025-04.1.exe&amp;response-content-type=application%2Foctet-stream</span><br></pre></td></tr></table></figure>
+
 <h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><p>巧用<code>wget</code>命令下载，断点下载用<code>wget -c</code>，尽量不要找带<code>JWT Token</code>的临时下载链接</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget <span class="string">&quot;https://release-assets.githubusercontent.com/github-production-release-asset/211325117/618ff624-08be-4b6e-bbd6-2747201882ce?sp=r&amp;sv=2018-11-09&amp;sr=b&amp;spr=https&amp;se=2025-08-17T05%3A21%3A57Z&amp;rscd=attachment%3B+filename%3Dsetup_fsp_v6_0_0_rasc_v2025-04.1.exe&amp;rsct=application%2Foctet-stream&amp;skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&amp;sktid=398a6654-997b-47e9-b12b-9515b896b4de&amp;skt=2025-08-17T04%3A21%3A18Z&amp;ske=2025-08-17T05%3A21%3A57Z&amp;sks=b&amp;skv=2018-11-09&amp;sig=QcDD%2BRKsZ%2BbWzaCfHUMie4bGQ1oMH1DuIrAbph2%2BEyc%3D&amp;jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc1NTQwNDkxNiwibmJmIjoxNzU1NDA0NjE2LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.xPRqjsSH6gRvMKkoO86Zxv6ATYZAQmeu4h2u-XqMD9E&amp;response-content-disposition=attachment%3B%20filename%3Dsetup_fsp_v6_0_0_rasc_v2025-04.1.exe&amp;response-content-type=application%2Foctet-stream&quot;</span> -O setup_fsp_v6_0_0_rasc_v2025<span class="number">-04.1</span>.exe</span><br></pre></td></tr></table></figure>
 
