@@ -264,6 +264,9 @@ MathJax = {
     audio.addEventListener('ended', function() {
       playStatus.textContent = '播放完毕';
       playStatus.style.color = '#666';
+      
+      // 2秒后自动回到按钮状态
+      setTimeout(resetToButtonState, 2000);
     });
 
     // 还原为按钮状态的函数
