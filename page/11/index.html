@@ -205,7 +205,7 @@ MathJax = {
 </div>
 </div></widget>
 
-<widget class="widget-wrapper markdown"><div class="widget-header dis-select"><span class="name">自由飞翔</span></div><div class="widget-body fs14"><div style="text-align: center;">
+<widget class="widget-wrapper markdown"><div class="widget-header dis-select"><span class="name">自由之歌</span></div><div class="widget-body fs14"><div style="text-align: center;">
   <img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/img/blog/plane.gif" style="display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 8px;">
   
   <button id="audioBtn" style="background: transparent; color: #3498db; border: 2px solid #3498db; padding: 12px 24px; border-radius: 25px; cursor: pointer; margin: 15px 0; font-size: 14px; transition: all 0.3s;">
@@ -235,10 +235,14 @@ MathJax = {
     const playStatus = document.getElementById('playStatus');
     const resetBtn = document.getElementById('resetBtn');
 
-    // 显示播放器
+    // 点击按钮直接播放
     audioBtn.addEventListener('click', function() {
       audioBtn.style.display = 'none';
       audioPlayer.style.display = 'block';
+      audio.play().catch(function(error) {
+        console.log('自动播放被阻止:', error);
+        playStatus.textContent = '点击播放按钮开始播放';
+      });
     });
 
     // 手动收起播放器
@@ -260,9 +264,6 @@ MathJax = {
     audio.addEventListener('ended', function() {
       playStatus.textContent = '播放完毕';
       playStatus.style.color = '#666';
-      
-      // 3秒后自动还原为按钮状态
-      setTimeout(resetToButtonState, 3000);
     });
 
     // 还原为按钮状态的函数
