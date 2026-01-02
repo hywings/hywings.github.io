@@ -159,7 +159,7 @@ MathJax = {
           var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
           var diff = t2 - t1;
 
-          var diffYears = 0; // 从当年1月1日开始，所以年数总是0
+          var diffYears = currentYear - 2025; // 从当年1月1日开始，所以年数总是0
           var diffDays = Math.floor(diff / days);
           var diffHours = Math.floor((diff - diffDays * days) / hours);
           var diffMinutes = Math.floor((diff - diffDays * days - diffHours * hours) / minutes);
